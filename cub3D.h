@@ -6,7 +6,7 @@
 /*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:27:22 by nico              #+#    #+#             */
-/*   Updated: 2025/07/23 21:17:34 by nico             ###   ########.fr       */
+/*   Updated: 2025/08/08 19:38:09 by nico             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,16 +185,16 @@ typedef	struct s_data
 	void	*mlx;
 }			t_data;
 
-typedef struct s_play
-{
-	char	s_dir;
-	t_int	mve;
-	t_dbl	pos;
-	t_dbl	dir;
-	t_dbl	pln;
-	int		check;
-	int		rot;
-}			t_play;
+// typedef struct s_play
+// {
+// 	char	s_dir;
+// 	t_int	mve;
+// 	t_dbl	pos;
+// 	t_dbl	dir;
+// 	t_dbl	pln;
+// 	int		check;
+// 	int		rot;
+// }			t_play;
 
 // typedef struct s_data
 // {

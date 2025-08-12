@@ -6,7 +6,7 @@
 /*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:43:43 by nico              #+#    #+#             */
-/*   Updated: 2025/07/23 21:18:36 by nico             ###   ########.fr       */
+/*   Updated: 2025/08/13 00:14:18 by nico             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,16 @@ int ft_process_map(t_data *data, char **argv)
     
 }
 
+int ft_raycast_check(t_data *d)
+{
+    d->play.check += ft_;
+    if (d->play.check == 0)
+        return (0);
+    ft_raycasting(d);
+    return (0);
+}
+
+
 int main(int argc, char **argv)
 {
     t_data *data;
@@ -74,7 +84,7 @@ int main(int argc, char **argv)
     ft_game_start(&data);
     ft_raycasting(&data);
     ft_key_bind(&data);
-    mlx_loop_hook(data->mlx, ft_raycasting, &data);
+    mlx_loop_hook(data->mlx, ft_raycast_check, &data);
     mlx_loop(data->mlx);
     return(0);
 }

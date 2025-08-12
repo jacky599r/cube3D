@@ -6,11 +6,20 @@
 /*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 12:47:21 by nico              #+#    #+#             */
-/*   Updated: 2025/07/23 13:50:31 by nico             ###   ########.fr       */
+/*   Updated: 2025/08/13 00:12:55 by nico             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+void    ft_img_init(t_img *img)
+{
+    img->img = NULL;
+    img->addr = NULL;
+    img->bpp = 0;
+    img->line = 0;
+    img->endian = 0;
+}
 
 void    ft_play_init(t_play *play)
 {
@@ -65,6 +74,27 @@ void    ft_mini_init(t_img *mini)
     mini->endian = 0;    
 }
 
+void ft_track_init(t_track *track)
+{
+    track->cam_x = 0.0;
+    track->wall = 0.0;
+    track->walx = 0.0;
+    track->side = 0;
+    track->high = 0;
+    track->strt = 0;
+    track->end = 0;
+    track->map.x = 0;
+    track->map.y = 0;
+    track->stp.x = 0;
+    track->stp.y = 0;
+    track->dir.x = 0.0;
+    track->dir.y = 0.0;
+    track->sid.x = 0.0;
+    track->sid.y = 0.0;
+    track->dlt.x = 0.0;
+    track->dlt.y = 0.0;
+}
+
 void    ft_data_init(t_data *data)
 {
     data->mapx = WIN_HEIGHT;
@@ -79,4 +109,5 @@ void    ft_data_init(t_data *data)
     ft_text_init(&data->text);
     ft_map_init(&data->map);
     ft_mini_init(&data->mini);
+    ft_track_init(&data->track);
 }
