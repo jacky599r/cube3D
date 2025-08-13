@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 12:09:21 by nico              #+#    #+#             */
-/*   Updated: 2025/07/23 13:50:29 by nico             ###   ########.fr       */
+/*   Updated: 2025/08/12 17:57:14 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,22 @@ void	ft_safe_ptr(void *str)
 	}
 }
 
-void	ft_safe_array(void ***array)
-{
-	int	a;
-
-	a = 0;
-	if (!array || !(*array))
-		return ;
-	while ((*array)[a])
-	{
-		ft_safe_ptr((*array)[a]);
-		(*array)[a] = NULL;
-		a++;
-	}
-	free(*array);
-	*array = NULL;
-}
+// void	ft_safe_array(void ***array)
+// {
+// 	int	a;
+// 
+// 	a = 0;
+// 	if (!array || !(*array))
+// 		return ;
+// 	while ((*array)[a])
+// 	{
+// 		ft_safe_ptr((*array)[a]);
+// 		(*array)[a] = NULL;
+// 		a++;
+// 	}
+// 	free(*array);
+// 	*array = NULL;
+// }
 
 void ft_free_int_arr(int ***mat_ptr, int rows)
 {

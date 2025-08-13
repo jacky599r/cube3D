@@ -1,0 +1,233 @@
+
+---
+
+### 1. `main.c`
+
+This is the entry point of your program. Its primary role in map validation is to initialize data, read the raw map file, and then call the main validation functions in a specific order.
+
+```c
+// main.c
+int main(int ac, char **av)
+{
+    t_data data; // Main data structure holding all game information
+
+    if (ac != 2) // Validate command line arguments
+        return (ft_error_msg("Error", "Wrong number of arguments", NULL, FAIL));
+    
+    ft_init_all(&data); // Initialize the main data structure
+
+    // 1. Read the raw map data from the .cub file
+    data.map.og_map = ft_get_raw_map_data(av[1]);
+    if (!data.map.og_map)
+        return (FAIL);
+
+    // 2. Check the overall map configuration (parameters and map section)
+    if (ft_check_map_config(&data) == FAIL)
+    {
+        ft_free_all(&data); // Free resources on error
+        return (FAIL);
+    }
+
+    // 3. Prepare a flattened map (fl_map) for flood-fill and initialize player view
+    if (ft_prepare_map_for_flood_fill(&data) == FAIL)
+    {
+        ft_free_all(&data); // Free resources on error
+        return (FAIL);
+    }
+    ft_set_initial_player_view(&data);
+
+    // 4. Validate if the map is enclosed by walls using flood-fill
+    if (ft_validate_map_enclosure(&data) == FAIL)
+    {
+        ft_free_all(&data); // Free resources on error
+        return (FAIL);
+    }
+
+    // ... (rest of the game logic would go here)
+    ft_free_all(&data); // Free all resources before exiting
+    return (PASS);
+}
+```
+
+*   `main.c` initiates the process by calling `ft_get_raw_map_data` to load the map file.
+*   It then sequentially calls `ft_check_map_config`, `ft_prepare_map_for_flood_fill`, `ft_set_initial_player_view`, and `ft_validate_map_enclosure`, handling error cases by freeing allocated memory.
+
+---
+
+### 2. `utils/ft_file_reader.c`
+
+This file is responsible for reading the `.cub` file content into memory.
+
+*   **`int ft_open_map_file(char *path)`**
+    *   **Role:** Opens the specified map file.
+    *   **How it works:** Uses `open()` to get a file descriptor. If the file cannot be opened, it calls `ft_error_msg` and returns `FAIL`.
+    *   **Linkage:** Called by `ft_get_raw_map_data`.
+
+*   **`static char **ft_add_line_to_array(char **current_map, char *new_line, int current_size)`**
+    *   **Role:** A helper function to dynamically resize and add a new line to a `char**` array.
+    *   **How it works:** Allocates a new array of `current_size + 2` (for the new line and a NULL terminator), copies existing lines, duplicates `new_line` into the new array, frees the old `current_map`, and returns the `new_map`. Includes error handling for memory allocation and string duplication.
+    *   **Linkage:** Called repeatedly by `ft_read_lines_into_array`.
+
+*   **`char **ft_read_lines_into_array(int fd)`**
+    *   **Role:** Reads all lines from an open file descriptor into a `char**` array.
+    *   **How it works:** Loops, calling `get_next_line()` to read each line. For each line, it calls `ft_add_line_to_array` to append the line to the `temp_map` array. It closes the file descriptor when done.
+    *   **Linkage:** Called by `ft_get_raw_map_data`.
+
+*   **`int ft_check_for_empty_file(char **map_array, char *path)`**
+    *   **Role:** Checks if the `map_array` (containing the file content) is empty.
+    *   **How it works:** If `map_array` is `NULL`, it means no lines were read, indicating an empty file. It then calls `ft_error_msg`.
+    *   **Linkage:** Called by `ft_get_raw_map_data`.
+
+*   **`char **ft_get_raw_map_data(char *path)`**
+    *   **Role:** The main public interface for reading the map file.
+    *   **How it works:** Orchestrates the file reading process: opens the file, reads lines into an array, and checks for an empty file. Returns the `char**` array of map lines on success, or `NULL` on failure.
+    *   **Linkage:** Called by `main.c`.
+
+---
+
+### 3. `utils/ft_map_validator.c`
+
+This file handles the structural validation of the map, including parameters, character validation, and player position.
+
+*   **`static int ft_is_map_line(char *line)`**
+    *   **Role:** Determines if a given trimmed line is likely part of the map data.
+    *   **How it works:** Iterates through the line, checking if all characters are valid map characters ('0', '1', 'N', 'S', 'E', 'W', ' ').
+    *   **Linkage:** Called by `ft_check_map_config`.
+
+*   **`static int ft_validate_map_characters(char *line)`**
+    *   **Role:** Validates each character in a map line against the allowed set.
+    *   **How it works:** Iterates through the line. If it finds any character not in "01NSEW \n\t\v\f\r", it returns an error.
+    *   **Linkage:** Called by `ft_identify_map_properties`.
+
+*   **`static int ft_process_player_info(t_data *data, char player_char, int x_pos, int y_idx, int start_idx)`**
+    *   **Role:** Processes player starting information (position and direction).
+    *   **How it works:** Increments `data->play.player_count`. If more than one player is found, it returns an error. Otherwise, it sets `data->play.s_dir` and calculates `data->play.pos.x` and `data->play.pos.y`.
+    *   **Linkage:** Called by `ft_identify_map_properties`.
+
+*   **`int ft_identify_map_properties(t_data *data, int start_index)`**
+    *   **Role:** Identifies map dimensions (width and height) and extracts the player's starting position and direction.
+    *   **How it works:** Iterates through the `og_map` starting from `start_index`. For each line, it calls `ft_validate_map_characters`. It then checks for player characters ('N', 'S', 'E', 'W') and calls `ft_process_player_info`. It calculates and updates `data->map.high` and `data->map.wide`. Finally, it validates that exactly one player was found.
+    *   **Linkage:** Called by `ft_check_map_config`.
+
+*   **`int ft_check_map_config(t_data *data)`**
+    *   **Role:** The primary orchestrator for initial parameter and map section validation.
+    *   **How it works:** Iterates through each line of `data->map.og_map`. It distinguishes between empty lines, parameter lines, and map lines.
+        *   For empty lines, it updates `data->map.eom` if the map section has already started.
+        *   For parameter lines, it calls `ft_is_valid_param_identifier` (from `ft_param_parser.c`) and `ft_process_param_line` (from `ft_parse_elements.c` which then calls `ft_param_parser.c` functions) to handle parameter parsing, incrementing `param_count`.
+        *   It identifies the `map_start_index`.
+        *   It checks for invalid lines or data appearing after the map.
+    *   Finally, it validates that exactly 6 parameters were found and that a map section was identified. If all these checks pass, it calls `ft_identify_map_properties` to further process the map content.
+    *   **Linkage:** Called by `main.c`.
+
+---
+
+### 4. `utils/ft_param_parser.c`
+
+This file is dedicated to parsing and validating the texture paths and color definitions (NO, SO, WE, EA, F, C).
+
+*   **`static int ft_is_valid_param_identifier(char *line)`**
+    *   **Role:** Checks if a line starts with one of the valid parameter identifiers (e.g., "NO ", "F ").
+    *   **How it works:** Uses `ft_strncmp` to compare the beginning of the line with known identifiers.
+    *   **Linkage:** Called by `ft_map_validator.c`.
+
+*   **`static int ft_check_duplicate_param(t_data *data, char *type_id)`**
+    *   **Role:** Ensures that no texture or color parameter is defined more than once.
+    *   **How it works:** Checks the corresponding flags (`data->text.txt_n`, `data->text.rgb_g`, etc.) to see if a parameter of `type_id` has already been set.
+    *   **Linkage:** Called by `ft_parse_texture_path` and `ft_parse_color_values`.
+
+*   **`int ft_parse_texture_path(t_data *data, char *line, char *type_id)`**
+    *   **Role:** Parses and validates a texture path line (NO, SO, WE, EA).
+    *   **How it works:** Extracts the path using `ft_strtrim`. Checks for missing paths and duplicate parameters. It attempts to `open()` the file to verify its existence and readability. Finally, it assigns the validated path to the correct `data->text` member.
+    *   **Linkage:** Called by `ft_process_param_line`.
+
+*   **`static int ft_validate_rgb_and_convert(char *rgb_str, int *r, int *g, int *b)`**
+    *   **Role:** Validates an RGB string (e.g., "255,100,0") and converts its components to integers.
+    *   **How it works:** Uses `ft_split` to break the string by commas. Checks for exactly three numeric components using `ft_is_num`. Converts them to integers using `ft_atoi` and stores them in the provided pointers `r`, `g`, `b`. Calls `ft_is_rgb_within_range` to ensure values are between 0 and 255. Handles memory cleanup for `rgb_components`.
+    *   **Linkage:** Called by `ft_parse_color_values`.
+
+*   **`int ft_is_rgb_within_range(int r, int g, int b)`**
+    *   **Role:** Helper to check if RGB color components are within the valid range [0-255].
+    *   **Linkage:** Called by `ft_validate_rgb_and_convert`.
+
+*   **`unsigned long ft_convert_rgb_to_int(int r, int g, int b)`**
+    *   **Role:** Helper to convert individual R, G, B components into a single `unsigned long` integer representation.
+    *   **Linkage:** Called by `ft_parse_color_values`.
+
+*   **`int ft_parse_color_values(t_data *data, char *line, char *type_id)`**
+    *   **Role:** Parses and validates a color definition line (F, C).
+    *   **How it works:** Extracts the RGB string. Checks for missing values and duplicate parameters. Calls `ft_validate_rgb_and_convert` to validate and get the integer components. Converts these to a single `unsigned long` using `ft_convert_rgb_to_int`. Finally, assigns the color to `data->text.rgb_g` (floor) or `data->text.rgb_c` (ceiling).
+    *   **Linkage:** Called by `ft_process_param_line`.
+
+*   **`int ft_process_param_line(t_data *data, char *line)`**
+    *   **Role:** Acts as a dispatcher for parameter parsing.
+    *   **How it works:** Based on the parameter identifier at the beginning of `line`, it calls either `ft_parse_texture_path` or `ft_parse_color_values`.
+    *   **Linkage:** Called by `ft_check_map_config` (in `ft_map_validator.c`).
+
+---
+
+### 5. `utils/ft_map_processor.c`
+
+This file is responsible for preparing the map for the flood-fill algorithm and setting up the player's initial view.
+
+*   **`int ft_prepare_map_for_flood_fill(t_data *data)`**
+    *   **Role:** Creates a "flattened" version of the map (`data->fl_map`) suitable for the flood-fill algorithm.
+    *   **How it works:** Allocates `data->fl_map`. It then iterates through the `data->map.og_map` and copies characters. Importantly, it treats ' ' (spaces) within the map's actual boundaries as '1' (walls) and fills any empty space outside the actual line length with '1' to ensure a closed map for the flood fill.
+    *   **Linkage:** Called by `main.c`.
+
+*   **`void ft_set_initial_player_view(t_data *data)`**
+    *   **Role:** Sets the initial direction vector (`data->play.dir`) and camera plane vector (`data->play.pln`) for raycasting based on the player's starting orientation ('N', 'S', 'E', 'W').
+    *   **How it works:** Uses `data->play.s_dir` (set in `ft_process_player_info`) to determine the appropriate x and y components for the direction and plane vectors.
+    *   **Linkage:** Called by `main.c`.
+
+---
+
+### 6. `utils/ft_map_enclosure.c`
+
+This file implements the flood-fill algorithm to verify that the map is fully enclosed by walls.
+
+*   **`char **ft_create_temp_flood_map(t_data *data)`**
+    *   **Role:** Creates a deep copy of the `data->fl_map` so that the flood-fill algorithm can modify it without affecting the original map data.
+    *   **How it works:** Allocates a new `char**` array and then uses `ft_strdup` to copy each line from `data->fl_map`. Includes error handling for memory allocation.
+    *   **Linkage:** Called by `ft_validate_map_enclosure`.
+
+*   **`void ft_perform_flood_fill(char **map, int x, int y, t_map_dims dims)`**
+    *   **Role:** Recursively fills connected open spaces in the map.
+    *   **How it works:** This is the core flood-fill algorithm. It takes a map, starting coordinates `(x, y)`, and map dimensions (`dims`). It marks visited cells as 'V'. It has base cases to stop recursion (out of bounds, hits a wall '1', or already visited 'V').
+    *   **Linkage:** Called by `ft_validate_map_enclosure`.
+
+*   **`int ft_check_enclosed_borders(char **map, t_map_dims dims)`**
+    *   **Role:** Checks the borders of the flood-filled map for any unvisited open spaces.
+    *   **How it works:** After the `ft_perform_flood_fill` has run, this function iterates along all four borders of the `map`. If it finds any cell that is '0' (an open space that was not visited by the flood fill), it means the map is not fully enclosed, and it returns `FAIL`.
+    *   **Linkage:** Called by `ft_validate_map_enclosure`.
+
+*   **`int ft_validate_map_enclosure(t_data *data)`**
+    *   **Role:** The main orchestrator for map enclosure validation.
+    *   **How it works:** Creates a temporary map copy, sets up `t_map_dims`, performs the `ft_perform_flood_fill` starting from the player's position, then calls `ft_check_enclosed_borders` to verify the map's integrity. It frees the temporary map after use.
+    *   **Linkage:** Called by `main.c`.
+
+---
+
+### 7. `utils/ft_utils.c`
+
+This file contains general utility functions that are used across multiple modules.
+
+*   **`static int ft_is_num(char *str)`**
+    *   **Role:** Checks if a string consists entirely of digits.
+    *   **Linkage:** Used by `ft_validate_rgb_and_convert`.
+
+*   **`int ft_is_empty_line(char *line)`**
+    *   **Role:** Checks if a line contains only whitespace characters or is empty.
+    *   **Linkage:** Used by `ft_map_validator.c` and `ft_file_reader.c`.
+
+*   **`int ft_error_msg(char *err_type, char *msg, char *context, int ret_code)`**
+    *   **Role:** Prints formatted error messages to standard error.
+    *   **Linkage:** Called by almost all functions that detect an error condition.
+
+*   **`void ft_safe_array(void ***arr)`**
+    *   **Role:** Safely frees a dynamically allocated array of pointers (`char**` or `int**`).
+    *   **How it works:** Iterates through the array, freeing each pointer, then frees the array itself, and finally sets the passed pointer to `NULL` to prevent double-free issues.
+    *   **Linkage:** Used extensively for memory management across all modules.
+
+---
+
+### 8. `cub3D.h`

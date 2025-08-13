@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:27:22 by nico              #+#    #+#             */
-/*   Updated: 2025/07/23 21:17:34 by nico             ###   ########.fr       */
+/*   Updated: 2025/08/12 17:57:30 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,12 @@ typedef struct s_play
 // 	void	*mlx;
 // }               t_data;
 
+typedef struct s_map_dims
+{
+    int max_x;
+    int max_y;
+}               t_map_dims;
+
 /******************************************************************************/
 /*                              INITIATE_DATA                                 */
 /******************************************************************************/
@@ -221,8 +227,50 @@ typedef struct s_play
 /*                             DATA_VALIDATION                                */
 /******************************************************************************/
 
+int ft_is_num(char *str);
+int ft_process_param_line(t_data *data, char *line);
+int ft_is_rgb_within_range(int r, int g, int b);
+unsigned long ft_convert_rgb_to_int(int r, int g, int b);
+int ft_validate_rgb(char *rgb_string, int r, int g, int b, char *line);
+int ft_read_map(t_data *data, char *path);
+int ft_parse_map_data(t_data *data);
 
+// File reading and initial map storage (ft_file_reader.c)
+int ft_open_map_file(char *path);
+char **ft_read_lines_into_array(int fd);
+char **ft_add_line_to_array(char **current_map, char *new_line, int current_size);
+int ft_check_for_empty_file(char **map_array, char *path);
+char **ft_get_raw_map_data(char *path);
 
+// Parameter parsing and validation (ft_param_parser.c)
+static int ft_is_valid_param_identifier(char *line);
+static int ft_check_duplicate_param(t_data *data, char *type_id);
+int ft_parse_texture_path(t_data *data, char *line, char *type_id);
+static int ft_validate_rgb_and_convert(char *rgb_str, int *r, int *g, int *b);
+int ft_parse_color_values(t_data *data, char *line, char *type_id);
+
+// Map structure validation (ft_map_validator.c)
+int ft_check_map_config(t_data *data);
+static int ft_validate_map_characters(char *line);
+static int ft_process_player_info(t_data *data, char player_char, int x, int y, int *player_count);
+int ft_identify_map_properties(t_data *data, int start_index);
+static int ft_is_map_line(char *line);
+
+// Map processing for flood fill & player init (ft_map_processor.c)
+int ft_prepare_map_for_flood_fill(t_data *data);
+void ft_set_initial_player_view(t_data *data);
+
+// Map enclosure validation (ft_map_enclosure.c)
+char **ft_create_temp_flood_map(t_data *data);
+void ft_perform_flood_fill(char **map, int x, int y, t_map_dims dims);
+int ft_check_enclosed_borders(char **map, t_map_dims dims);
+int ft_validate_map_enclosure(t_data *data);
+
+// General Utility Functions (ft_utils.c)
+int ft_is_empty_line(char *line);
+int ft_error_msg(char *err_type, char *msg, char *context, int ret_code);
+void ft_safe_array(void ***arr);
+static int ft_is_num(char *str);
 
 /******************************************************************************/
 /*                              PLAYER_ACTION                                 */

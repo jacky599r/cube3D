@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_messaging.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 16:40:56 by nico              #+#    #+#             */
-/*   Updated: 2025/07/23 21:17:41 by nico             ###   ########.fr       */
+/*   Updated: 2025/08/12 17:57:23 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,20 +59,20 @@ void ft_correct_form(int err_code, char *dtl)
 }
  //explored idea to have a trim function that removes empty spaces, before, during and after useful info
  //eg: "     F                          1,7,9" -> "F 1,7,9"
-int	ft_error_msg(char *cmd, char *msg, char *dtl, int err_code)
-{
-	char	*final;
-	char	*temp;
-
-    if (msg)
-    {
-        final = ft_dup_or_join(cmd, ": ");
-		final = ft_add_quotes(final, cmd, msg);
-    }
-    else
-        final = ft_duplicate(cmd);
-	printf("Cub3D: %s\n", final);
-    ft_safe_str(final);
-    ft_correct_form(err_code, dtl);
-	return (err_code);
-}
+// int	ft_error_msg(char *cmd, char *msg, char *dtl, int err_code)
+// {
+// 	char	*final;
+// 	char	*temp;
+// 
+//     if (msg)
+//     {
+//         final = ft_dup_or_join(cmd, ": ");
+// 		final = ft_add_quotes(final, cmd, msg);
+//     }
+//     else
+//         final = ft_duplicate(cmd);
+// 	printf("Cub3D: %s\n", final);
+//     ft_safe_str(final);
+//     ft_correct_form(err_code, dtl);
+// 	return (err_code);
+// }
