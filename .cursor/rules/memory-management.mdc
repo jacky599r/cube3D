@@ -1,0 +1,86 @@
+---
+description: "Memory management and resource handling guidelines for cub3D"
+alwaysApply: true
+---
+
+# Memory Management Guidelines
+
+## Dynamic Memory Allocation Rules
+
+### Array Growth Pattern
+- Use `ft_add_line_to_array()` pattern for dynamic array growth
+- Always allocate `current_size + 2` for new array (new item + NULL terminator)
+- Copy existing pointers, don't duplicate the string data unnecessarily
+- Free the old array structure after successful copying
+
+### Memory Cleanup Requirements
+- **Always** call `ft_safe_array()` for `char**` arrays
+- **Always** call `free()` for individual `char*` strings from `ft_strtrim()`, `ft_strdup()`, etc.
+- Use `ft_free_all(&data)` in main function before exit
+- Clean up partial allocations on error conditions
+
+### Error Handling Memory Patterns
+```c
+// Good: Cleanup on error
+char **new_map = ft_calloc(sizeof(char *) * (current_size + 2));
+if (!new_map)
+{
+    ft_safe_array((void ***)&current_map);  // Free existing
+    free(new_line);                         // Free current
+    return (NULL);                          // Signal error
+}
+```
+
+## Resource Management
+
+### File Descriptor Handling
+- **Always** close file descriptors before function return
+- Close on both success and error paths
+- Use early returns with proper cleanup
+
+### String Memory Management
+- `ft_strtrim()` returns **new allocated memory** - must free
+- `ft_strdup()` returns **new allocated memory** - must free  
+- `ft_split()` returns **array of new strings** - use `ft_safe_array()`
+
+## Function Exit Patterns
+
+### Standard Cleanup Pattern
+```c
+int ft_example_function(t_data *data, char *input)
+{
+    char *trimmed;          // Local var 1
+    char **components;      // Local var 2
+    int result;            // Local var 3
+
+    trimmed = ft_strtrim(input, " \t\n");
+    if (!trimmed)
+        return (FAIL);
+    
+    components = ft_split(trimmed, ',');
+    if (!components)
+    {
+        free(trimmed);      // Clean local allocations
+        return (FAIL);
+    }
+    
+    // ... processing ...
+    
+    // Cleanup and return
+    ft_safe_array((void ***)&components);
+    free(trimmed);
+    return (result);
+}
+```
+
+## Memory Constraint Strategies
+
+### Minimize Local Variables
+- Reuse variables when lifetime doesn't overlap
+- Use return values instead of extra status variables
+- Combine related data into structs
+
+### Avoid Memory Leaks
+- Track all `malloc`, `calloc`, `strdup`, `strtrim`, `split` calls
+- Every allocation must have corresponding free
+- Use static analysis or manual review for leak detection

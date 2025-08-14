@@ -6,7 +6,7 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:50:23 by jacky599r         #+#    #+#             */
-/*   Updated: 2025/08/12 17:57:20 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/08/14 17:21:37 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ int ft_prepare_map_for_flood_fill(t_data *data)
     int x;
     char *temp_line;
 
-    data->fl_map = (char **)ft_calloc(sizeof(char *) * (data->map.high + 1));
+    data->fl_map = (char **)ft_calloc(data->map.high + 1, sizeof(char *));
     if (!data->fl_map)
         return (ft_error_msg("Error", "Memory allocation failed for fl_map", NULL, FAIL));
 
     y = 0;
     while (y < data->map.high)
     {
-        data->fl_map[y] = (char *)ft_calloc(sizeof(char) * (data->map.wide + 1));
+        data->fl_map[y] = (char *)ft_calloc(data->map.wide + 1, sizeof(char));
         if (!data->fl_map[y])
         {
             ft_safe_array((void ***)&data->fl_map);
@@ -35,9 +35,9 @@ int ft_prepare_map_for_flood_fill(t_data *data)
         x = 0;
         while (x < data->map.wide)
         {
-            if (x < ft_strlen(temp_line) && (temp_line[x] == '0' || temp_line[x] == '1' || ft_strchr("NSEW", temp_line[x])))
+            if (x < (int)ft_strlen(temp_line) && (temp_line[x] == '0' || temp_line[x] == '1' || ft_strchr("NSEW", temp_line[x])))
                 data->fl_map[y][x] = temp_line[x];
-            else if (x < ft_strlen(temp_line) && temp_line[x] == ' ')
+            else if (x < (int)ft_strlen(temp_line) && temp_line[x] == ' ')
                 data->fl_map[y][x] = '1';
             else
                 data->fl_map[y][x] = '1';

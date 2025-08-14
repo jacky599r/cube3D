@@ -6,7 +6,7 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:49:31 by jacky599r         #+#    #+#             */
-/*   Updated: 2025/08/12 17:57:12 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/08/14 17:21:37 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char **ft_add_line_to_array(char **current_map, char *new_line, int curre
     char **new_map;
     int j;
 
-    new_map = ft_calloc(sizeof(char *) * (current_size + 2));
+    new_map = ft_calloc(current_size + 2, sizeof(char *));
     if (!new_map)
     {
         ft_safe_array((void ***)&current_map);
@@ -38,6 +38,7 @@ static char **ft_add_line_to_array(char **current_map, char *new_line, int curre
     while (j < current_size)
     {
         new_map[j] = current_map[j];
+        current_map[j] = NULL; // Transfer ownership, prevent double free
         j++;
     }
     new_map[current_size] = ft_strdup(new_line);
@@ -48,7 +49,8 @@ static char **ft_add_line_to_array(char **current_map, char *new_line, int curre
         ft_safe_array((void ***)&current_map);
         return (NULL);
     }
-    return (ft_safe_array((void ***)&current_map), new_map);
+    ft_safe_array((void ***)&current_map);
+    return (new_map);
 }
 
 char **ft_read_lines_into_array(int fd)
@@ -74,7 +76,6 @@ int ft_check_for_empty_file(char **map_array, char *path)
 {
     if (map_array == NULL)
     {
-        ft_safe_array((void ***)&map_array);
         return (ft_error_msg("Error", "Empty map file", path, FAIL));
     }
     return (PASS);

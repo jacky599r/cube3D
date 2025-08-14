@@ -6,14 +6,14 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:51:49 by jacky599r         #+#    #+#             */
-/*   Updated: 2025/08/12 17:57:28 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/08/14 17:21:37 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
 // Placeholder for ft_is_num (will be moved from ft_parse_elements.c)
-static int ft_is_num(char *str)
+int ft_is_num(char *str)
 {
     int i = 0;
     if (!str || *str == '\0')

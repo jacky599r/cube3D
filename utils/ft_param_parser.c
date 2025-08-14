@@ -6,20 +6,20 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:51:29 by jacky599r         #+#    #+#             */
-/*   Updated: 2025/08/12 17:57:27 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/08/14 17:21:37 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static int ft_is_valid_param_identifier(char *line)
+int ft_is_valid_param_identifier(char *line)
 {
     if (ft_strncmp(line, "NO ", 3) == 0 || ft_strncmp(line, "SO ", 3) == 0 || ft_strncmp(line, "WE ", 3) == 0 || ft_strncmp(line, "EA ", 3) == 0 || ft_strncmp(line, "F ", 2) == 0 || ft_strncmp(line, "C ", 2) == 0)
         return (1);
     return (0);
 }
 
-static int ft_check_duplicate_param(t_data *data, char *type_id)
+int ft_check_duplicate_param(t_data *data, char *type_id)
 {
     if (ft_strncmp(type_id, "NO", 2) == 0 && data->text.txt_n)
         return (ft_error_msg("Error", "Duplicate texture 'NO'", NULL, FAIL));
@@ -43,9 +43,15 @@ static int ft_validate_rgb_and_convert(char *rgb_str, int *r, int *g, int *b)
 
     rgb_components = ft_split(rgb_str, ',');
     if (!rgb_components || !rgb_components[0] || !rgb_components[1] || !rgb_components[2] || rgb_components[3] != NULL)
-        return (ft_safe_array((void ***)&rgb_components), ft_error_msg("Error", "Invalid colour format", NULL, FAIL));
+    {
+        ft_safe_array((void ***)&rgb_components);
+        return (ft_error_msg("Error", "Invalid colour format", NULL, FAIL));
+    }
     if (!ft_is_num(rgb_components[0]) || !ft_is_num(rgb_components[1]) || !ft_is_num(rgb_components[2]))
-        return (ft_safe_array((void ***)&rgb_components), ft_error_msg("Error", "RGB must be in numerics", NULL, FAIL));
+    {
+        ft_safe_array((void ***)&rgb_components);
+        return (ft_error_msg("Error", "RGB must be in numerics", NULL, FAIL));
+    }
     *r = ft_atoi(rgb_components[0]);
     *g = ft_atoi(rgb_components[1]);
     *b = ft_atoi(rgb_components[2]);
@@ -114,8 +120,18 @@ int ft_parse_color_values(t_data *data, char *line, char *type_id)
     free(rgb_string);
     colour = ft_convert_rgb_to_int(r, g, b);
     if (ft_strncmp(type_id, "F", 1) == 0)
-        data->text.rgb_g = colour;
+    {
+        data->text.rgb_g = malloc(sizeof(unsigned long));
+        if (!data->text.rgb_g)
+            return (ft_error_msg("Error", "Memory allocation failed", NULL, FAIL));
+        *(data->text.rgb_g) = colour;
+    }
     else if (ft_strncmp(type_id, "C", 1) == 0)
-        data->text.rgb_c = colour;
+    {
+        data->text.rgb_c = malloc(sizeof(unsigned long));
+        if (!data->text.rgb_c)
+            return (ft_error_msg("Error", "Memory allocation failed", NULL, FAIL));
+        *(data->text.rgb_c) = colour;
+    }
     return (PASS);
 }

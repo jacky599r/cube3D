@@ -6,7 +6,7 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 12:09:21 by nico              #+#    #+#             */
-/*   Updated: 2025/08/12 17:57:14 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/08/14 17:21:37 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,6 @@ void	ft_safe_ptr(void *str)
 		str = NULL;
 	}
 }
-
-// void	ft_safe_array(void ***array)
-// {
-// 	int	a;
-// 
-// 	a = 0;
-// 	if (!array || !(*array))
-// 		return ;
-// 	while ((*array)[a])
-// 	{
-// 		ft_safe_ptr((*array)[a]);
-// 		(*array)[a] = NULL;
-// 		a++;
-// 	}
-// 	free(*array);
-// 	*array = NULL;
-// }
 
 void ft_free_int_arr(int ***mat_ptr, int rows)
 {
@@ -107,23 +90,25 @@ void ft_free_mini(t_mini *m)
     m->mini_m = NULL;
 }
 
-void free_data(t_data *d)
+void ft_free_all(t_data *data)
 {
-    int i;
-
-    if (!d) 
+    if (!data) 
         return;
-    ft_free_int_arr(&d->pxl, d->map.high);
-    d->pxl = NULL;
-    ft_free_int_arr(&d->txt, d->map.high);
-    d->txt = NULL;
-    ft_free_text(&d->text);
-    ft_free_map(&d->map);
-    ft_free_mini(&d->mini);
-    ft_safe_array((void ***)&d->og_map);
-    ft_safe_array((void ***)&d->fl_map);
-    /* 5) if you malloc’d d itself, you can now do:
-         ft_safe_ptr(d);
-         d = NULL;
-       —but only if d wasn’t on the stack! */
+    if (data->pxl && data->map.high > 0)
+    {
+        ft_free_int_arr(&data->pxl, data->map.high);
+        data->pxl = NULL;
+    }
+    if (data->txt && data->map.high > 0)
+    {
+        ft_free_int_arr(&data->txt, data->map.high);
+        data->txt = NULL;
+    }
+    ft_free_text(&data->text);
+    ft_free_map(&data->map);
+    ft_free_img(&data->mini);
+    // Only free data->og_map if it's different from data->map.og_map
+    if (data->og_map != data->map.og_map && data->og_map != NULL)
+        ft_safe_array((void ***)&data->og_map);
+    ft_safe_array((void ***)&data->fl_map);
 }

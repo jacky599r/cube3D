@@ -6,7 +6,7 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 16:40:56 by nico              #+#    #+#             */
-/*   Updated: 2025/08/12 17:57:23 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/08/14 17:21:37 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,15 @@ char	*ft_add_quotes(char *final, char *cmd, char *dtl)
 {
 	char	*temp;
 
+    (void)cmd; // Suppress unused parameter warning
     temp = ft_dup_or_join(final, "'");
-    ft_safe_str(final);
+    ft_safe_ptr(final);
     final = temp;
     temp = ft_dup_or_join(final, dtl);
-    ft_safe_str(final);
+    ft_safe_ptr(final);
     final = temp;
     temp = ft_dup_or_join(final, "'");
-    ft_safe_str(final);
+    ft_safe_ptr(final);
     final = temp;
     return (final);
 }
@@ -72,7 +73,7 @@ void ft_correct_form(int err_code, char *dtl)
 //     else
 //         final = ft_duplicate(cmd);
 // 	printf("Cub3D: %s\n", final);
-//     ft_safe_str(final);
+//     ft_safe_ptr(final);
 //     ft_correct_form(err_code, dtl);
 // 	return (err_code);
 // }

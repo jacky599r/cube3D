@@ -6,7 +6,7 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 12:47:21 by nico              #+#    #+#             */
-/*   Updated: 2025/08/12 17:57:16 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/08/14 17:21:37 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void    ft_play_init(t_play *play)
 {
-    play->s_dir = '0';
+    play->s_dir = '\0';
     play->check = 0;
     play->rot = 0;
     play->mve.x = 0;
@@ -35,8 +35,8 @@ void    ft_text_init(t_text *text)
     text->txt_e = NULL;
     text->txt_g = 0;
     text->txt_c = 0;
-    text->rgb_g = 0x0;
-    text->rgb_c = 0x0;
+    text->rgb_g = NULL;
+    text->rgb_c = NULL;
     text->size = 64;
     text->indx = 0;
     text->step = 0.0;

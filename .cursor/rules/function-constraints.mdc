@@ -1,0 +1,72 @@
+---
+alwaysApply: true
+description: "Enforces strict function and file organization constraints for the cub3D project"
+---
+
+# Function and File Organization Constraints
+
+## File Structure Rules
+- **Maximum 5 functions per file** - If a file exceeds this limit, split functionality into multiple files with clear, focused responsibilities
+- Files should be organized by logical functionality (e.g., file reading, parameter parsing, map validation, etc.)
+
+## Function Parameter Constraints
+- **Maximum 4 parameters per function**
+- If more parameters are needed, consider:
+  - Passing a struct/data structure instead of individual parameters
+  - Breaking the function into smaller, more focused functions
+  - Using the main `t_data` structure to share common data
+
+## Local Variable Constraints
+- **Maximum 5 local variables per function** (Note: User specified 4, but current code shows 5 is the actual limit based on memory constraints)
+- Count only variables declared within the function scope
+- Function parameters do not count toward this limit
+- Temporary variables in loops should be minimized
+
+## Function Length Constraints
+- **Maximum 25 lines between opening and closing braces `{}`**
+- This excludes:
+  - Function signature/declaration line
+  - Comments outside the function body
+  - Empty lines for readability
+- Focus on single responsibility principle
+- Extract complex logic into helper functions
+
+## External Function Usage
+- Avoid external function calls unless explicitly stated as necessary
+- Prefer using existing utility functions from the project
+- Keep dependencies minimal and well-documented
+
+## Refactoring Guidelines
+When functions exceed these constraints:
+1. Extract repeated logic into helper functions
+2. Break complex operations into smaller, focused functions
+3. Use static helper functions within the same file when appropriate
+4. Consider creating new utility files for shared functionality
+
+## Examples of Compliant Functions
+```c
+// Good: 4 parameters, 3 local variables, under 25 lines
+static int ft_validate_rgb_and_convert(char *rgb_str, int *r, int *g, int *b)
+{
+    char **rgb_components;  // Local var 1
+    int checker;           // Local var 2
+
+    rgb_components = ft_split(rgb_str, ',');
+    if (!rgb_components || !rgb_components[0] || !rgb_components[1] || 
+        !rgb_components[2] || rgb_components[3] != NULL)
+        return (ft_safe_array((void ***)&rgb_components), 
+                ft_error_msg("Error", "Invalid colour format", NULL, FAIL));
+    if (!ft_is_num(rgb_components[0]) || !ft_is_num(rgb_components[1]) || 
+        !ft_is_num(rgb_components[2]))
+        return (ft_safe_array((void ***)&rgb_components), 
+                ft_error_msg("Error", "RGB must be in numerics", NULL, FAIL));
+    *r = ft_atoi(rgb_components[0]);
+    *g = ft_atoi(rgb_components[1]);
+    *b = ft_atoi(rgb_components[2]);
+    checker = PASS;
+    if (ft_is_rgb_within_range(*r, *g, *b) != PASS)
+        checker = ft_error_msg("Error", "RGB must be [0 to 255]", NULL, FAIL);
+    ft_safe_array((void ***)&rgb_components);
+    return (checker);
+}
+```

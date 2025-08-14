@@ -6,7 +6,7 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:50:12 by jacky599r         #+#    #+#             */
-/*   Updated: 2025/08/12 17:57:18 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/08/14 17:21:37 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,12 @@ char **ft_create_temp_flood_map(t_data *data)
     char **temp_map;
     int y;
 
-    temp_map = (char **)ft_calloc(sizeof(char *) * (data->map.high + 1));
+    temp_map = (char **)ft_calloc(data->map.high + 1, sizeof(char *));
     if (!temp_map)
-        return (ft_error_msg("Error", "Memory allocation failed for temp map", NULL, FAIL));
+    {
+        ft_error_msg("Error", "Memory allocation failed for temp map", NULL, FAIL);
+        return (NULL);
+    }
     y = 0;
     while (y < data->map.high)
     {
@@ -27,7 +30,8 @@ char **ft_create_temp_flood_map(t_data *data)
         if (!temp_map[y])
         {
             ft_safe_array((void ***)&temp_map);
-            return (ft_error_msg("Error", "Memory allocation failed for temp map row", NULL, FAIL));
+            ft_error_msg("Error", "Memory allocation failed for temp map row", NULL, FAIL);
+            return (NULL);
         }
         y++;
     }

@@ -6,7 +6,7 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:27:22 by nico              #+#    #+#             */
-/*   Updated: 2025/08/12 17:57:30 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/08/14 17:16:19 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <string.h>
 # include <unistd.h>
 # include <math.h>
-# include "mlx.h"
+// # include "mlx.h"  // Commented out for testing
 
 # define RESET "\033[0m"
 # define RED "\033[1;31m"
@@ -185,17 +185,6 @@ typedef	struct s_data
 	void	*mlx;
 }			t_data;
 
-typedef struct s_play
-{
-	char	s_dir;
-	t_int	mve;
-	t_dbl	pos;
-	t_dbl	dir;
-	t_dbl	pln;
-	int		check;
-	int		rot;
-}			t_play;
-
 // typedef struct s_data
 // {
 //     t_maps	m_data;
@@ -227,7 +216,6 @@ typedef struct s_map_dims
 /*                             DATA_VALIDATION                                */
 /******************************************************************************/
 
-int ft_is_num(char *str);
 int ft_process_param_line(t_data *data, char *line);
 int ft_is_rgb_within_range(int r, int g, int b);
 unsigned long ft_convert_rgb_to_int(int r, int g, int b);
@@ -238,23 +226,18 @@ int ft_parse_map_data(t_data *data);
 // File reading and initial map storage (ft_file_reader.c)
 int ft_open_map_file(char *path);
 char **ft_read_lines_into_array(int fd);
-char **ft_add_line_to_array(char **current_map, char *new_line, int current_size);
 int ft_check_for_empty_file(char **map_array, char *path);
 char **ft_get_raw_map_data(char *path);
 
 // Parameter parsing and validation (ft_param_parser.c)
-static int ft_is_valid_param_identifier(char *line);
-static int ft_check_duplicate_param(t_data *data, char *type_id);
+int ft_is_valid_param_identifier(char *line);
+int ft_check_duplicate_param(t_data *data, char *type_id);
 int ft_parse_texture_path(t_data *data, char *line, char *type_id);
-static int ft_validate_rgb_and_convert(char *rgb_str, int *r, int *g, int *b);
 int ft_parse_color_values(t_data *data, char *line, char *type_id);
 
 // Map structure validation (ft_map_validator.c)
 int ft_check_map_config(t_data *data);
-static int ft_validate_map_characters(char *line);
-static int ft_process_player_info(t_data *data, char player_char, int x, int y, int *player_count);
 int ft_identify_map_properties(t_data *data, int start_index);
-static int ft_is_map_line(char *line);
 
 // Map processing for flood fill & player init (ft_map_processor.c)
 int ft_prepare_map_for_flood_fill(t_data *data);
@@ -270,7 +253,7 @@ int ft_validate_map_enclosure(t_data *data);
 int ft_is_empty_line(char *line);
 int ft_error_msg(char *err_type, char *msg, char *context, int ret_code);
 void ft_safe_array(void ***arr);
-static int ft_is_num(char *str);
+int ft_is_num(char *str);
 
 /******************************************************************************/
 /*                              PLAYER_ACTION                                 */
@@ -290,6 +273,21 @@ static int ft_is_num(char *str);
 /*                              EXIT_&_ERROR                                  */
 /******************************************************************************/
 
+// Memory cleanup functions
+void ft_safe_ptr(void *str);
+void ft_free_int_arr(int ***mat_ptr, int rows);
+void ft_free_text(t_text *t);
+void ft_free_img(t_img *i);
+void ft_free_map(t_map *m);
+void ft_free_mini(t_mini *m);
+void ft_free_all(t_data *data);
+
+// Initialization functions
+void ft_play_init(t_play *play);
+void ft_text_init(t_text *text);
+void ft_map_init(t_map *map);
+void ft_mini_init(t_img *mini);
+void ft_data_init(t_data *data);
 
 
 /******************************************************************************/
