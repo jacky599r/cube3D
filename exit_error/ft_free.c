@@ -6,7 +6,7 @@
 /*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 12:09:21 by nico              #+#    #+#             */
-/*   Updated: 2025/07/23 13:50:29 by nico             ###   ########.fr       */
+/*   Updated: 2025/08/14 15:17:56 by nico             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,23 +107,3 @@ void ft_free_mini(t_mini *m)
     m->mini_m = NULL;
 }
 
-void free_data(t_data *d)
-{
-    int i;
-
-    if (!d) 
-        return;
-    ft_free_int_arr(&d->pxl, d->map.high);
-    d->pxl = NULL;
-    ft_free_int_arr(&d->txt, d->map.high);
-    d->txt = NULL;
-    ft_free_text(&d->text);
-    ft_free_map(&d->map);
-    ft_free_mini(&d->mini);
-    ft_safe_array((void ***)&d->og_map);
-    ft_safe_array((void ***)&d->fl_map);
-    /* 5) if you malloc’d d itself, you can now do:
-         ft_safe_ptr(d);
-         d = NULL;
-       —but only if d wasn’t on the stack! */
-}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:43:43 by nico              #+#    #+#             */
-/*   Updated: 2025/08/13 16:24:43 by nsamarin         ###   ########.fr       */
+/*   Updated: 2025/08/14 18:45:22 by nico             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int ft_extension_check(char *file, char *ext)
 		return (ft_error_msg("Error File Name", file, NULL, 3));
     return(0);
 }
+
 int ft_open_file(char *path)
 {
     int dfd;
@@ -55,33 +56,31 @@ int ft_data_validation(t_data *data, int argc,  char **argv)
     return(PASS);
 }
 
-int ft_process_map(t_data *data, char **argv)
-{
+// int ft_process_map(t_data *data, char **argv)
+// {
     
-}
+// }
 
 int ft_raycast_check(t_data *d)
 {
-    d->play.check += ft_;
+    ft_player_action(d);
     if (d->play.check == 0)
         return (0);
     ft_raycasting(d);
     return (0);
 }
+
 char *ft_direction_id(t_data *d, int dir)
 {
-    char *str;
-
-    str = NULL;
-    if (dir == 0) // North
-        str = ft_strdup(d->text.txt_n);
-    else if (dir == 1) // South
-        str = ft_strdup(d->text.txt_s);
-    else if (dir == 2) // East
-        str = ft_strdup(d->text.txt_e);
-    else if (dir == 3) // West
-        str = ft_strdup(d->text.txt_w);
-    return (str);
+    if (dir == 0)
+        return (ft_strdup(d->text.txt_n));
+    else if (dir == 1)
+        return (ft_strdup(d->text.txt_s));
+    else if (dir == 2)
+        return (ft_strdup(d->text.txt_e));
+    else if (dir == 3)
+        return (ft_strdup(d->text.txt_w));
+    return (NULL);
 }
 
 int *ft_fill_texture(t_data *d, t_img *pic, int size)
@@ -96,7 +95,7 @@ int *ft_fill_texture(t_data *d, t_img *pic, int size)
     {
         ft_error_msg("Malloc Error", NULL, NULL, FAIL);
         ft_freedom(d);
-        return (0);
+        return (NULL);
     }
     while (y < size)
     {
@@ -111,6 +110,19 @@ int *ft_fill_texture(t_data *d, t_img *pic, int size)
     return (buf); 
 }
 
+void ft_img_start(t_data *d, t_img *p, char *path, int size)
+{
+    ft_img_init(p);
+    p->img = mlx_xpm_file_to_image(d->mlx, path, size, size);
+    if (p->img == NULL)
+    {
+        ft_error_msg("MLX Image Error", NULL, NULL, FAIL);
+        ft_freedom(d);
+    }
+    p->addr = (int *)mlx_get_data_addr(p->img, &p->bpp, 
+        &p->line, &p->endian);
+}
+
 void ft_direction_text(t_data *d, int dir, int size)
 {
     t_img p;
@@ -119,17 +131,11 @@ void ft_direction_text(t_data *d, int dir, int size)
     while (dir < 4)
     {
         path = ft_direction_id(d, dir);
-        ft_img_init(p);
-        p.img = mlx_xpm_file_to_image(d->mlx, path, size, size);
-        if (p.img == NULL)
-        {
-            ft_error_msg("MLX Image Error", NULL, NULL, FAIL);
-            ft_freedom(d);
-        }
-        p.addr = (int *)mlx_get_data_addr(p.img, &p.bpp, &p.line, &p.endian);
+        ft_img_start(d, &p, path, size);
         d->txt[dir] = ft_calloc(1, sizeof * d->txt[dir] * size * size);
         if (!d->txt[dir])
         {
+            mlx_destroy_image(d->mlx, p.img);
             ft_error_msg("Malloc Error", NULL, NULL, FAIL);
             ft_freedom(d);
         }
@@ -161,6 +167,7 @@ void ft_game_start(t_data *d)
         ft_freedom(d);
     }
     ft_direction_text(d, 0, d->text.size);
+    ft_print_welcome();
 }
 
 int main(int argc, char **argv)
@@ -176,7 +183,8 @@ int main(int argc, char **argv)
         return(ft_freedom(data), err_code);
     ft_game_start(&data);
     ft_raycasting(&data);
-    ft_key_bind(&data);
+    mlx_hook(data->wind, 2, 1L<<0, ft_key_press, data);
+	mlx_hook(data->wind, 3, 1L<<1, ft_key_release, data); 
     mlx_loop_hook(data->mlx, ft_raycast_check, &data);
     mlx_loop(data->mlx);
     return(0);

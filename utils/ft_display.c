@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_display.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 13:50:23 by nsamarin          #+#    #+#             */
-/*   Updated: 2025/08/13 14:26:55 by nsamarin         ###   ########.fr       */
+/*   Updated: 2025/08/14 13:43:34 by nico             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	ft_print_welcome(void)
 	printf("     %s \"S\" - Move Back          \n", BLUE);
 	printf("     %s \"A\" - Move Left          \n", BLUE);
     printf("     %s \"D\" - Move Right         \n", BLUE);
-    printf("     %s\"->\" - Look Left          \n", BLUE);
-    printf("     %s\"<-\" - Look Right         \n", BLUE);
+    printf("     %s\"<-\" - Look Left          \n", BLUE);
+    printf("     %s\"->\" - Look Right         \n", BLUE);
     printf("\n");
     printf("    %s\"Esc\" - Exit Game          \n", BLUE);
 	printf("%s", YELLOW);
@@ -57,7 +57,7 @@ void	ft_print_exit(void)
 	printf("%s\n", RESET);
 }
 
-void ft_print_coordiantes()
+void	ft_printc()
 {
     
 }

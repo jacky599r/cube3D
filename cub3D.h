@@ -6,7 +6,7 @@
 /*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:27:22 by nico              #+#    #+#             */
-/*   Updated: 2025/08/08 19:38:09 by nico             ###   ########.fr       */
+/*   Updated: 2025/08/14 18:46:07 by nico             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@
 #define LEFT_KEY 65361
 #define RIGHT_KEY 65363
 
-#define move_speed 0.1
-#define rot_speed 0.2
+#define move_speed 0.015
+#define rot_speed 0.02
 
 #define PI 3.1415926535
 
@@ -64,21 +64,31 @@
 /*                                 STRUCTS                                    */
 /******************************************************************************/
 
+enum		e_dir
+{
+	UP = 1,
+	DOWN = 2,
+	LEFT = 3,
+	RIGHT = 4,
+	ROT_L = 5,
+	ROT_R = 6,
+};
+
 typedef struct s_fill
 {
 	int		x;
 	int		y;
 }			t_fill;
 
-// typedef struct s_keys
-// {
-//     int up;
-//     int down;
-//     int left;
-//     int right;
-// 	int	l_arw;
-// 	int r_arw;
-// } 			t_keys;
+typedef struct s_keys
+{
+    int up;
+    int down;
+    int left;
+    int right;
+	int	l_arw;
+	int r_arw;
+} 			t_keys;
 
 
 typedef struct s_int
@@ -179,37 +189,13 @@ typedef	struct s_data
 	t_img	mini;
 	char	**og_map;
 	char	**fl_map;
+	t_keys	key;
 	t_play	play;
 	t_track	track;
 	void	*wind;
 	void	*mlx;
 }			t_data;
 
-// typedef struct s_play
-// {
-// 	char	s_dir;
-// 	t_int	mve;
-// 	t_dbl	pos;
-// 	t_dbl	dir;
-// 	t_dbl	pln;
-// 	int		check;
-// 	int		rot;
-// }			t_play;
-
-// typedef struct s_data
-// {
-//     t_maps	m_data;
-// 	t_img	m_mini;
-// 	t_img	m_fog;
-// 	t_img	frame;
-// 	t_ent	player;
-// 	t_keys	key;
-// 	int		mapY;
-// 	int		mapX;
-// 	int		mapS;
-// 	void		*wind;
-// 	void	*mlx;
-// }               t_data;
 
 /******************************************************************************/
 /*                              INITIATE_DATA                                 */
