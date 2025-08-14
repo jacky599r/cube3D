@@ -6,7 +6,11 @@
 #    By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/26 13:28:54 by nico              #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2025/08/14 18:44:49 by jacky599r        ###   ########.fr        #
+=======
+#    Updated: 2025/08/14 19:55:49 by nico             ###   ########.fr        #
+>>>>>>> 6e2b54f2c1cf368e56b38a8d3f49f5afea4c1702
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +28,7 @@ MLX_DIR = mlx
 SRC_DIR = .
 OBJ_DIR = obj
 
+<<<<<<< HEAD
 # Source Files (include all utility files)
 SRCS = main.c \
        utils/ft_file_reader.c \
@@ -39,6 +44,25 @@ SRCS = main.c \
        gnl/ft_gnl.c \
        gnl/ft_gnl_utils.c 
 
+=======
+# Source Files
+SRCS =	main.c
+		data_validation/ft_game_start.c \
+		data_validation/ft_init.c \
+		data_validation/ft_init_2.c \
+		exit_error/ft_exit.c \
+		exit_error/ft_free.c \
+		exit_error/ft_messaging.c \
+		gnl/ft_gnl.c \
+		gnl/ft_gnl_utils.c \
+		player_action/ft_keyhook.c \
+		player_action/ft_movement.c \
+		utils/ft_display.c \
+		raycast_engine/ft_raycaster_1.c \ 
+		raycast_engine/ft_raycaster_2.c \
+		raycast_engine/ft_dda.c \
+		
+>>>>>>> 6e2b54f2c1cf368e56b38a8d3f49f5afea4c1702
 # Generate object files in OBJ_DIR
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 

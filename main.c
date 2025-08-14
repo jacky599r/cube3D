@@ -6,15 +6,15 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:43:43 by nico              #+#    #+#             */
-/*   Updated: 2025/08/14 17:21:37 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/08/14 20:30:25 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int ft_extension_check(char *file, char *ext)
-{
-	int len;
+// int ft_extension_check(char *file, char *ext)
+// {
+// 	int len;
 
     len = ft_strlen(file);
     if (len < 5)
@@ -60,17 +60,22 @@ int ft_data_validation(t_data *data, int argc, char **argv)
     return (PASS);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-    t_data data;
-    
-    if (ft_data_validation(&data, argc, argv) == FAIL)
-    {
-        ft_free_all(&data);
-        return (FAIL);
-    }
-    //game and MLX validation
+	t_data	*data;
+	int		err_code;
 
-    ft_free_all(&data);
-    return (PASS);
+	err_code = ft_data_validation(&data, argc, argv);
+	if (err_code != PASS)
+		return (ft_freedom(data), err_code);
+	err_code = ft_process_map(&data, argv);
+	if (err_code != PASS)
+		return (ft_freedom(data), err_code);
+	ft_game_start(&data);
+	ft_raycasting(&data);
+	mlx_hook(data->wind, 2, 1L << 0, ft_key_press, data);
+	mlx_hook(data->wind, 3, 1L << 1, ft_key_release, data);
+	mlx_loop_hook(data->mlx, ft_raycast_check, &data);
+	mlx_loop(data->mlx);
+	return (0);
 }
