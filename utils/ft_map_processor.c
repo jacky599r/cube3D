@@ -52,16 +52,16 @@ int ft_prepare_map_for_flood_fill(t_data *data)
 
 void ft_set_initial_player_view(t_data *data)
 {
-    double dir_x, dir_y, pln_x, pln_y;
+	double dir_x, dir_y, pln_x, pln_y;
 
-    dir_x = 0; dir_y = 0; pln_x = 0; pln_y = 0;
-    if (data->play.s_dir == 'N') { dir_y = -1; pln_x = 0.66; }
-    else if (data->play.s_dir == 'S') { dir_y = 1; pln_x = -0.66; }
-    else if (data->play.s_dir == 'E') { dir_x = 1; pln_y = 0.66; }
-    else if (data->play.s_dir == 'W') { dir_x = -1; pln_y = -0.66; }
-    
-    data->play.dir.x = dir_x;
-    data->play.dir.y = dir_y;
-    data->play.pln.x = pln_x;
-    data->play.pln.y = pln_y;
+	dir_x = 0; dir_y = 0; pln_x = 0; pln_y = 0;
+	if (data->play.s_dir == 'N') { dir_y = -1; pln_x = 0.66; }
+	else if (data->play.s_dir == 'S') { dir_y = 1; pln_x = -0.66; }
+	else if (data->play.s_dir == 'E') { dir_x = 1; pln_y = 0.66; }
+	else if (data->play.s_dir == 'W') { dir_x = -1; pln_y = -0.66; }
+	
+	data->play.dir_x = dir_x;
+	data->play.dir_y = dir_y;
+	data->play.plane_x = pln_x;
+	data->play.plane_y = pln_y;
 }

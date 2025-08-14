@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_messaging.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 16:40:56 by nico              #+#    #+#             */
-/*   Updated: 2025/08/14 19:38:04 by nico             ###   ########.fr       */
+/*   Updated: 2025/08/14 20:57:04 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,18 @@ char	*ft_dup_or_join(char *s1, char *s2)
 		return (ft_strjoin(s1, s2));
 }
 
-char	*ft_add_quotes(char *final, char *cmd, char *dtl)
+char	*ft_add_quotes(char *final, char *dtl)
 {
 	char	*temp;
 
 	temp = ft_dup_or_join(final, "'");
-	ft_safe_str(final);
+	ft_safe_ptr(final);
 	final = temp;
 	temp = ft_dup_or_join(final, dtl);
-	ft_safe_str(final);
+	ft_safe_ptr(final);
 	final = temp;
 	temp = ft_dup_or_join(final, "'");
-	ft_safe_str(final);
+	ft_safe_ptr(final);
 	final = temp;
 	return (final);
 }
@@ -63,17 +63,16 @@ void	ft_correct_form(int err_code, char *dtl)
 int	ft_error_msg(char *cmd, char *msg, char *dtl, int err_code)
 {
 	char	*final;
-	char	*temp;
 
 	if (msg)
 	{
 		final = ft_dup_or_join(cmd, ": ");
-		final = ft_add_quotes(final, cmd, msg);
+		final = ft_add_quotes(final, msg);
 	}
 	else
-		final = ft_duplicate(cmd);
+		final = ft_strdup(cmd);
 	printf("Cub3D: %s\n", final);
-	ft_safe_str(final);
+	ft_safe_ptr(final);
 	ft_correct_form(err_code, dtl);
 	return (err_code);
 }

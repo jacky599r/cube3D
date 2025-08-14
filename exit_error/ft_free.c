@@ -24,14 +24,15 @@ void	ft_free_text(t_text *t)
 	t->txt_w = NULL;
 	ft_safe_ptr(t->txt_e);
 	t->txt_e = NULL;
-	ft_safe_ptr(t->txt_g);
-	t->txt_g = NULL;
-	ft_safe_ptr(t->txt_c);
-	t->txt_c = NULL;
 	ft_safe_ptr(t->rgb_g);
 	t->rgb_g = NULL;
 	ft_safe_ptr(t->rgb_c);
 	t->rgb_c = NULL;
+	// Image data cleanup
+	ft_safe_ptr(t->addr);
+	t->addr = NULL;
+	ft_safe_ptr(t->img);
+	t->img = NULL;
 }
 
 void	ft_free_img(t_img *i)
@@ -48,10 +49,10 @@ void	ft_free_map(t_map *m)
 {
 	if (!m)
 		return ;
-	ft_safe_ptr(m->m_ref);
-	m->m_ref = NULL;
 	ft_safe_array((void ***)&m->og_map);
 	m->og_map = NULL;
+	ft_safe_array((void ***)&m->fl_map);
+	m->fl_map = NULL;
 }
 
 void	ft_free_mini(t_mini *m)

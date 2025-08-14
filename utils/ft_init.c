@@ -12,48 +12,58 @@
 
 #include "cub3D.h"
 
-void    ft_play_init(t_play *play)
+void	ft_play_init(t_play *play)
 {
-    play->s_dir = '\0';
-    play->check = 0;
-    play->rot = 0;
-    play->mve.x = 0;
-    play->mve.y = 0;
-    play->pos.x = 0.0;
-    play->pos.y = 0.0;
-    play->dir.x = 0.0;
-    play->dir.y = 0.0;
-    play->pln.x = 0.0;
-    play->pln.y = 0.0;
+	play->s_dir = '\0';
+	play->check = 0;
+	play->rot = 0;
+	play->pos.x = 0.0;
+	play->pos.y = 0.0;
+	play->pos_x = 0.0;
+	play->pos_y = 0.0;
+	play->dir_x = 0.0;
+	play->dir_y = 0.0;
+	play->plane_x = 0.0;
+	play->plane_y = 0.0;
+	play->move_speed = MOVE_SPEED;
+	play->rot_speed = ROT_SPEED;
 }
 
-void    ft_text_init(t_text *text)
+void	ft_text_init(t_text *text)
 {
-    text->txt_n = NULL;
-    text->txt_s = NULL;
-    text->txt_w = NULL;
-    text->txt_e = NULL;
-    text->txt_g = 0;
-    text->txt_c = 0;
-    text->rgb_g = NULL;
-    text->rgb_c = NULL;
-    text->size = 64;
-    text->indx = 0;
-    text->step = 0.0;
-    text->pos = 0.0;
-    text->ref.x = 0;
-    text->ref.y = 0;
+	text->txt_n = NULL;
+	text->txt_s = NULL;
+	text->txt_w = NULL;
+	text->txt_e = NULL;
+	text->rgb_g = NULL;
+	text->rgb_c = NULL;
+	text->img = NULL;
+	text->addr = NULL;
+	text->bpp = 0;
+	text->line = 0;
+	text->endian = 0;
+	text->width = 0;
+	text->height = 0;
+	text->size = 64;
+	text->indx = 0;
+	text->step = 0.0;
+	text->pos = 0.0;
+	text->ref.x = 0;
+	text->ref.y = 0;
 }
 
-void    ft_map_init(t_map *map)
+void	ft_map_init(t_map *map)
 {
-    map->fd = 0;
-    map->max = 0;
-    map->high = 0;
-    map->wide = 0;
-    map->eom = 0;
-    map->m_ref = NULL;
-    map->og_map = NULL;
+	map->high = 0;
+	map->wide = 0;
+	map->eom = 0;
+	map->og_map = NULL;
+	map->fl_map = NULL;
+	map->max_x = 0;
+	map->max_y = 0;
+	map->player_x = 0;
+	map->player_y = 0;
+	map->player_dir = '\0';
 }
 
 void    ft_mini_init(t_img *mini)

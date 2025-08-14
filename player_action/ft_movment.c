@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   ft_movment.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 19:39:59 by nico              #+#    #+#             */
-/*   Updated: 2025/08/14 19:43:01 by nico             ###   ########.fr       */
+/*   Updated: 2025/08/14 20:57:04 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+int	ft_position_check(t_data *d, double mve_x, double mve_y)
+{
+	(void)d; // Suppress unused parameter warning
+	// Simple boundary check - can be enhanced with wall collision detection
+	if (mve_x < 0 || mve_y < 0)
+		return (FAIL);
+	// Add more sophisticated collision detection here if needed
+	return (PASS);
+}
 
 int	ft_move_check(t_data *d, double mve_x, double mve_y)
 {
@@ -37,25 +47,28 @@ int	ft_move_player(t_data *d, int key)
 	double	mve_x;
 	double	mve_y;
 
+	mve_x = d->play.pos.x;  // Initialize with current position
+	mve_y = d->play.pos.y;  // Initialize with current position
+
 	if (key == UP)
 	{
-		mve_x = d->play.pos.x + d->play.dir.x * move_speed;
-		mve_y = d->play.pos.y + d->play.dir.y * move_speed;
+		mve_x = d->play.pos.x + d->play.dir_x * MOVE_SPEED;
+		mve_y = d->play.pos.y + d->play.dir_y * MOVE_SPEED;
 	}
 	else if (key == DOWN)
 	{
-		mve_x = d->play.pos.x - d->play.dir.x * move_speed;
-		mve_y = d->play.pos.y - d->play.dir.y * move_speed;
+		mve_x = d->play.pos.x - d->play.dir_x * MOVE_SPEED;
+		mve_y = d->play.pos.y - d->play.dir_y * MOVE_SPEED;
 	}
 	else if (key == LEFT)
 	{
-		mve_x = d->play.pos.x + d->play.dir.y * move_speed;
-		mve_y = d->play.pos.y - d->play.dir.x * move_speed;
+		mve_x = d->play.pos.x + d->play.dir_y * MOVE_SPEED;
+		mve_y = d->play.pos.y - d->play.dir_x * MOVE_SPEED;
 	}
 	else if (key == RIGHT)
 	{
-		mve_x = d->play.pos.x - d->play.dir.y * move_speed;
-		mve_y = d->play.pos.y + d->play.dir.x * move_speed;
+		mve_x = d->play.pos.x - d->play.dir_y * MOVE_SPEED;
+		mve_y = d->play.pos.y + d->play.dir_x * MOVE_SPEED;
 	}
 	return (ft_move_check(d, mve_x, mve_y));
 }
@@ -74,17 +87,17 @@ int	ft_rotate_player(t_data *d, int key)
 	double	s;
 	double	tmp;
 
-	ang = rot_speed * ft_rotdir(key);
+	ang = ROT_SPEED * ft_rotdir(key);
 	c = cos(ang);
 	s = sin(ang);
 	if (ang == 0.0)
 		return (0);
-	tmp = d->play.dir.x;
-	d->play.dir.x = d->play.dir.x * c - d->play.dir.y * s;
-	d->play.dir.y = d->play.dir.x * s + d->play.dir.y * c;
-	tmp = d->play.pln.x;
-	d->play.pln.x = d->play.pln.x * c - d->play.pln.y * s;
-	d->play.pln.y = d->play.pln.x * s + d->play.pln.y * c;
+	tmp = d->play.dir_x;
+	d->play.dir_x = d->play.dir_x * c - d->play.dir_y * s;
+	d->play.dir_y = tmp * s + d->play.dir_y * c;
+	tmp = d->play.plane_x;
+	d->play.plane_x = d->play.plane_x * c - d->play.plane_y * s;
+	d->play.plane_y = tmp * s + d->play.plane_y * c;
 	return (1);
 }
 

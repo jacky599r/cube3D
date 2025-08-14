@@ -6,11 +6,7 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:27:22 by nico              #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/08/14 17:16:19 by jacky599r        ###   ########.fr       */
-=======
-/*   Updated: 2025/08/14 19:57:13 by nico             ###   ########.fr       */
->>>>>>> 6e2b54f2c1cf368e56b38a8d3f49f5afea4c1702
+/*   Updated: 2025/08/14 20:57:07 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +24,6 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
-<<<<<<< HEAD
-# include <math.h>
-// # include "mlx.h"  // Commented out for testing
-=======
->>>>>>> 6e2b54f2c1cf368e56b38a8d3f49f5afea4c1702
 
 # define RESET "\033[0m"
 # define RED "\033[1;31m"
@@ -61,8 +52,8 @@
 # define LEFT_KEY 65361
 # define RIGHT_KEY 65363
 
-# define move_speed 0.015
-# define rot_speed 0.02
+# define MOVE_SPEED 0.015
+# define ROT_SPEED 0.02
 
 # define PI 3.1415926535
 
@@ -122,14 +113,26 @@ typedef struct s_img
 
 typedef struct s_text
 {
-	char			*txt_n;
-	char			*txt_s;
-	char			*txt_w;
-	char			*txt_e;
-	int				*txt_g;
-	int				*txt_c;
-	unsigned long	*rgb_g;
-	unsigned long	*rgb_c;
+	// Texture file paths
+	char			*txt_n;  // North texture
+	char			*txt_s;  // South texture
+	char			*txt_w;  // West texture
+	char			*txt_e;  // East texture
+	
+	// RGB color values
+	unsigned long	*rgb_g;  // Floor color
+	unsigned long	*rgb_c;  // Ceiling color
+	
+	// Image data for rendering
+	void			*img;
+	int				*addr;
+	int				bpp;
+	int				line;
+	int				endian;
+	int				width;
+	int				height;
+	
+	// Additional texture properties
 	int				size;
 	int				indx;
 	double			step;
@@ -137,88 +140,69 @@ typedef struct s_text
 	t_int			ref;
 }					t_text;
 
-typedef struct s_mini
-{
-	char			**og_mini;
-	t_img			*mini_m;
-	int				size;
-	int				off_x;
-	int				off_y;
-	int				dist;
-	int				tile;
-}					t_mini;
-
 typedef struct s_map
 {
-	int				fd;
-	int				max;
-	int				high;
-	int				wide;
-	char			*m_ref;
 	char			**og_map;
-	int				eom;
+	char			**fl_map;
+	int				max_x;
+	int				max_y;
+	int				player_x;
+	int				player_y;
+	char			player_dir;
+	int				high;   // Map height
+	int				wide;   // Map width
+	int				eom;    // End of map flag
 }					t_map;
 
 typedef struct s_track
 {
-	double			cam_x;
-	double			wall;
-	double			walx;
+	double			pos_x;
+	double			pos_y;
+	double			dir_x;
+	double			dir_y;
+	double			plane_x;
+	double			plane_y;
+	double			ray_dir_x;
+	double			ray_dir_y;
+	double			side_dist_x;
+	double			side_dist_y;
+	double			delta_dist_x;
+	double			delta_dist_y;
+	double			perp_wall_dist;
+	int				map_x;
+	int				map_y;
+	int				step_x;
+	int				step_y;
+	int				hit;
 	int				side;
-	int				high;
-	int				strt;
-	int				end;
-	t_int			map;
-	t_int			stp;
-	t_dbl			dir;
-	t_dbl			sid;
-	t_dbl			dlt;
+	int				line_height;
+	int				draw_start;
+	int				draw_end;
+	int				tex_x;
+	int				tex_y;
+	double			wall_x;
+	double			step;
+	double			tex_pos;
 }					t_track;
 
 typedef struct s_play
 {
-	char			s_dir;
-	t_int			mve;
-	t_dbl			pos;
-	t_dbl			dir;
-	t_dbl			pln;
+	double			pos_x;
+	double			pos_y;
+	double			dir_x;
+	double			dir_y;
+	double			plane_x;
+	double			plane_y;
+	double			move_speed;
+	double			rot_speed;
+	char			s_dir;  // Player direction character
+	t_int			pos;    // Player position
 	int				check;
 	int				rot;
 }					t_play;
 
 typedef struct s_data
 {
-<<<<<<< HEAD
-	int 	mapx;
-	int		mapy;
-	int		**pxl;
-	int		**txt;
-	t_text	text;
-	t_map	map;
-	t_img	mini;
-	char	**og_map;
-	char	**fl_map;
-	t_play	play;
-	t_track	track;
-	void	*wind;
-	void	*mlx;
-}			t_data;
-
-// typedef struct s_data
-// {
-//     t_maps	m_data;
-// 	t_img	m_mini;
-// 	t_img	m_fog;
-// 	t_img	frame;
-// 	t_ent	player;
-// 	t_keys	key;
-// 	int		mapY;
-// 	int		mapX;
-// 	int		mapS;
-// 	void		*wind;
-// 	void	*mlx;
-// }               t_data;
-=======
 	int				mapx;
 	int				mapy;
 	int				**pxl;
@@ -234,13 +218,23 @@ typedef struct s_data
 	void			*wind;
 	void			*mlx;
 }					t_data;
->>>>>>> 6e2b54f2c1cf368e56b38a8d3f49f5afea4c1702
 
 typedef struct s_map_dims
 {
     int max_x;
     int max_y;
 }               t_map_dims;
+
+typedef struct s_mini
+{
+	char			**og_mini;
+	t_img			*mini_m;
+	int				size;
+	int				off_x;
+	int				off_y;
+	int				dist;
+	int				tile;
+}					t_mini;
 
 /******************************************************************************/
 /*                              INITIATE_DATA                                 */
@@ -260,7 +254,6 @@ void				ft_data_init(t_data *data);
 /*                             DATA_VALIDATION                                */
 /******************************************************************************/
 
-<<<<<<< HEAD
 int ft_process_param_line(t_data *data, char *line);
 int ft_is_rgb_within_range(int r, int g, int b);
 unsigned long ft_convert_rgb_to_int(int r, int g, int b);
@@ -284,28 +277,37 @@ int ft_parse_color_values(t_data *data, char *line, char *type_id);
 int ft_check_map_config(t_data *data);
 int ft_identify_map_properties(t_data *data, int start_index);
 
-// Map processing for flood fill & player init (ft_map_processor.c)
+// Map processing for flood-fill (ft_map_processor.c)
 int ft_prepare_map_for_flood_fill(t_data *data);
 void ft_set_initial_player_view(t_data *data);
 
 // Map enclosure validation (ft_map_enclosure.c)
+int ft_validate_map_enclosure(t_data *data);
 char **ft_create_temp_flood_map(t_data *data);
 void ft_perform_flood_fill(char **map, int x, int y, t_map_dims dims);
 int ft_check_enclosed_borders(char **map, t_map_dims dims);
-int ft_validate_map_enclosure(t_data *data);
 
-// General Utility Functions (ft_utils.c)
-int ft_is_empty_line(char *line);
-int ft_error_msg(char *err_type, char *msg, char *context, int ret_code);
-void ft_safe_array(void ***arr);
+// Utility functions (ft_utils.c)
 int ft_is_num(char *str);
-=======
-char				*ft_direction_id(t_data *d, int dir);
-int					*ft_fill_texture(t_data *d, t_img *pic, int size);
-void				ft_img_start(t_data *d, t_img *p, char *path, int size);
-void				ft_direction_text(t_data *d, int dir, int size);
-void				ft_game_start(t_data *d);
->>>>>>> 6e2b54f2c1cf368e56b38a8d3f49f5afea4c1702
+int ft_is_empty_line(char *line);
+int ft_error_msg(char *cmd, char *msg, char *dtl, int err_code);
+void ft_safe_array(void ***array);
+
+// Memory cleanup functions
+void ft_safe_ptr(void *str);
+void ft_free_int_arr(int ***mat_ptr, int rows);
+void ft_free_text(t_text *t);
+void ft_free_img(t_img *i);
+void ft_free_map(t_map *m);
+void ft_free_mini(t_mini *m);
+void ft_free_all(t_data *data);
+
+// Initialization functions
+void ft_play_init(t_play *play);
+void ft_text_init(t_text *text);
+void ft_map_init(t_map *map);
+void ft_mini_init(t_img *mini);
+void ft_data_init(t_data *data);
 
 /******************************************************************************/
 /*                              PLAYER_ACTION                                 */
@@ -345,29 +347,6 @@ void				ft_raycasting(t_data *data);
 /******************************************************************************/
 /*                              EXIT_&_ERROR                                  */
 /******************************************************************************/
-
-<<<<<<< HEAD
-// Memory cleanup functions
-void ft_safe_ptr(void *str);
-void ft_free_int_arr(int ***mat_ptr, int rows);
-void ft_free_text(t_text *t);
-void ft_free_img(t_img *i);
-void ft_free_map(t_map *m);
-void ft_free_mini(t_mini *m);
-void ft_free_all(t_data *data);
-
-// Initialization functions
-void ft_play_init(t_play *play);
-void ft_text_init(t_text *text);
-void ft_map_init(t_map *map);
-void ft_mini_init(t_img *mini);
-void ft_data_init(t_data *data);
-=======
-char				*ft_dup_or_join(char *s1, char *s2);
-char				*ft_add_quotes(char *final, char *cmd, char *dtl);
-void				ft_correct_form(int err_code, char *dtl);
-int					ft_error_msg(char *cmd, char *msg, char *dtl, int err_code);
->>>>>>> 6e2b54f2c1cf368e56b38a8d3f49f5afea4c1702
 
 void				ft_free_text(t_text *t);
 void				ft_free_img(t_img *i);

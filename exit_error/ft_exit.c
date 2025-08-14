@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:00:28 by nico              #+#    #+#             */
-/*   Updated: 2025/08/14 19:36:46 by nico             ###   ########.fr       */
+/*   Updated: 2025/08/14 20:57:04 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ void	ft_free_int_arr(int ***mat_ptr, int rows)
 
 void	ft_free_data(t_data *d)
 {
-	int	i;
-
 	if (!d)
 		return ;
 	ft_free_int_arr(&d->pxl, d->map.high);
@@ -70,16 +68,22 @@ void	ft_free_data(t_data *d)
 	// ft_free_mini(&d->mini);
 	ft_safe_array((void ***)&d->og_map);
 	ft_safe_array((void ***)&d->fl_map);
-	/* 5) if you malloc’d d itself, you can now do:
+	/* 5) if you malloc'd d itself, you can now do:
 			ft_safe_ptr(d);
 			d = NULL;
-		—but only if d wasn’t on the stack! */
+		—but only if d wasn't on the stack! */
 }
 
 void	ft_freedom(t_data *d)
 {
 	if (!d)
 		exit(FAIL);
+	
+	// Temporarily disabled MLX functionality for testing
+	printf("Cleaning up resources...\n");
+	
+	// Original MLX code commented out:
+	/*
 	if (d->wind && d->mlx)
 		mlx_destroy_window(d->mlx, d->wind);
 	if (d->mlx)
@@ -88,6 +92,8 @@ void	ft_freedom(t_data *d)
 		mlx_loop_end(d->mlx);
 		free(d->mlx);
 	}
+	*/
+	
 	ft_free_data(d);
 	ft_print_exit();
 	exit(FAIL);
