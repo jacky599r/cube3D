@@ -6,7 +6,7 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:50:57 by jacky599r         #+#    #+#             */
-/*   Updated: 2025/08/14 17:21:37 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/08/15 12:22:27 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,9 @@ int ft_check_map_config(t_data *data)
     if (map_start_index == -1 && error_code == PASS)
         error_code = ft_error_msg("Error", "No map found in file", NULL, FAIL);
     if (error_code == PASS)
+    {
+        data->map.start_index = map_start_index;  // Store the map start index
         error_code = ft_identify_map_properties(data, map_start_index);
+    }
     return (error_code);
 }

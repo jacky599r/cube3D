@@ -6,7 +6,7 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:27:22 by nico              #+#    #+#             */
-/*   Updated: 2025/08/14 20:57:07 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/08/15 12:22:27 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ typedef struct s_map
 	int				high;   // Map height
 	int				wide;   // Map width
 	int				eom;    // End of map flag
+	int				start_index;  // Index where map data begins (after parameters)
 }					t_map;
 
 typedef struct s_track

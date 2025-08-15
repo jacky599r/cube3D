@@ -6,7 +6,7 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 12:47:21 by nico              #+#    #+#             */
-/*   Updated: 2025/08/14 17:21:37 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/08/15 12:22:27 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	ft_map_init(t_map *map)
 	map->player_x = 0;
 	map->player_y = 0;
 	map->player_dir = '\0';
+	map->start_index = -1;  // Initialize to -1 (not set)
 }
 
 void    ft_mini_init(t_img *mini)
