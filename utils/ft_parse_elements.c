@@ -1,0 +1,115 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_parse_elements.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/11 22:03:16 by jacky599r         #+#    #+#             */
+/*   Updated: 2025/08/14 16:33:51 by jacky599r        ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "cub3D.h"
+
+// static int ft_is_num(char *str)
+// { 
+//     int i;
+
+//     i= 0;
+//     if (!str || *str == '\0')
+//         return (0);
+//     while (str[i])
+//     {
+//         if (!ft_isdigit(str[i]))
+//             return (0);
+//         i++;
+//     }
+//     return (1);
+// }
+
+// static int ft_if_param_dup(t_data *data, char *type_id)
+// {
+//     if (ft_strncmp(type_id, "NO", 2) == 0 && data->text.txt_n)
+//         return (ft_error_msg("Error", "Duplicate texture 'NO'", NULL, FAIL));
+//     if (ft_strncmp(type_id, "SO", 2) == 0 && data->text.txt_s)
+//         return (ft_error_msg("Error", "Duplicate texture 'SO'", NULL, FAIL));
+//     if (ft_strncmp(type_id, "WE", 2) == 0 && data->text.txt_w)
+//         return (ft_error_msg("Error", "Duplicate texture 'WE'", NULL, FAIL));
+//     if (ft_strncmp(type_id, "EA", 2) == 0 && data->text.txt_e)
+//         return (ft_error_msg("Error", "Duplicate texture 'EA'", NULL, FAIL));
+//     if (ft_strncmp(type_id, "F", 1) == 0 && data->text.rgb_g) 
+//         return (ft_error_msg("Error", "Duplicate color 'F'", NULL, FAIL));
+//     if (ft_strncmp(type_id, "C", 1) == 0 && data->text.rgb_c)
+//         return (ft_error_msg("Error", "Duplicate color 'C'", NULL, FAIL));
+//     return (PASS);
+// }
+
+// static int ft_parse_texture(t_data *data, char *line, char *type_id)
+// {
+//     char *path;
+//     int fd;
+// 
+//     path = ft_strtrim(line + ft_strlen(type_id) + 1, " \t\n\r\v\f");
+//     if (!path || *path == '\0')
+//         return (ft_error_msg("Error", "Missing texture path", type_id, FAIL));
+//     if (ft_if_param_dup(data, type_id) != PASS)
+//         return (free(path), FAIL);
+//     fd = open(path, O_RDONLY);
+//     if (fd < 0)
+//     {
+//         free(path);
+//         return (ft_error_msg("Error","Texture file not found or unreadable", path, FAIL));
+//     }
+//     close (fd);
+//     if (ft_strncmp(type_id, "NO", 2) == 0)
+//         data->text.txt_n = path;
+//     else if (ft_strncmp(type_id, "SO", 2) == 0)
+//         data->text.txt_s = path;
+//     else if (ft_strncmp(type_id, "WE", 2) == 0)
+//         data->text.txt_w = path;
+//     else if (ft_strncmp(type_id, "EA", 2) == 0)
+//         data->text.txt_e = path;
+//     return (PASS);
+// }
+
+// static int ft_parse_colour(t_data *data, char *line, char *type_id)
+// {
+//     int r;
+//     int g;
+//     int b;
+//     unsigned long colour;
+//     char *rgb_string;
+// 
+//     rgb_string = ft_strtrim(line + ft_strlen(type_id) + 1, " \n\t\r\v\f");
+//     if (!rgb_string || *rgb_string == '\0')
+//         return (ft_error_msg("Error", "Missing colour values", type_id, FAIL));
+//     if (ft_if_param_dup(data, type_id) != PASS)
+//         return (free(rgb_string), FAIL);
+//     if (ft_validate_rgb(rgb_string, &r, &g, &b) != PASS)
+//         return (free(rgb_string), FAIL);
+//     free(rgb_string);
+//     colour = ft_convert_rgb_to_int(r, g, b);
+//     if (ft_strncmp(type_id, "F", 1) == 0)
+//         data->text.rgb_g = colour;
+//     else if (ft_strncmp(type_id, "C", 1) == 0)
+//         data->text.rgb_c = colour;
+//     return (PASS);
+// }
+
+int ft_process_param_line(t_data *data, char *line)
+{
+    if (ft_strncmp(line, "NO ", 3) == 0)
+        return (ft_parse_texture_path(data, line, "NO"));
+    else if (ft_strncmp(line, "SO ", 3) == 0)
+        return (ft_parse_texture_path(data, line, "SO"));
+    else if (ft_strncmp(line, "WE ", 3) == 0)
+        return (ft_parse_texture_path(data, line, "WE"));
+    else if (ft_strncmp(line, "EA ", 3) == 0)
+        return (ft_parse_texture_path(data, line, "EA"));
+    else if (ft_strncmp(line, "F ", 2) == 0)
+        return (ft_parse_color_values(data, line, "F"));
+    else if (ft_strncmp(line, "C ", 2) == 0)
+        return (ft_parse_color_values(data, line, "C"));
+    return (ft_error_msg("Error", "Unknown param", line, FAIL));
+}
