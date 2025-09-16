@@ -6,7 +6,7 @@
 #    By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/26 13:28:54 by nico              #+#    #+#              #
-#    Updated: 2025/09/16 11:08:09 by jacky599r        ###   ########.fr        #
+#    Updated: 2025/09/16 14:42:26 by jacky599r        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,6 @@ SRCS = main.c \
        utils/ft_map_processor.c \
        utils/ft_map_enclosure.c \
        utils/ft_utils.c \
-       utils/ft_free.c \
        utils/ft_init.c \
        utils/ft_parse_elements.c \
        gnl/ft_gnl.c \
