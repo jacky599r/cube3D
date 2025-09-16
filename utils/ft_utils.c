@@ -6,7 +6,7 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:51:49 by jacky599r         #+#    #+#             */
-/*   Updated: 2025/08/14 17:21:37 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/16 11:08:09 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,36 +38,6 @@ int ft_is_empty_line(char *line)
     return (line[i] == '\0');
 }
 
-// Placeholder for ft_error_msg (will be moved from ft_messaging.c)
-int ft_error_msg(char *err_type, char *msg, char *context, int ret_code)
-{
-    ft_putstr_fd(err_type, 2);
-    ft_putstr_fd(": ", 2);
-    ft_putstr_fd(msg, 2);
-    if (context)
-    {
-        ft_putstr_fd(": ", 2);
-        ft_putstr_fd(context, 2);
-    }
-    ft_putstr_fd("\n", 2);
-    return (ret_code);
-}
+// ft_error_msg implementation moved to exit_error/ft_messaging.c
 
-// Placeholder for ft_safe_array (will be moved from ft_free.c if it exists)
-void ft_safe_array(void ***arr)
-{
-    int i;
-    void **array_ptr;
-
-    if (!arr || !*arr)
-        return;
-    array_ptr = *arr;
-    i = 0;
-    while (array_ptr[i])
-    {
-        free(array_ptr[i]);
-        i++;
-    }
-    free(array_ptr);
-    *arr = NULL;
-}
+// ft_safe_array implementation moved to exit_error/ft_exit.c

@@ -6,7 +6,7 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:50:23 by jacky599r         #+#    #+#             */
-/*   Updated: 2025/08/15 13:15:18 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/12 14:07:21 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,22 +92,17 @@ int ft_prepare_map_for_flood_fill(t_data *data)
         // Check if this line has actual content
         if (content_start <= content_end)
         {
-            // Check borders: first and last rows must be all walls
-            if (y == 0 || y == data->map.high - 1)
+            // Only check that the content area has valid map characters
+            // Allow gapped perimeters - flood-fill will handle escape validation
+            int x = content_start;
+            while (x <= content_end)
             {
-                int x = content_start;
-                while (x <= content_end)
+                if (temp_line[x] != '0' && temp_line[x] != '1' && 
+                    !ft_strchr("NSEW", temp_line[x]) && temp_line[x] != ' ')
                 {
-                    if (temp_line[x] != '1')
-                        return (ft_error_msg("Error", "Border line contains non-wall characters", NULL, FAIL));
-                    x++;
+                    return (ft_error_msg("Error", "Invalid character in map", NULL, FAIL));
                 }
-            }
-            // Check side borders: first and last characters must be walls
-            else
-            {
-                if (temp_line[content_start] != '1' || temp_line[content_end] != '1')
-                    return (ft_error_msg("Error", "Line not properly walled (missing side walls)", NULL, FAIL));
+                x++;
             }
         }
         y++;
@@ -152,8 +147,9 @@ int ft_prepare_map_for_flood_fill(t_data *data)
         {
             if (x < current_line_length)
             {
-                // Pad leading spaces before earliest_content_start with 'X'
-                if (x < earliest_content_start && temp_line[x] == ' ')
+                // Pad leading spaces that occur before the content starts on this line
+                // AND when other lines start earlier (earliest_content_start)
+                if (x < line_content_start && temp_line[x] == ' ')
                     data->fl_map[y][x] = 'X';
                 // Copy the original character for content area
                 else if (temp_line[x] == '0' || temp_line[x] == '1' || ft_strchr("NSEW", temp_line[x]))
@@ -177,7 +173,7 @@ int ft_prepare_map_for_flood_fill(t_data *data)
     }
     data->fl_map[y] = NULL;
     
-    // Third pass: convert spaces to walls only if they're surrounded by valid map chars
+    // Third pass: convert all remaining spaces to 'X' padding
     y = 0;
     while (y < data->map.high)
     {
@@ -186,23 +182,8 @@ int ft_prepare_map_for_flood_fill(t_data *data)
         {
             if (data->fl_map[y][x] == ' ')
             {
-                // Check if this space is at the end of the line content
-                int is_trailing_space = 1;
-                int check_x = x + 1;
-                while (check_x < data->map.wide)
-                {
-                    if (data->fl_map[y][check_x] != ' ' && data->fl_map[y][check_x] != 'X')
-                    {
-                        is_trailing_space = 0;
-                        break;
-                    }
-                    check_x++;
-                }
-                
-                if (is_trailing_space)
-                    data->fl_map[y][x] = 'X';  // Convert trailing spaces to padding
-                else
-                    data->fl_map[y][x] = '1';  // Convert internal spaces to walls
+                // Convert all spaces (internal, trailing, etc.) to 'X' padding
+                data->fl_map[y][x] = 'X';
             }
             x++;
         }

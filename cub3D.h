@@ -6,7 +6,7 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:27:22 by nico              #+#    #+#             */
-/*   Updated: 2025/08/15 12:22:27 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/16 11:08:09 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,12 +184,25 @@ typedef struct s_track
 	double			wall_x;
 	double			step;
 	double			tex_pos;
+	
+	// Nested structures used by raycast engine
+	t_dbl			dir;		// For t.dir.x, t.dir.y access
+	t_int			map;		// For t.map.x, t.map.y access  
+	t_dbl			dlt;		// For t.dlt.x, t.dlt.y access (delta distances)
+	t_dbl			sid;		// For t.sid.x, t.sid.y access (side distances)
+	t_int			stp;		// For t.stp.x, t.stp.y access (step directions)
+	t_dbl			pln;		// For t.pln.x, t.pln.y access (plane vectors)
+	
+	// Additional members used by raycast engine
+	double			cam_x;		// Camera X position
+	int				high;		// Line height
+	int				strt;		// Start position
+	int				end;		// End position
+	double			walx;		// Wall X coordinate
 }					t_track;
 
 typedef struct s_play
 {
-	double			pos_x;
-	double			pos_y;
 	double			dir_x;
 	double			dir_y;
 	double			plane_x;
@@ -197,7 +210,7 @@ typedef struct s_play
 	double			move_speed;
 	double			rot_speed;
 	char			s_dir;  // Player direction character
-	t_int			pos;    // Player position
+	t_int			pos;    // Player position (use .pos.x, .pos.y)
 	int				check;
 	int				rot;
 }					t_play;
@@ -255,12 +268,16 @@ void				ft_data_init(t_data *data);
 /*                             DATA_VALIDATION                                */
 /******************************************************************************/
 
+// Game initialization and texture loading functions
+char	*ft_direction_id(t_data *d, int dir);
+int		*ft_fill_texture(t_data *d, t_img *pic, int size);
+void	ft_img_start(t_data *d, t_img *p, char *path, int size);
+void	ft_direction_text(t_data *d, int dir, int size);
+void	ft_game_start(t_data *d);
+
 int ft_process_param_line(t_data *data, char *line);
 int ft_is_rgb_within_range(int r, int g, int b);
 unsigned long ft_convert_rgb_to_int(int r, int g, int b);
-int ft_validate_rgb(char *rgb_string, int r, int g, int b, char *line);
-int ft_read_map(t_data *data, char *path);
-int ft_parse_map_data(t_data *data);
 
 // File reading and initial map storage (ft_file_reader.c)
 int ft_open_map_file(char *path);
@@ -303,11 +320,7 @@ void ft_free_map(t_map *m);
 void ft_free_mini(t_mini *m);
 void ft_free_all(t_data *data);
 
-// Initialization functions
-void ft_play_init(t_play *play);
-void ft_text_init(t_text *text);
-void ft_map_init(t_map *map);
-void ft_mini_init(t_img *mini);
+// Additional initialization functions
 void ft_data_init(t_data *data);
 
 /******************************************************************************/
@@ -318,6 +331,7 @@ int					ft_terminate_game(t_data *d);
 int					ft_key_press(int keycode, t_data *d);
 int					ft_key_release(int keycode, t_data *d);
 
+int					ft_position_check(t_data *d, double mve_x, double mve_y);
 int					ft_move_check(t_data *d, double mve_x, double mve_y);
 int					ft_move_player(t_data *d, int key);
 int					ft_rotdir(int key);
@@ -359,6 +373,11 @@ void				ft_safe_array(void ***array);
 void				ft_free_int_arr(int ***mat_ptr, int rows);
 void				ft_free_data(t_data *d);
 void				ft_freedom(t_data *d);
+
+// Messaging and error handling functions
+char				*ft_dup_or_join(char *s1, char *s2);
+char				*ft_add_quotes(char *final, char *dtl);
+void				ft_correct_form(int err_code, char *dtl);
 
 /******************************************************************************/
 /*                                  GNL                                       */

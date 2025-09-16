@@ -6,7 +6,7 @@
 #    By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/26 13:28:54 by nico              #+#    #+#              #
-#    Updated: 2025/08/14 20:57:07 by jacky599r        ###   ########.fr        #
+#    Updated: 2025/09/16 11:08:09 by jacky599r        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,11 +34,13 @@ SRCS = main.c \
        utils/ft_utils.c \
        utils/ft_free.c \
        utils/ft_init.c \
-       utils/ft_messaging.c \
        utils/ft_parse_elements.c \
        gnl/ft_gnl.c \
        gnl/ft_gnl_utils.c \
-       data_validation/ft_game_start.c
+       data_validation/ft_game_start.c \
+       exit_error/ft_exit.c \
+       exit_error/ft_free.c \
+       exit_error/ft_messaging.c
        # Removed duplicate files that were causing symbol conflicts
        # data_validation/ft_init.c \
        # data_validation/ft_init_2.c \

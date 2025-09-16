@@ -6,7 +6,7 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:50:12 by jacky599r         #+#    #+#             */
-/*   Updated: 2025/08/15 13:15:18 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/08/15 16:41:41 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,69 @@ void ft_perform_flood_fill(char **map, int x, int y, t_map_dims dims)
     debug_depth--;
 }
 
+// Check if flood fill reached any position that was originally a space
+int ft_check_space_reachability(char **flood_map, t_data *data, t_map_dims dims)
+{
+    int y;
+    int x;
+    char *temp_line;
+    int found_space_reach = 0;
+    int current_line_length;
+
+    printf("\n=== DEBUG: Checking space reachability ===\n");
+    
+    y = 0;
+    while (y < dims.max_y)
+    {
+        temp_line = data->map.og_map[y + data->map.start_index];
+        current_line_length = ft_strlen(temp_line);
+        
+        // Remove trailing newlines/carriage returns
+        while (current_line_length > 0 && 
+               (temp_line[current_line_length - 1] == '\n' || 
+                temp_line[current_line_length - 1] == '\r'))
+        {
+            current_line_length--;
+        }
+        
+        x = 0;
+        while (x < dims.max_x)
+        {
+            // Check if this position was originally a space/tab AND flood fill reached it
+            int was_originally_space = 0;
+            if (x < current_line_length)
+            {
+                if (temp_line[x] == ' ' || temp_line[x] == '\t')
+                    was_originally_space = 1;
+            }
+            else
+            {
+                // Position beyond original line length (would be padded)
+                was_originally_space = 1;
+            }
+            
+            if (was_originally_space && flood_map[y][x] == 'V')
+            {
+                printf("FAIL: Flood fill reached position (%d, %d) that was originally a space/padding\n", x, y);
+                printf("      Original char at (%d, %d): '%c' (or beyond line end)\n", x, y, 
+                       (x < current_line_length) ? temp_line[x] : ' ');
+                found_space_reach = 1;
+            }
+            x++;
+        }
+        y++;
+    }
+    
+    if (!found_space_reach)
+        printf("PASS: Flood fill only reached valid walkable areas\n");
+    else
+        printf("FAIL: Player can reach areas that were originally spaces/padding\n");
+    
+    printf("=== End space reachability check ===\n\n");
+    
+    return (found_space_reach ? FAIL : PASS);
+}
+
 int ft_check_enclosed_borders(char **map, t_map_dims dims)
 {
     int y;
@@ -150,17 +213,17 @@ int ft_check_enclosed_borders(char **map, t_map_dims dims)
     while (y < dims.max_y)
     {
         x = 0;
-        if (map[y][0] == '0' || map[y][dims.max_x - 1] == '0')
+        if (map[y][0] == '0' || map[y][0] == 'V' || map[y][dims.max_x - 1] == '0' || map[y][dims.max_x - 1] == 'V')
         {
-            printf("FAIL: Found '0' on vertical border at row %d: left='%c', right='%c'\n", 
+            printf("FAIL: Found unwalled opening on vertical border at row %d: left='%c', right='%c'\n", 
                    y, map[y][0], map[y][dims.max_x - 1]);
             found_escape = 1;
         }
         while (x < dims.max_x)
         {
-            if ((y == 0 || y == dims.max_y - 1) && map[y][x] == '0')
+            if ((y == 0 || y == dims.max_y - 1) && (map[y][x] == '0' || map[y][x] == 'V'))
             {
-                printf("FAIL: Found '0' on horizontal border at (%d, %d) = '%c'\n", x, y, map[y][x]);
+                printf("FAIL: Found unwalled opening on horizontal border at (%d, %d) = '%c'\n", x, y, map[y][x]);
                 found_escape = 1;
             }
             x++;
@@ -178,9 +241,69 @@ int ft_check_enclosed_borders(char **map, t_map_dims dims)
     return (found_escape ? FAIL : PASS);
 }
 
-int ft_validate_map_enclosure(t_data *data)
+// Create original map without padding for validation
+char **ft_create_original_flood_map(t_data *data)
 {
     char **temp_map;
+    int y;
+    int x;
+    char *temp_line;
+    int current_line_length;
+
+    temp_map = (char **)ft_calloc(data->map.high + 1, sizeof(char *));
+    if (!temp_map)
+        return (NULL);
+
+    y = 0;
+    while (y < data->map.high)
+    {
+        temp_map[y] = (char *)ft_calloc(data->map.wide + 1, sizeof(char));
+        if (!temp_map[y])
+        {
+            ft_safe_array((void ***)&temp_map);
+            return (NULL);
+        }
+        
+        temp_line = data->map.og_map[y + data->map.start_index];
+        current_line_length = ft_strlen(temp_line);
+        
+        // Remove trailing newlines/carriage returns
+        while (current_line_length > 0 && 
+               (temp_line[current_line_length - 1] == '\n' || 
+                temp_line[current_line_length - 1] == '\r'))
+        {
+            current_line_length--;
+        }
+        
+        x = 0;
+        while (x < data->map.wide)
+        {
+            if (x < current_line_length)
+            {
+                if (temp_line[x] == '0' || temp_line[x] == '1' || ft_strchr("NSEW", temp_line[x]))
+                    temp_map[y][x] = temp_line[x];
+                else if (temp_line[x] == ' ' || temp_line[x] == '\t')
+                    temp_map[y][x] = '0';  // Treat spaces as openings for validation
+                else
+                    temp_map[y][x] = '1';
+            }
+            else
+            {
+                temp_map[y][x] = '1';  // Pad short lines with walls for validation
+            }
+            x++;
+        }
+        temp_map[y][x] = '\0';
+        y++;
+    }
+    temp_map[y] = NULL;
+    return (temp_map);
+}
+
+int ft_validate_map_enclosure(t_data *data)
+{
+    char **original_map;
+    char **padded_map;
     t_map_dims dims;
     int ret;
 
@@ -188,28 +311,53 @@ int ft_validate_map_enclosure(t_data *data)
     printf("Player position: (%d, %d)\n", (int)data->play.pos.x, (int)data->play.pos.y);
     printf("Map dimensions: %d x %d\n", data->map.wide, data->map.high);
 
-    temp_map = ft_create_temp_flood_map(data);
-    if (!temp_map)
+    // First validate original map structure (spaces treated as openings)
+    printf("\n=== VALIDATING ORIGINAL MAP STRUCTURE ===\n");
+    original_map = ft_create_original_flood_map(data);
+    if (!original_map)
         return (FAIL);
 
     dims.max_x = data->map.wide;
     dims.max_y = data->map.high;
 
-    // Print map before flood fill
-    printf("\n--- BEFORE flood fill ---");
-    ft_debug_print_map(temp_map, dims, (int)data->play.pos.x, (int)data->play.pos.y);
+    printf("\n--- BEFORE flood fill (original structure) ---");
+    ft_debug_print_map(original_map, dims, (int)data->play.pos.x, (int)data->play.pos.y);
 
-    // Perform flood fill
-    printf("--- Starting flood fill from player position ---\n");
-    ft_perform_flood_fill(temp_map, (int)data->play.pos.x, (int)data->play.pos.y, dims);
+    printf("--- Starting flood fill on original structure ---\n");
+    ft_perform_flood_fill(original_map, (int)data->play.pos.x, (int)data->play.pos.y, dims);
     printf("--- Flood fill completed ---\n");
 
-    // Print map after flood fill
-    printf("\n--- AFTER flood fill ---");
-    ft_debug_print_map(temp_map, dims, (int)data->play.pos.x, (int)data->play.pos.y);
+    printf("\n--- AFTER flood fill (original structure) ---");
+    ft_debug_print_map(original_map, dims, (int)data->play.pos.x, (int)data->play.pos.y);
 
-    ret = ft_check_enclosed_borders(temp_map, dims);
-    ft_safe_array((void ***)&temp_map);
+    // Check both border escape and space reachability
+    int border_check = ft_check_enclosed_borders(original_map, dims);
+    int space_check = ft_check_space_reachability(original_map, data, dims);
+    
+    ret = (border_check == FAIL || space_check == FAIL) ? FAIL : PASS;
+    ft_safe_array((void ***)&original_map);
+    
+    if (ret == FAIL)
+        return (ft_error_msg("Error", "Map allows player to reach invalid areas (spaces/padding)", NULL, FAIL));
+
+    // If original structure is valid, check padded map for consistency
+    printf("\n=== VALIDATING PADDED MAP STRUCTURE ===\n");
+    padded_map = ft_create_temp_flood_map(data);
+    if (!padded_map)
+        return (FAIL);
+
+    printf("\n--- BEFORE flood fill (padded structure) ---");
+    ft_debug_print_map(padded_map, dims, (int)data->play.pos.x, (int)data->play.pos.y);
+
+    printf("--- Starting flood fill on padded structure ---\n");
+    ft_perform_flood_fill(padded_map, (int)data->play.pos.x, (int)data->play.pos.y, dims);
+    printf("--- Flood fill completed ---\n");
+
+    printf("\n--- AFTER flood fill (padded structure) ---");
+    ft_debug_print_map(padded_map, dims, (int)data->play.pos.x, (int)data->play.pos.y);
+
+    ret = ft_check_enclosed_borders(padded_map, dims);
+    ft_safe_array((void ***)&padded_map);
     
     if (ret == FAIL)
         return (ft_error_msg("Error", "Map is not surrounded by walls", NULL, FAIL));

@@ -6,7 +6,7 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:43:43 by nico              #+#    #+#             */
-/*   Updated: 2025/08/14 20:57:07 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/16 11:08:09 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 // Function declarations
 int ft_extension_check(char *file, char *ext);
 int ft_open_file(char *path);
-int ft_read_map(t_data *data, char *path);
-int ft_parse_map(t_data *data);
 int ft_process_map(t_data *data, char **argv);
 void ft_game_start(t_data *data);
 void ft_raycasting(t_data *data);
