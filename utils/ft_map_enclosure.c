@@ -127,7 +127,6 @@ void ft_perform_flood_fill(char **map, int x, int y, t_map_dims dims)
     
     debug_depth++;
     ft_debug_flood_fill_step(map, x, y, dims, debug_depth);
-    
     map[y][x] = 'V';
 
     ft_perform_flood_fill(map, x + 1, y, dims);

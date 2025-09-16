@@ -189,7 +189,6 @@ int ft_prepare_map_for_flood_fill(t_data *data)
         }
         y++;
     }
-    
     return (PASS);
 }
 
