@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_raycaster_1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 17:03:26 by nico              #+#    #+#             */
-/*   Updated: 2025/09/16 15:20:43 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/16 16:33:57 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,13 @@ void	ft_ray_cast(t_play *p, t_data *d)
 
 void	ft_raycasting(t_data *data)
 {
+	printf("ray1\n");
 	ft_pxl_fill(data);
+	printf("ray2\n");
 	ft_track_init(&data->track);
+	printf("ray3\n");
 	ft_ray_cast(&data->play, data);
+	printf("ray4\n");
 	ft_display(data);
+	printf("ray done\n");
 }

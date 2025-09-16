@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_raycaster_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 19:45:10 by nico              #+#    #+#             */
-/*   Updated: 2025/09/16 15:20:43 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/16 16:31:59 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,22 @@ void	ft_update_pxl(t_data *d, t_text *x, t_track *t, int a)
 	}
 }
 
-void	*ft_pxl_init(size_t count, size_t size)
+void *ft_pxl_init(size_t count, size_t size)
 {
-	void	*pxl;
-	int		a;
+    void			*px;
+    unsigned char	*p;
+    size_t 			a;
 
-	pxl = malloc(count * size);
-	if (!pxl)
-		return (NULL);
-	a = size * count;
-	while (a--)
-		*(unsigned char *)pxl++ = 0;
-	return (pxl);
+    px = malloc(count * size);
+    if (!px)
+        return NULL;
+
+    p = (unsigned char *)px;
+    a = count * size;
+    while (a--)
+        *p++ = 0;
+
+    return (px);
 }
 
 void	ft_pxl_fill(t_data *d)
@@ -59,9 +63,12 @@ void	ft_pxl_fill(t_data *d)
 	int	a;
 
 	a = 0;
+	printf("pxl_fill 1\n");
 	if (d->pxl)
 		ft_safe_array((void ***)&d->pxl);
+	printf("pxl_fill 2\n");
 	d->pxl = ft_pxl_init(d->mapy + 1, sizeof *d->pxl);
+	printf("pxl_fill 3\n");
 	if (!d->pxl)
 	{
 		ft_error_msg("Malloc error", NULL, NULL, FAIL);

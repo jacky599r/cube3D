@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+         #
+#    By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/26 13:28:54 by nico              #+#    #+#              #
-#    Updated: 2025/09/16 15:20:43 by jacky599r        ###   ########.fr        #
+#    Updated: 2025/09/16 16:14:07 by nsamarin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,6 @@ CC = cc
 RM = rm -f
 CFLAGS = -g -Wall -Wextra -Werror
 LDFLAGS = -lX11 -lXext -lm -lbsd
-
-# (no global silencing; keep verbose unless using @ on specific cmds)
 
 # Directories
 LIBFT_DR = libft
@@ -27,6 +25,7 @@ OBJ_DIR = obj
 # Source Files (include all utility files)
 SRCS = main.c \
        utils/ft_file_reader.c \
+	   utils/ft_display.c \
        utils/ft_param_parser.c \
        utils/ft_map_validator.c \
        utils/ft_map_processor.c \
@@ -44,8 +43,7 @@ SRCS = main.c \
        player_action/ft_movment.c \
        raycast_engine/ft_raycaster_1.c \
        raycast_engine/ft_raycaster_2.c \
-       raycast_engine/ft_dda.c \
-       mlx_stub.c
+       raycast_engine/ft_dda.c
 
 # Generate object files in OBJ_DIR
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
@@ -73,21 +71,25 @@ $(OBJ_DIR):
 			exit_error \
 			data_initiation \
 		)
+	@echo "Created object directories"
 
 # Build Libraries
 $(LIBFT):
 	@if [ ! -f "$(LIBFT)" ]; then \
-		$(MAKE) -s --no-print-directory -C $(LIBFT_DR); \
+		echo "Built libft"; \
+		make --no-print-directory -C $(LIBFT_DR); \
 	fi
 
 $(MLX):
 	@if [ ! -f "$(MLX)" ]; then \
-		$(MAKE) -s --no-print-directory -C $(MLX_DIR); \
+		echo "Built libmlx"; \
+		make --no-print-directory -C $(MLX_DIR); \
 	fi
 
-# Link everything (MLX optional for now)
-$(NAME): $(OBJS) $(LIBFT)
-	@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DR) -lft -o $@
+# Link everything
+$(NAME): $(OBJS) $(LIBFT) $(MLX)
+	@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DR) -lft -L$(MLX_DIR) -lmlx $(LDFLAGS) -o $@
+	@echo "Built everything for cub3D"
 
 # Compile objects
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER) | $(OBJ_DIR)
@@ -95,12 +97,14 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER) | $(OBJ_DIR)
 
 clean:
 	@$(RM) -r $(OBJ_DIR)
-	@$(MAKE) -s -C $(LIBFT_DR) clean
+	@make -C $(LIBFT_DR) clean
+	@make -C $(MLX_DIR) clean
+	@echo "Cleaned object files"
 
 fclean: clean
 	@$(RM) $(NAME)
-	@$(MAKE) -s -C $(LIBFT_DR) fclean
+	@make -C $(LIBFT_DR) fclean
+	@make -C $(MLX_DIR) clean
+	@echo "Cleaned executable files"
 
 re: fclean all
-
-.PHONY: all clean fclean re

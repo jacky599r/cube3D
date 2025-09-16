@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:00:28 by nico              #+#    #+#             */
-/*   Updated: 2025/09/16 14:59:07 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/16 16:20:59 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,6 @@ void	ft_freedom(t_data *d)
 {
 	if (!d)
 		exit(FAIL);
-	
-	// Temporarily disabled MLX functionality for testing
-	printf("Cleaning up resources...\n");
-	
-	// Original MLX code commented out:
-	/*
 	if (d->wind && d->mlx)
 		mlx_destroy_window(d->mlx, d->wind);
 	if (d->mlx)
@@ -91,8 +85,6 @@ void	ft_freedom(t_data *d)
 		mlx_loop_end(d->mlx);
 		free(d->mlx);
 	}
-	*/
-	
 	ft_free_data(d);
 	ft_print_exit();
 	exit(FAIL);

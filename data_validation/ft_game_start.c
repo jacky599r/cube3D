@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_game_start.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 19:23:59 by nico              #+#    #+#             */
-/*   Updated: 2025/08/14 20:57:04 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/16 16:15:47 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,7 @@ int	*ft_fill_texture(t_data *d, t_img *pic, int size)
 
 void	ft_img_start(t_data *d, t_img *p, char *path, int size)
 {
-	// Temporarily disabled MLX functionality for testing
-	(void)d; // Suppress unused parameter warning
-	(void)p; // Suppress unused parameter warning
-	(void)path; // Suppress unused parameter warning
-	(void)size; // Suppress unused parameter warning
-	printf("Image start function called (disabled)\n");
-	
 	// Original MLX code commented out:
-	/*
 	int	width;
 	int	height;
 
@@ -76,19 +68,10 @@ void	ft_img_start(t_data *d, t_img *p, char *path, int size)
 		ft_freedom(d);
 	}
 	p->addr = (int *)mlx_get_data_addr(p->img, &p->bpp, &p->line, &p->endian);
-	*/
 }
 
 void	ft_direction_text(t_data *d, int dir, int size)
 {
-	// Temporarily disabled MLX functionality for testing
-	(void)d; // Suppress unused parameter warning
-	(void)dir; // Suppress unused parameter warning
-	(void)size; // Suppress unused parameter warning
-	printf("Direction text function called (disabled)\n");
-	
-	// Original MLX code commented out:
-	/*
 	t_img	p;
 	char	*path;
 
@@ -108,17 +91,11 @@ void	ft_direction_text(t_data *d, int dir, int size)
 		free(path);
 		dir++;
 	}
-	*/
+
 }
 
 void	ft_game_start(t_data *d)
 {
-	// Temporarily disabled MLX functionality for testing
-	(void)d; // Suppress unused parameter warning
-	printf("Game start function called\n");
-	
-	// Original MLX code commented out:
-	/*
 	d->mlx = mlx_init();
 	if (!d->mlx)
 	{
@@ -138,6 +115,5 @@ void	ft_game_start(t_data *d)
 		ft_freedom(d);
 	}
 	ft_direction_text(d, 0, d->text.size);
-	*/
 	ft_print_welcome();
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:27:22 by nico              #+#    #+#             */
-/*   Updated: 2025/09/16 14:59:07 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/16 16:36:12 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 # define FAIL 1
 
 # define WIN_WIDTH 1024
-# define WIN_HEIGHT 512
+# define WIN_HEIGHT 1024
 
 # define W_KEY 119
 # define A_KEY 97

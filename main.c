@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:43:43 by nico              #+#    #+#             */
-/*   Updated: 2025/09/16 15:20:55 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/16 16:22:05 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,19 +122,6 @@ int ft_raycast_check(t_data *d)
 	return (0);
 }
 
-// ft_key_press and ft_key_release are implemented in player_action/ft_keyhook.c
-
-// Stub implementations for missing functions
-void ft_print_welcome(void)
-{
-	printf("Welcome to Cub3D!\n");
-}
-
-void ft_print_exit(void)
-{
-	printf("Exiting Cub3D...\n");
-}
-
 
 int	main(int argc, char **argv)
 {
@@ -152,13 +139,17 @@ int	main(int argc, char **argv)
 	err_code = ft_process_map(data, argv);
 	if (err_code != PASS)
 		return (ft_freedom(data), err_code);
-	
 	// Initialize MLX and start the game
 	ft_game_start(data);
+    printf("phase 1 done\n");
 	ft_raycasting(data);
+    printf("phase 2 done\n");
 	mlx_hook(data->wind, 2, 1L << 0, ft_key_press, data);
+    printf("phase 3 done\n");
 	mlx_hook(data->wind, 3, 1L << 1, ft_key_release, data);
+    printf("phase 4 done\n");
 	mlx_loop_hook(data->mlx, ft_raycast_check, data);
+    printf("phase 5 done\n");
 	mlx_loop(data->mlx);
 	
 	return (0);
