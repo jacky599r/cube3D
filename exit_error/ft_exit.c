@@ -6,7 +6,7 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:00:28 by nico              #+#    #+#             */
-/*   Updated: 2025/08/14 20:57:04 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/16 14:59:07 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,7 @@ void	ft_free_data(t_data *d)
 	ft_free_text(&d->text);
 	ft_free_map(&d->map);
 	// ft_free_mini(&d->mini);
-	ft_safe_array((void ***)&d->og_map);
-	ft_safe_array((void ***)&d->fl_map);
+	// Map arrays are freed through ft_free_map()
 	/* 5) if you malloc'd d itself, you can now do:
 			ft_safe_ptr(d);
 			d = NULL;

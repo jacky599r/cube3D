@@ -6,7 +6,7 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:50:12 by jacky599r         #+#    #+#             */
-/*   Updated: 2025/08/15 16:41:41 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/16 14:59:07 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char **ft_create_temp_flood_map(t_data *data)
     y = 0;
     while (y < data->map.high)
     {
-        temp_map[y] = ft_strdup(data->fl_map[y]);
+        temp_map[y] = ft_strdup(data->map.fl_map[y]);
         if (!temp_map[y])
         {
             ft_safe_array((void ***)&temp_map);

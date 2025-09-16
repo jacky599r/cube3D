@@ -6,7 +6,7 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 12:09:21 by nico              #+#    #+#             */
-/*   Updated: 2025/08/14 17:21:37 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/16 14:59:07 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,5 @@ void ft_free_all(t_data *data)
     ft_free_text(&data->text);
     ft_free_map(&data->map);
     ft_free_img(&data->mini);
-    // Only free data->og_map if it's different from data->map.og_map
-    if (data->og_map != data->map.og_map && data->og_map != NULL)
-        ft_safe_array((void ***)&data->og_map);
-    ft_safe_array((void ***)&data->fl_map);
+    // Map arrays are freed through ft_free_map()
 }

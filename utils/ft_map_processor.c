@@ -6,7 +6,7 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:50:23 by jacky599r         #+#    #+#             */
-/*   Updated: 2025/09/12 14:07:21 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/16 14:59:07 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,17 +112,17 @@ int ft_prepare_map_for_flood_fill(t_data *data)
     data->map.wide = max_line_length;
 
     // Second pass: create the flood fill map with padding
-    data->fl_map = (char **)ft_calloc(data->map.high + 1, sizeof(char *));
-    if (!data->fl_map)
+    data->map.fl_map = (char **)ft_calloc(data->map.high + 1, sizeof(char *));
+    if (!data->map.fl_map)
         return (ft_error_msg("Error", "Memory allocation failed for fl_map", NULL, FAIL));
 
     y = 0;
     while (y < data->map.high)
     {
-        data->fl_map[y] = (char *)ft_calloc(data->map.wide + 1, sizeof(char));
-        if (!data->fl_map[y])
+        data->map.fl_map[y] = (char *)ft_calloc(data->map.wide + 1, sizeof(char));
+        if (!data->map.fl_map[y])
         {
-            ft_safe_array((void ***)&data->fl_map);
+            ft_safe_array((void ***)&data->map.fl_map);
             return (ft_error_msg("Error", "Memory allocation failed for fl_map row", NULL, FAIL));
         }
         
@@ -150,28 +150,28 @@ int ft_prepare_map_for_flood_fill(t_data *data)
                 // Pad leading spaces that occur before the content starts on this line
                 // AND when other lines start earlier (earliest_content_start)
                 if (x < line_content_start && temp_line[x] == ' ')
-                    data->fl_map[y][x] = 'X';
+                    data->map.fl_map[y][x] = 'X';
                 // Copy the original character for content area
                 else if (temp_line[x] == '0' || temp_line[x] == '1' || ft_strchr("NSEW", temp_line[x]))
-                    data->fl_map[y][x] = temp_line[x];
+                    data->map.fl_map[y][x] = temp_line[x];
                 else if (temp_line[x] == ' ')
-                    data->fl_map[y][x] = ' ';  // Keep internal spaces as spaces for now
+                    data->map.fl_map[y][x] = ' ';  // Keep internal spaces as spaces for now
                 else if (temp_line[x] == '\t')
-                    data->fl_map[y][x] = ' ';  // Convert tabs to spaces
+                    data->map.fl_map[y][x] = ' ';  // Convert tabs to spaces
                 else
-                    data->fl_map[y][x] = '1';  // Convert any other chars to walls
+                    data->map.fl_map[y][x] = '1';  // Convert any other chars to walls
             }
             else
             {
                 // Pad with 'X' where the line is shorter than max width
-                data->fl_map[y][x] = 'X';
+                data->map.fl_map[y][x] = 'X';
             }
             x++;
         }
-        data->fl_map[y][x] = '\0';
+        data->map.fl_map[y][x] = '\0';
         y++;
     }
-    data->fl_map[y] = NULL;
+    data->map.fl_map[y] = NULL;
     
     // Third pass: convert all remaining spaces to 'X' padding
     y = 0;
@@ -180,10 +180,10 @@ int ft_prepare_map_for_flood_fill(t_data *data)
         x = 0;
         while (x < data->map.wide)
         {
-            if (data->fl_map[y][x] == ' ')
+            if (data->map.fl_map[y][x] == ' ')
             {
                 // Convert all spaces (internal, trailing, etc.) to 'X' padding
-                data->fl_map[y][x] = 'X';
+                data->map.fl_map[y][x] = 'X';
             }
             x++;
         }

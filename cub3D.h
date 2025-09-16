@@ -6,7 +6,7 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:27:22 by nico              #+#    #+#             */
-/*   Updated: 2025/09/16 14:22:04 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/16 14:59:07 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,8 +224,6 @@ typedef struct s_data
 	t_text			text;
 	t_map			map;
 	t_img			mini;
-	char			**og_map;
-	char			**fl_map;
 	t_keys			key;
 	t_play			play;
 	t_track			track;

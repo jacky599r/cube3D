@@ -6,7 +6,7 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 12:47:21 by nico              #+#    #+#             */
-/*   Updated: 2025/09/16 14:22:04 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/16 14:59:07 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,8 +130,7 @@ void	ft_data_init(t_data *data)
 	data->mapy = WIN_WIDTH;
 	data->pxl = NULL;
 	data->txt = NULL;
-	data->og_map = NULL;
-	data->fl_map = NULL; // used for flood fill if necessary
+	// Map arrays are initialized in ft_map_init()
 	data->wind = NULL;
 	data->mlx = NULL;
 	ft_play_init(&data->play);
