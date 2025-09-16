@@ -6,7 +6,7 @@
 /*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:27:22 by nico              #+#    #+#             */
-/*   Updated: 2025/09/16 16:36:12 by nsamarin         ###   ########.fr       */
+/*   Updated: 2025/09/16 18:02:14 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,13 +124,13 @@ typedef struct s_text
 	unsigned long	*rgb_c;  // Ceiling color
 	
 	// Image data for rendering
-	void			*img;
-	int				*addr;
-	int				bpp;
-	int				line;
-	int				endian;
-	int				width;
-	int				height;
+	// void			*img;
+	// int				*addr;
+	// int				bpp;
+	// int				line;
+	// int				endian;
+	// int				width;
+	// int				height;
 	
 	// Additional texture properties
 	int				size;
@@ -186,19 +186,19 @@ typedef struct s_track
 	double			tex_pos;
 	
 	// Nested structures used by raycast engine
-	t_dbl			dir;		// For t.dir.x, t.dir.y access
-	t_int			map;		// For t.map.x, t.map.y access  
-	t_dbl			dlt;		// For t.dlt.x, t.dlt.y access (delta distances)
-	t_dbl			sid;		// For t.sid.x, t.sid.y access (side distances)
-	t_int			stp;		// For t.stp.x, t.stp.y access (step directions)
-	t_dbl			pln;		// For t.pln.x, t.pln.y access (plane vectors)
+	// t_dbl			dir;		// For t.ray_dir_x, t.ray_dir_y access
+	// t_int			map;//map		// For t.map.x, t.map.y access  
+	// t_dbl			dlt;//delta_dist_		// For t.delta_dist_x, t.delta_dist_y access (delta distances)
+	// t_dbl			sid;//side_dist		// For t.side_dist_x, t.side_dist_y access (side distances)
+	// t_int			stp;//step		// For t.step_x, t.step_y access (step directions)
+	// t_dbl			pln;		// For t.plane_x, t.plane_y access (plane vectors)
 	
 	// Additional members used by raycast engine
 	double			cam_x;		// Camera X position
-	int				high;		// Line height
-	int				strt;		// Start position
-	int				end;		// End position
-	double			walx;		// Wall X coordinate
+	//int				high;		// Line height
+	//int				strt;		// Start position
+	//int				end;		// End position
+	//double			walx;		// Wall X coordinate
 }					t_track;
 
 typedef struct s_play
@@ -237,16 +237,16 @@ typedef struct s_map_dims
     int max_y;
 }               t_map_dims;
 
-typedef struct s_mini
-{
-	char			**og_mini;
-	t_img			*mini_m;
-	int				size;
-	int				off_x;
-	int				off_y;
-	int				dist;
-	int				tile;
-}					t_mini;
+// typedef struct s_mini
+// {
+// 	char			**og_mini;
+// 	t_img			*mini_m;
+// 	int				size;
+// 	int				off_x;
+// 	int				off_y;
+// 	int				dist;
+// 	int				tile;
+// }					t_mini;
 
 /******************************************************************************/
 /*                              INITIATE_DATA                                 */
@@ -315,7 +315,7 @@ void ft_free_int_arr(int ***mat_ptr, int rows);
 void ft_free_text(t_text *t);
 void ft_free_img(t_img *i);
 void ft_free_map(t_map *m);
-void ft_free_mini(t_mini *m);
+//void ft_free_mini(t_mini *m);
 void ft_free_all(t_data *data);
 
 // Additional initialization functions
@@ -364,7 +364,7 @@ void				ft_raycasting(t_data *data);
 void				ft_free_text(t_text *t);
 void				ft_free_img(t_img *i);
 void				ft_free_map(t_map *m);
-void				ft_free_mini(t_mini *m);
+//void				ft_free_mini(t_mini *m);
 
 void				ft_safe_ptr(void *str);
 void				ft_safe_array(void ***array);

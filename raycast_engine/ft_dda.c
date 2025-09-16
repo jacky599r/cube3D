@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_dda.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 19:47:04 by nico              #+#    #+#             */
-/*   Updated: 2025/09/16 15:20:43 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/16 17:19:15 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,35 @@
 
 int	ft_dda_prep(t_track *t, t_play *p)
 {
-	if (t->dir.x < 0)
+	if (t->ray_dir_x < 0)
 	{
-		t->stp.x = -1;
-		t->sid.x = (p->pos.x - t->map.x) * t->dlt.x;
+		t->step_x = -1;
+		t->side_dist_x = (p->pos.x - t->map_x) * t->delta_dist_x;
 	}
 	else
 	{
-		t->stp.x = 1;
-		t->sid.x = (t->map.x + 1.0 - p->pos.x) * t->dlt.x;
+		t->step_x = 1;
+		t->side_dist_x = (t->map_x + 1.0 - p->pos.x) * t->delta_dist_x;
 	}
-	if (t->dir.y < 0)
+	if (t->ray_dir_y < 0)
 	{
-		t->stp.y = -1;
-		t->sid.y = (p->pos.y - t->map.y) * t->dlt.y;
+		t->step_y = -1;
+		t->side_dist_y = (p->pos.y - t->map_y) * t->delta_dist_y;
 	}
 	else
 	{
-		t->stp.y = 1;
-		t->sid.y = (t->map.y + 1.0 - p->pos.y) * t->dlt.y;
+		t->step_y = 1;
+		t->side_dist_y = (t->map_y + 1.0 - p->pos.y) * t->delta_dist_y;
 	}
 	return (0);
 }
 
 int	ft_ray_check(t_data *d, t_track *t)
 {
-	if (t->map.y < 0.25 || t->map.x < 0.25 || t->map.y > d->map.high - 0.25
-		|| t->map.x > d->map.wide - 1.25)
+	if (t->map_y < 0.25 || t->map_x < 0.25 || t->map_y > d->map.high - 0.25
+		|| t->map_x > d->map.wide - 1.25)
 		return (1);
-        if (d->map.og_map[t->map.y][t->map.x] > '0')
+        if (d->map.og_map[t->map_y][t->map_x] > '0')
 		return (2);
 	return (0);
 }
@@ -50,21 +50,21 @@ int	ft_ray_check(t_data *d, t_track *t)
 void	ft_line_len(t_data *d, t_track *t, t_play *p)
 {
 	if (t->side == 0)
-                t->perp_wall_dist = (t->sid.x - t->dlt.x);
+                t->perp_wall_dist = (t->side_dist_x - t->delta_dist_x);
 	else
-		t->perp_wall_dist = (t->sid.y - t->dlt.y);
-	t->high = (int)(d->mapy / t->perp_wall_dist);
-	t->strt = -(t->high) / 2 + d->mapy / 2;
-	if (t->strt < 0)
-		t->strt = 0;
-	t->end = t->high / 2 + d->mapy / 2;
-	if (t->end >= d->mapy)
-		t->end = d->mapy - 1;
+		t->perp_wall_dist = (t->side_dist_y - t->delta_dist_y);
+	t->line_height = (int)(d->mapy / t->perp_wall_dist);
+	t->draw_start = -(t->line_height) / 2 + d->mapy / 2;
+	if (t->draw_start < 0)
+		t->draw_start = 0;
+	t->draw_end = t->line_height / 2 + d->mapy / 2;
+	if (t->draw_end >= d->mapy)
+		t->draw_end = d->mapy - 1;
 	if (t->side == 0)
-                t->walx = p->pos.y + t->perp_wall_dist * t->dir.y;
+                t->wall_x = p->pos.y + t->perp_wall_dist * t->ray_dir_y;
 	else
-		t->walx = p->pos.x + t->perp_wall_dist * t->dir.x;
-	t->walx -= floor(t->walx);
+		t->wall_x = p->pos.x + t->perp_wall_dist * t->ray_dir_x;
+	t->wall_x -= floor(t->wall_x);
 }
 
 void	ft_dda_algo(t_data *d, t_track *t, t_play *p)
@@ -75,16 +75,16 @@ void	ft_dda_algo(t_data *d, t_track *t, t_play *p)
         cross = ft_dda_prep(t, p);
 	while (cross == 0)
 	{
-		if (t->sid.x < t->sid.y)
+		if (t->side_dist_x < t->side_dist_y)
 		{
-			t->sid.x += t->dlt.x;
-			t->map.x += t->stp.x;
+			t->side_dist_x += t->delta_dist_x;
+			t->map_x += t->step_x;
 			t->side = 0;
 		}
 		else
 		{
-			t->sid.y += t->dlt.y;
-			t->map.y += t->stp.y;
+			t->side_dist_y += t->delta_dist_y;
+			t->map_y += t->step_y;
 			t->side = 1;
 		}
 		check = ft_ray_check(d, t);

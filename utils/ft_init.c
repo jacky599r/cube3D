@@ -6,7 +6,7 @@
 /*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 12:47:21 by nico              #+#    #+#             */
-/*   Updated: 2025/09/16 16:38:16 by nsamarin         ###   ########.fr       */
+/*   Updated: 2025/09/16 17:34:13 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ void	ft_text_init(t_text *text)
 	text->txt_e = NULL;
 	text->rgb_g = NULL;
 	text->rgb_c = NULL;
-	text->img = NULL;
-	text->addr = NULL;
-	text->bpp = 0;
-	text->line = 0;
-	text->endian = 0;
-	text->width = 0;
-	text->height = 0;
+	// text->img = NULL;
+	// text->addr = NULL;
+	// text->bpp = 0;
+	// text->line = 0;
+	// text->endian = 0;
+	// text->width = 0;
+	// text->height = 0;
 	text->size = 64;
 	text->indx = 0;
 	text->step = 0.0;
@@ -105,23 +105,19 @@ void	ft_track_init(t_track *track)
 	track->tex_pos = 0.0;
 	
 	// Initialize nested structures
-	track->dir.x = 0.0;
-	track->dir.y = 0.0;
-	track->map.x = 0;
-	track->map.y = 0;
-	track->dlt.x = 0.0;
-	track->dlt.y = 0.0;
-	track->sid.x = 0.0;
-	track->sid.y = 0.0;
-	track->stp.x = 0;
-	track->stp.y = 0;
-	track->pln.x = 0.0;
-	track->pln.y = 0.0;
+	//track->ray_dir_x = 0.0;
+	//track->ray_dir_y = 0.0;
+	//track->map.x = 0;
+	//track->map.y = 0;
+	//track->delta_dist_x = 0.0;
+	// track->delta_dist_y = 0.0;
+	// track->side_dist_x = 0.0;
+	// track->side_dist_y = 0.0;
+	// track->step_x = 0;
+	// track->step_y = 0;
+	// track->plane_x = 0.0;
+	// track->plane_y = 0.0;
 	track->cam_x = 0.0;
-	track->high = 0;
-	track->strt = 0;
-	track->end = 0;
-	track->walx = 0.0;
 }
 
 void	ft_data_init(t_data *data)

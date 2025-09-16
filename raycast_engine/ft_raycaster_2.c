@@ -6,7 +6,7 @@
 /*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 19:45:10 by nico              #+#    #+#             */
-/*   Updated: 2025/09/16 16:31:59 by nsamarin         ###   ########.fr       */
+/*   Updated: 2025/09/16 17:19:15 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ void	ft_update_pxl(t_data *d, t_text *x, t_track *t, int a)
 	int	y_end;
 	int	color;
 
-	y_end = t->end;
+	y_end = t->draw_end;
 	x->indx = ft_direction_check(t);
 	ft_compute_refx(t, x);
 	ft_step_calculate(x, t, d);
-	y = t->strt;
-	if (t->strt < 0)
+	y = t->draw_start;
+	if (t->draw_start < 0)
 		y = 0;
 	if (y_end >= d->mapy)
 		y_end = d->mapy - 1;
@@ -76,7 +76,7 @@ void	ft_pxl_fill(t_data *d)
 	}
 	while (a < d->mapy)
 	{
-		d->pxl[a] = ft_pxl_init(d->mapx + 1, sizeof *d->pxl);
+		d->pxl[a] = ft_pxl_init(d->mapx + 1, sizeof **d->pxl);//here *
 		if (!d->pxl[a])
 		{
 			ft_error_msg("Malloc error", NULL, NULL, FAIL);

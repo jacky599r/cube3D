@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 12:09:21 by nico              #+#    #+#             */
-/*   Updated: 2025/08/14 19:36:41 by nico             ###   ########.fr       */
+/*   Updated: 2025/09/16 18:05:18 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ void	ft_free_text(t_text *t)
 	ft_safe_ptr(t->rgb_c);
 	t->rgb_c = NULL;
 	// Image data cleanup
-	ft_safe_ptr(t->addr);
-	t->addr = NULL;
-	ft_safe_ptr(t->img);
-	t->img = NULL;
+	// ft_safe_ptr(t->addr);
+	// t->addr = NULL;
+	// ft_safe_ptr(t->img);
+	// t->img = NULL;
 }
 
 void	ft_free_img(t_img *i)
@@ -55,12 +55,12 @@ void	ft_free_map(t_map *m)
 	m->fl_map = NULL;
 }
 
-void	ft_free_mini(t_mini *m)
-{
-	if (!m)
-		return ;
-	ft_safe_array((void ***)&m->og_mini);
-	m->og_mini = NULL;
-	ft_free_img(m->mini_m);
-	m->mini_m = NULL;
-}
+// void	ft_free_mini(t_mini *m)
+// {
+// 	if (!m)
+// 		return ;
+// 	ft_safe_array((void ***)&m->og_mini);
+// 	m->og_mini = NULL;
+// 	ft_free_img(m->mini_m);
+// 	m->mini_m = NULL;
+// }
