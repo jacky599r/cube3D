@@ -6,7 +6,7 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:51:49 by jacky599r         #+#    #+#             */
-/*   Updated: 2025/09/16 14:22:04 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/16 15:20:43 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,3 +41,15 @@ int ft_is_empty_line(char *line)
 // ft_error_msg implementation moved to exit_error/ft_messaging.c
 
 // ft_safe_array implementation moved to exit_error/ft_exit.c
+
+// Simple implementation of ft_img_init
+void ft_img_init(t_img *img)
+{
+    if (!img)
+        return;
+    img->img = NULL;
+    img->addr = NULL;
+    img->bpp = 0;
+    img->line = 0;
+    img->endian = 0;
+}

@@ -6,7 +6,7 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:43:43 by nico              #+#    #+#             */
-/*   Updated: 2025/09/16 14:42:32 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/16 15:20:55 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,33 +112,17 @@ int ft_process_map(t_data *data, char **argv)
 	return (PASS);
 }
 
-// Simple implementation of ft_raycast_check for now
-int ft_raycast_check(t_data *data)
+// Raycast check function - handles player movement and raycasting updates
+int ft_raycast_check(t_data *d)
 {
-	(void)data; // Suppress unused parameter warning
-	// For now, just return 0 - this can be enhanced later
-	// This function would typically handle raycasting updates
+	ft_player_action(d);
+	if (d->play.check == 0)
+		return (0);
+	ft_raycasting(d);
 	return (0);
 }
 
-// Simple implementation of ft_key_press for now
-int ft_key_press(int keycode, t_data *data)
-{
-	(void)data; // Suppress unused parameter warning
-	if (keycode == ESC_KEY)
-		exit(0);
-	// For now, just return 0 - this can be enhanced later
-	return (0);
-}
-
-// Simple implementation of ft_key_release for now
-int ft_key_release(int keycode, t_data *data)
-{
-	(void)keycode; // Suppress unused parameter warning
-	(void)data; // Suppress unused parameter warning
-	// For now, just return 0 - this can be enhanced later
-	return (0);
-}
+// ft_key_press and ft_key_release are implemented in player_action/ft_keyhook.c
 
 // Stub implementations for missing functions
 void ft_print_welcome(void)
@@ -169,11 +153,13 @@ int	main(int argc, char **argv)
 	if (err_code != PASS)
 		return (ft_freedom(data), err_code);
 	
-	// Temporarily disabled MLX functionality for testing
-	printf("Cub3D initialized successfully!\n");
-	printf("Map validation completed.\n");
+	// Initialize MLX and start the game
+	ft_game_start(data);
+	ft_raycasting(data);
+	mlx_hook(data->wind, 2, 1L << 0, ft_key_press, data);
+	mlx_hook(data->wind, 3, 1L << 1, ft_key_release, data);
+	mlx_loop_hook(data->mlx, ft_raycast_check, data);
+	mlx_loop(data->mlx);
 	
-	// Clean up and exit
-	ft_freedom(data);
 	return (0);
 }

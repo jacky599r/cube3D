@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_dda.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 19:47:04 by nico              #+#    #+#             */
-/*   Updated: 2025/08/14 19:48:50 by nico             ###   ########.fr       */
+/*   Updated: 2025/09/16 15:20:43 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_ray_check(t_data *d, t_track *t)
 	if (t->map.y < 0.25 || t->map.x < 0.25 || t->map.y > d->map.high - 0.25
 		|| t->map.x > d->map.wide - 1.25)
 		return (1);
-	if (d->og_map[t->map.y][t->map.x] > '0')
+        if (d->map.og_map[t->map.y][t->map.x] > '0')
 		return (2);
 	return (0);
 }
@@ -50,10 +50,10 @@ int	ft_ray_check(t_data *d, t_track *t)
 void	ft_line_len(t_data *d, t_track *t, t_play *p)
 {
 	if (t->side == 0)
-		t->wall = (t->sid.x - t->dlt.x);
+                t->perp_wall_dist = (t->sid.x - t->dlt.x);
 	else
-		t->wall = (t->sid.y - t->dlt.y);
-	t->high = (int)(d->mapy / t->wall);
+		t->perp_wall_dist = (t->sid.y - t->dlt.y);
+	t->high = (int)(d->mapy / t->perp_wall_dist);
 	t->strt = -(t->high) / 2 + d->mapy / 2;
 	if (t->strt < 0)
 		t->strt = 0;
@@ -61,9 +61,9 @@ void	ft_line_len(t_data *d, t_track *t, t_play *p)
 	if (t->end >= d->mapy)
 		t->end = d->mapy - 1;
 	if (t->side == 0)
-		t->walx = p->pos.y + t->wall * t->dir.y;
+                t->walx = p->pos.y + t->perp_wall_dist * t->dir.y;
 	else
-		t->walx = p->pos.x + t->wall * t->dir.x;
+		t->walx = p->pos.x + t->perp_wall_dist * t->dir.x;
 	t->walx -= floor(t->walx);
 }
 
@@ -72,7 +72,7 @@ void	ft_dda_algo(t_data *d, t_track *t, t_play *p)
 	int cross;
 	int check;
 
-	cross = ft_dda_prep(p, &t);
+        cross = ft_dda_prep(t, p);
 	while (cross == 0)
 	{
 		if (t->sid.x < t->sid.y)
@@ -93,5 +93,5 @@ void	ft_dda_algo(t_data *d, t_track *t, t_play *p)
 		else if (check == 2)
 			cross = 1;
 	}
-	ft_line_len(d, &t, p);
+        ft_line_len(d, t, p);
 }

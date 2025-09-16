@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_raycaster_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 19:45:10 by nico              #+#    #+#             */
-/*   Updated: 2025/08/14 19:51:59 by nico             ###   ########.fr       */
+/*   Updated: 2025/09/16 15:20:43 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,12 @@ void	ft_display_wind(t_data *d, t_img *p, int x, int y)
 	else if (y < d->mapy / 2)
 	{
 		dot = y * (p->line / 4) + x;
-		p->addr[dot] = d->text.rgb_c;
+		p->addr[dot] = *(d->text.rgb_c);
 	}
 	else if (y < d->mapy - 1)
 	{
 		dot = y * (p->line / 4) + x;
-		p->addr[dot] = d->text.rgb_g;
+		p->addr[dot] = *(d->text.rgb_g);
 	}
 }
 

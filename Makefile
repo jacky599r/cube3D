@@ -6,7 +6,7 @@
 #    By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/26 13:28:54 by nico              #+#    #+#              #
-#    Updated: 2025/09/16 14:59:07 by jacky599r        ###   ########.fr        #
+#    Updated: 2025/09/16 15:20:43 by jacky599r        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,19 +39,13 @@ SRCS = main.c \
        data_validation/ft_game_start.c \
        exit_error/ft_exit.c \
        exit_error/ft_free.c \
-       exit_error/ft_messaging.c
-       # Removed duplicate files that were causing symbol conflicts
-       # data_validation/ft_init.c \
-       # data_validation/ft_init_2.c \
-       # exit_error/ft_exit.c \
-       # exit_error/ft_free.c \
-       # exit_error/ft_messaging.c
-       # Temporarily commented out until struct issues are resolved
-       # player_action/ft_keyhook.c \
-       # player_action/ft_movment.c \
-       # raycast_engine/ft_raycaster_1.c \
-       # raycast_engine/ft_raycaster_2.c \
-       # raycast_engine/ft_dda.c
+       exit_error/ft_messaging.c \
+       player_action/ft_keyhook.c \
+       player_action/ft_movment.c \
+       raycast_engine/ft_raycaster_1.c \
+       raycast_engine/ft_raycaster_2.c \
+       raycast_engine/ft_dda.c \
+       mlx_stub.c
 
 # Generate object files in OBJ_DIR
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
@@ -91,7 +85,7 @@ $(MLX):
 		$(MAKE) -s --no-print-directory -C $(MLX_DIR); \
 	fi
 
-# Link everything (without MLX for now)
+# Link everything (MLX optional for now)
 $(NAME): $(OBJS) $(LIBFT)
 	@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DR) -lft -o $@
 

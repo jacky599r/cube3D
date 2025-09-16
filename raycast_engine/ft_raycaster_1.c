@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_raycaster_1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 17:03:26 by nico              #+#    #+#             */
-/*   Updated: 2025/08/14 19:56:54 by nico             ###   ########.fr       */
+/*   Updated: 2025/09/16 15:20:43 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void	ft_ray_cast(t_play *p, t_data *d)
 	{
 		ft_track_init(&t);
 		t.cam_x = 2 * a / 640 - 1;
-		t.dir.x = p->dir.x + p->pln.x * t.cam_x;
-		t.dir.y = p->dir.y + p->pln.y * t.cam_x;
+		t.dir.x = p->dir_x + p->plane_x * t.cam_x;
+		t.dir.y = p->dir_y + p->plane_y * t.cam_x;
 		t.map.x = (int)p->pos.x;
 		t.map.y = (int)p->pos.y;
 		t.dlt.x = fabs(1 / t.dir.x);
