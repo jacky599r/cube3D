@@ -6,7 +6,7 @@
 /*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 19:45:10 by nico              #+#    #+#             */
-/*   Updated: 2025/09/17 15:36:42 by nico             ###   ########.fr       */
+/*   Updated: 2025/09/17 16:19:15 by nico             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	ft_update_pxl(t_data *d, t_text *x, t_track *t, int a)
 	int	y;
 	int	y_end;
 	int	color;
+	int	ty;
 
 	y_end = t->end;
 	x->indx = ft_direction_check(t);
@@ -29,13 +30,12 @@ void	ft_update_pxl(t_data *d, t_text *x, t_track *t, int a)
 		y_end = d->mapy - 1;
 	while (y <= y_end)
 	{
-		x->ref.y = (int)x->pos & (x->size - 1);
+		ty = (int)x->pos & (x->size - 1);
 		x->pos += x->step;
-		color = d->txt[x->indx][x->size * x->ref.y + x->ref.x];
+		color = d->txt[x->indx][x->size * ty + x->ref.x];
 		if (x->indx == 0 || x->indx == 3)
 			color = (color >> 1) & 0x7F7F7F;
-		if (color > 0)
-			d->pxl[y][a] = color;
+		d->pxl[y][a] = color;
 		y++;
 	}
 }
@@ -63,12 +63,9 @@ void	ft_pxl_fill(t_data *d)
 	int	a;
 
 	a = 0;
-	//printf("pxl_fill 1\n");
 	if (d->pxl)
 		ft_safe_array((void ***)&d->pxl);
-	//printf("pxl_fill 2\n");
 	d->pxl = ft_pxl_init(d->mapy + 1, sizeof *d->pxl);
-	//printf("pxl_fill 3\n");
 	if (!d->pxl)
 	{
 		ft_error_msg("Malloc error", NULL, NULL, FAIL);
@@ -76,7 +73,7 @@ void	ft_pxl_fill(t_data *d)
 	}
 	while (a < d->mapy)
 	{
-		d->pxl[a] = ft_pxl_init(d->mapx + 1, sizeof *d->pxl);
+		d->pxl[a] = ft_pxl_init(d->mapx + 1, sizeof **d->pxl);
 		if (!d->pxl[a])
 		{
 			ft_error_msg("Malloc error", NULL, NULL, FAIL);

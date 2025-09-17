@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_game_start.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 19:23:59 by nico              #+#    #+#             */
-/*   Updated: 2025/09/16 16:15:47 by nsamarin         ###   ########.fr       */
+/*   Updated: 2025/09/17 17:55:38 by nico             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,19 +79,18 @@ void	ft_direction_text(t_data *d, int dir, int size)
 	{
 		path = ft_direction_id(d, dir);
 		ft_img_start(d, &p, path, size);
-		d->txt[dir] = ft_calloc(1, sizeof(int) * size * size);
+		d->txt[dir] = ft_fill_texture(d, &p, size);
 		if (!d->txt[dir])
 		{
 			mlx_destroy_image(d->mlx, p.img);
+			free(path);
 			ft_error_msg("Malloc Error", NULL, NULL, FAIL);
 			ft_freedom(d);
 		}
-		d->txt[dir] = ft_fill_texture(d, &p, size);
 		mlx_destroy_image(d->mlx, p.img);
 		free(path);
 		dir++;
 	}
-
 }
 
 void	ft_game_start(t_data *d)

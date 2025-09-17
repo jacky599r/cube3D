@@ -6,7 +6,7 @@
 /*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:43:43 by nico              #+#    #+#             */
-/*   Updated: 2025/09/17 15:30:35 by nico             ###   ########.fr       */
+/*   Updated: 2025/09/17 17:58:57 by nico             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,17 @@ void print_map(t_map *m)
             printf("  %s\n", m->fl_map[i]);
     }
     printf("\n");
+}
+
+void print_map_special(t_map *m)
+{
+    if (m->fl_map)
+    {
+        printf("fl_map:\n");
+        for (int i = 0; m->fl_map[i]; i++)
+            printf("  %s\n", m->fl_map[i]);
+    }
+    printf("-end-\n");
 }
 
 void print_track(t_track *t)
@@ -231,21 +242,20 @@ int	main(int argc, char **argv)
 	err_code = ft_process_map(data, argv);
 	if (err_code != PASS)
 		return (ft_freedom(data), err_code);
-	// Initialize MLX and start the game
-
     ft_game_start(data);
-    //printf("phase 1 done\n");
 	ft_raycasting(data);
-    //printf("phase 2 done\n");
-    
+    printf("Map coordinates:(%f - %f)\n", data->play.pos.x, data->play.pos.y);
+    printf("Player cell: (x = %d, y = %d)\n", (int)data->play.pos.x, (int)data->play.pos.y);
 	mlx_hook(data->wind, 2, 1L << 0, ft_key_press, data);
     //printf("phase 3 done\n");
 	mlx_hook(data->wind, 3, 1L << 1, ft_key_release, data);
     //printf("phase 4 done\n");
+    
 	mlx_loop_hook(data->mlx, ft_raycast_check, data);
     //printf("phase 5 done\n");
-    print_data(data);
-	mlx_loop(data->mlx);
+    //print_data(data);
+	print_map_special(&data->map);
+    mlx_loop(data->mlx);
 	
 	return (0);
 }

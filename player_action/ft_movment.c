@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_movment.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 19:39:59 by nico              #+#    #+#             */
-/*   Updated: 2025/08/14 20:57:04 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/17 17:41:26 by nico             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,15 @@
 
 int	ft_position_check(t_data *d, double mve_x, double mve_y)
 {
-	(void)d; // Suppress unused parameter warning
-	// Simple boundary check - can be enhanced with wall collision detection
-	if (mve_x < 0 || mve_y < 0)
+	int	cx;
+	int	cy;
+
+	cx = (int)mve_x;
+	cy = (int)mve_y;
+	if (cx < 0 || cy < 0)
 		return (FAIL);
-	// Add more sophisticated collision detection here if needed
+	if (cy >= d->map.high || cx >= d->map.wide)
+		return (FAIL);
 	return (PASS);
 }
 
@@ -29,11 +33,19 @@ int	ft_move_check(t_data *d, double mve_x, double mve_y)
 	check = 0;
 	if (ft_position_check(d, mve_x, d->play.pos.y) == PASS)
 	{
+		if (mve_x < 0.0)
+			mve_x = 0.0;
+		else if (mve_x > d->map.wide - 0.001)
+			mve_x = d->map.wide - 0.001;
 		d->play.pos.x = mve_x;
 		check += 1;
 	}
 	if (ft_position_check(d, d->play.pos.x, mve_y) == PASS)
 	{
+		if (mve_y < 0.0)
+			mve_y = 0.0;
+		else if (mve_y > d->map.high - 0.001)
+			mve_y = d->map.high - 0.001;
 		d->play.pos.y = mve_y;
 		check += 1;
 	}
@@ -49,7 +61,6 @@ int	ft_move_player(t_data *d, int key)
 
 	mve_x = d->play.pos.x;  // Initialize with current position
 	mve_y = d->play.pos.y;  // Initialize with current position
-
 	if (key == UP)
 	{
 		mve_x = d->play.pos.x + d->play.dir_x * MOVE_SPEED;

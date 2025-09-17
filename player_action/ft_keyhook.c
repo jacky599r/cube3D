@@ -6,7 +6,7 @@
 /*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 14:39:52 by nico              #+#    #+#             */
-/*   Updated: 2025/08/14 19:42:57 by nico             ###   ########.fr       */
+/*   Updated: 2025/09/17 17:50:04 by nico             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,15 @@
 
 int	ft_terminate_game(t_data *d)
 {
-	if (d->wind)
-		mlx_destroy_window(d->mlx, d->wind);
-	if (d->mlx)
-	{
-		mlx_destroy_display(d->mlx);
-		free(d->mlx);
-	}
 	ft_freedom(d);
 	exit(EXIT_FAILURE);
 }
 
 int	ft_key_press(int keycode, t_data *d)
 {
+	printf("Map coordinates:(%f - %f)\n", d->play.pos.x, d->play.pos.y);
+	printf("Player cell: (x = %d, y = %d)\n", (int)d->play.pos.x,
+		(int)d->play.pos.y);
 	if (keycode == ESC_KEY)
 		ft_terminate_game(d);
 	if (keycode == LEFT_KEY)

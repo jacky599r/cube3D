@@ -6,7 +6,7 @@
 /*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:27:22 by nico              #+#    #+#             */
-/*   Updated: 2025/09/17 15:35:15 by nico             ###   ########.fr       */
+/*   Updated: 2025/09/17 16:10:28 by nico             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@
 # define PASS 0
 # define FAIL 1
 
-# define WIN_WIDTH 640
-# define WIN_HEIGHT 480
+# define WIN_WIDTH 1024
+# define WIN_HEIGHT 640
 
 # define W_KEY 119
 # define A_KEY 97
