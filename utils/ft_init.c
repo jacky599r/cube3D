@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 12:47:21 by nico              #+#    #+#             */
-/*   Updated: 2025/09/16 16:38:16 by nsamarin         ###   ########.fr       */
+/*   Updated: 2025/09/17 14:30:06 by nico             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,6 @@ void	ft_text_init(t_text *text)
 	text->txt_e = NULL;
 	text->rgb_g = NULL;
 	text->rgb_c = NULL;
-	text->img = NULL;
-	text->addr = NULL;
-	text->bpp = 0;
-	text->line = 0;
-	text->endian = 0;
-	text->width = 0;
-	text->height = 0;
 	text->size = 64;
 	text->indx = 0;
 	text->step = 0.0;
@@ -57,11 +50,11 @@ void	ft_map_init(t_map *map)
 	map->eom = 0;
 	map->og_map = NULL;
 	map->fl_map = NULL;
-	map->max_x = 0;
-	map->max_y = 0;
-	map->player_x = 0;
-	map->player_y = 0;
-	map->player_dir = '\0';
+	// map->max_x = 0;
+	// map->max_y = 0;
+	// map->player_x = 0;
+	// map->player_y = 0;
+	// map->player_dir = '\0';
 	map->start_index = -1;  // Initialize to -1 (not set)
 }
 
@@ -76,58 +69,31 @@ void	ft_mini_init(t_img *mini)
 
 void	ft_track_init(t_track *track)
 {
-	track->pos_x = 0.0;
-	track->pos_y = 0.0;
-	track->dir_x = 0.0;
-	track->dir_y = 0.0;
-	track->plane_x = 0.0;
-	track->plane_y = 0.0;
-	track->ray_dir_x = 0.0;
-	track->ray_dir_y = 0.0;
-	track->side_dist_x = 0.0;
-	track->side_dist_y = 0.0;
-	track->delta_dist_x = 0.0;
-	track->delta_dist_y = 0.0;
-	track->perp_wall_dist = 0.0;
-	track->map_x = 0;
-	track->map_y = 0;
-	track->step_x = 0;
-	track->step_y = 0;
-	track->hit = 0;
-	track->side = 0;
-	track->line_height = 0;
-	track->draw_start = 0;
-	track->draw_end = 0;
-	track->tex_x = 0;
-	track->tex_y = 0;
-	track->wall_x = 0.0;
-	track->step = 0.0;
-	track->tex_pos = 0.0;
-	
-	// Initialize nested structures
-	track->dir.x = 0.0;
-	track->dir.y = 0.0;
-	track->map.x = 0;
-	track->map.y = 0;
-	track->dlt.x = 0.0;
-	track->dlt.y = 0.0;
-	track->sid.x = 0.0;
-	track->sid.y = 0.0;
-	track->stp.x = 0;
-	track->stp.y = 0;
-	track->pln.x = 0.0;
-	track->pln.y = 0.0;
+	if (!track)
+		return;
 	track->cam_x = 0.0;
+	track->wall = 0.0;
+	track->walx = 0.0;
+	track->side = 0;
 	track->high = 0;
 	track->strt = 0;
 	track->end = 0;
-	track->walx = 0.0;
+	track->map.x = 0;
+	track->map.y = 0;
+	track->stp.x = 0;
+	track->stp.y = 0;
+	track->dir.x = 0.0;
+	track->dir.y = 0.0;
+	track->sid.x = 0.0;
+	track->sid.y = 0.0;
+	track->dlt.x = 0.0;
+	track->dlt.y = 0.0;
 }
 
 void	ft_data_init(t_data *data)
 {
-	data->mapx = WIN_HEIGHT;
-	data->mapy = WIN_WIDTH;
+	data->mapx = WIN_WIDTH;
+	data->mapy = WIN_HEIGHT;
 	data->pxl = NULL;
 	data->txt = NULL;
 	// Map arrays are initialized in ft_map_init()

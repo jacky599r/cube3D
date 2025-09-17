@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:27:22 by nico              #+#    #+#             */
-/*   Updated: 2025/09/16 16:36:12 by nsamarin         ###   ########.fr       */
+/*   Updated: 2025/09/17 15:35:15 by nico             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@
 # define PASS 0
 # define FAIL 1
 
-# define WIN_WIDTH 1024
-# define WIN_HEIGHT 1024
+# define WIN_WIDTH 640
+# define WIN_HEIGHT 480
 
 # define W_KEY 119
 # define A_KEY 97
@@ -118,21 +118,8 @@ typedef struct s_text
 	char			*txt_s;  // South texture
 	char			*txt_w;  // West texture
 	char			*txt_e;  // East texture
-	
-	// RGB color values
-	unsigned long	*rgb_g;  // Floor color
-	unsigned long	*rgb_c;  // Ceiling color
-	
-	// Image data for rendering
-	void			*img;
-	int				*addr;
-	int				bpp;
-	int				line;
-	int				endian;
-	int				width;
-	int				height;
-	
-	// Additional texture properties
+	unsigned long	*rgb_g;
+	unsigned long	*rgb_c;
 	int				size;
 	int				indx;
 	double			step;
@@ -144,11 +131,12 @@ typedef struct s_map
 {
 	char			**og_map;
 	char			**fl_map;
-	int				max_x;
-	int				max_y;
-	int				player_x;
-	int				player_y;
-	char			player_dir;
+	//int				max_x;
+	//int				max_y;
+	//int				player_x;
+	//int				player_y;
+	//char			player_dir;
+	//int				line;
 	int				high;   // Map height
 	int				wide;   // Map width
 	int				eom;    // End of map flag
@@ -157,49 +145,65 @@ typedef struct s_map
 
 typedef struct s_track
 {
-	double			pos_x;
-	double			pos_y;
-	double			dir_x;
-	double			dir_y;
-	double			plane_x;
-	double			plane_y;
-	double			ray_dir_x;
-	double			ray_dir_y;
-	double			side_dist_x;
-	double			side_dist_y;
-	double			delta_dist_x;
-	double			delta_dist_y;
-	double			perp_wall_dist;
-	int				map_x;
-	int				map_y;
-	int				step_x;
-	int				step_y;
-	int				hit;
+	double			cam_x;
+	double			wall;
+	double			walx;
 	int				side;
-	int				line_height;
-	int				draw_start;
-	int				draw_end;
-	int				tex_x;
-	int				tex_y;
-	double			wall_x;
-	double			step;
-	double			tex_pos;
-	
-	// Nested structures used by raycast engine
-	t_dbl			dir;		// For t.dir.x, t.dir.y access
-	t_int			map;		// For t.map.x, t.map.y access  
-	t_dbl			dlt;		// For t.dlt.x, t.dlt.y access (delta distances)
-	t_dbl			sid;		// For t.sid.x, t.sid.y access (side distances)
-	t_int			stp;		// For t.stp.x, t.stp.y access (step directions)
-	t_dbl			pln;		// For t.pln.x, t.pln.y access (plane vectors)
-	
-	// Additional members used by raycast engine
-	double			cam_x;		// Camera X position
-	int				high;		// Line height
-	int				strt;		// Start position
-	int				end;		// End position
-	double			walx;		// Wall X coordinate
+	int				high;
+	int				strt;
+	int				end;
+	t_int			map;
+	t_int			stp;
+	t_dbl			dir;
+	t_dbl			sid;
+	t_dbl			dlt;
 }					t_track;
+
+// typedef struct s_track
+// {
+// 	double			pos_x;
+// 	double			pos_y;
+// 	double			dir_x;
+// 	double			dir_y;
+// 	double			plane_x;
+// 	double			plane_y;
+// 	double			ray_dir_x;
+// 	double			ray_dir_y;
+// 	double			side_dist_x;
+// 	double			side_dist_y;
+// 	double			delta_dist_x;
+// 	double			delta_dist_y;
+// 	double			perp_wall_dist;
+// 	int				map_x;
+// 	int				map_y;
+// 	int				step_x;
+// 	int				step_y;
+// 	int				hit;
+// 	int				side;
+// 	int				line_height;
+// 	int				draw_start;
+// 	int				draw_end;
+// 	int				tex_x;
+// 	int				tex_y;
+// 	double			wall_x;
+// 	double			step;
+// 	double			tex_pos;
+	
+// 	// Nested structures used by raycast engine
+// 	t_dbl			dir;		// For t.dir.x, t.dir.y access
+// 	t_int			map;		// For t.map.x, t.map.y access  
+// 	t_dbl			dlt;		// For t.dlt.x, t.dlt.y access (delta distances)
+// 	t_dbl			sid;		// For t.sid.x, t.sid.y access (side distances)
+// 	t_int			stp;		// For t.stp.x, t.stp.y access (step directions)
+// 	t_dbl			pln;		// For t.pln.x, t.pln.y access (plane vectors)
+	
+// 	// Additional members used by raycast engine
+// 	double			cam_x;		// Camera X position
+// 	int				high;		// Line height
+// 	int				strt;		// Start position
+// 	int				end;		// End position
+// 	double			walx;		// Wall X coordinate
+// }					t_track;
 
 typedef struct s_play
 {
@@ -210,7 +214,7 @@ typedef struct s_play
 	double			move_speed;
 	double			rot_speed;
 	char			s_dir;  // Player direction character
-	t_int			pos;    // Player position (use .pos.x, .pos.y)
+	t_dbl			pos;    // Player position (use .pos.x, .pos.y)
 	int				check;
 	int				rot;
 }					t_play;

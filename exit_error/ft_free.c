@@ -6,7 +6,7 @@
 /*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 12:09:21 by nico              #+#    #+#             */
-/*   Updated: 2025/08/14 19:36:41 by nico             ###   ########.fr       */
+/*   Updated: 2025/09/17 14:09:12 by nico             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,6 @@ void	ft_free_text(t_text *t)
 	t->rgb_g = NULL;
 	ft_safe_ptr(t->rgb_c);
 	t->rgb_c = NULL;
-	// Image data cleanup
-	ft_safe_ptr(t->addr);
-	t->addr = NULL;
-	ft_safe_ptr(t->img);
-	t->img = NULL;
 }
 
 void	ft_free_img(t_img *i)

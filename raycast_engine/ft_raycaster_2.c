@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_raycaster_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 19:45:10 by nico              #+#    #+#             */
-/*   Updated: 2025/09/16 16:31:59 by nsamarin         ###   ########.fr       */
+/*   Updated: 2025/09/17 15:36:42 by nico             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@ void	ft_pxl_fill(t_data *d)
 	int	a;
 
 	a = 0;
-	printf("pxl_fill 1\n");
+	//printf("pxl_fill 1\n");
 	if (d->pxl)
 		ft_safe_array((void ***)&d->pxl);
-	printf("pxl_fill 2\n");
+	//printf("pxl_fill 2\n");
 	d->pxl = ft_pxl_init(d->mapy + 1, sizeof *d->pxl);
-	printf("pxl_fill 3\n");
+	//printf("pxl_fill 3\n");
 	if (!d->pxl)
 	{
 		ft_error_msg("Malloc error", NULL, NULL, FAIL);

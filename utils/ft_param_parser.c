@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_param_parser.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:51:29 by jacky599r         #+#    #+#             */
-/*   Updated: 2025/09/16 15:14:46 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/16 23:35:48 by nico             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int ft_parse_texture_path(t_data *data, char *line, char *type_id)
     fd = open(path, O_RDONLY);
     if (fd < 0)
     {
-        free(path);
+        //free(path);
         return (ft_error_msg("Error","Texture file not found or unreadable", path, FAIL));
     }
     close (fd);

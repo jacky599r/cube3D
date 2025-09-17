@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_map_validator.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:50:57 by jacky599r         #+#    #+#             */
-/*   Updated: 2025/09/16 15:14:46 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/17 15:09:22 by nico             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,10 @@ static int ft_process_player_info(t_data *data, char player_char, int x_pos, int
     if (data->play.s_dir != '\0')
         return (ft_error_msg("Error", "Only 1 player allowed", NULL, FAIL));
     data->play.s_dir = player_char;
+    printf("Play pos | pos.x= %f | pos.y = %f\n", data->play.pos.x, data->play.pos.y);
     data->play.pos.x = (double)x_pos + 0.5;
     data->play.pos.y = (double)y_idx + 0.5;
+    printf("Play pos | pos.x= %f | pos.y = %f\n", data->play.pos.x, data->play.pos.y);
     return (PASS);
 }
 
