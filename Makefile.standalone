@@ -1,0 +1,51 @@
+# Standalone Makefile for testing validation only
+
+NAME = test_standalone
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror -I. -Ilibft -Ignl -Imlx -DTEST_MODE
+LDFLAGS = -Llibft -lft
+
+# Source files for validation
+SRCS = test_standalone.c \
+       utils/ft_data_validation.c \
+       utils/ft_args_validation.c \
+       utils/ft_file_reader.c \
+       utils/ft_param_parser.c \
+       utils/ft_parse_elements.c \
+       utils/ft_map_parser.c \
+       utils/ft_map_validation.c \
+       utils/ft_map_prep.c \
+       utils/ft_prepare_to_fill.c \
+       utils/ft_map_enclosure.c \
+       utils/ft_utils.c \
+       utils/ft_init.c \
+       utils/ft_free.c \
+       exit_error/ft_exit.c \
+       exit_error/ft_messaging.c \
+       gnl/ft_gnl.c \
+       gnl/ft_gnl_utils.c
+
+OBJS = $(SRCS:.c=.o)
+
+all: $(NAME)
+
+$(NAME): libft $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LDFLAGS)
+
+libft:
+	make -C libft
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -f $(OBJS)
+	make -C libft clean
+
+fclean: clean
+	rm -f $(NAME)
+	make -C libft fclean
+
+re: fclean all
+
+.PHONY: all clean fclean re libft

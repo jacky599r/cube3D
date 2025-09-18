@@ -6,51 +6,36 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:49:31 by jacky599r         #+#    #+#             */
-/*   Updated: 2025/08/14 17:21:37 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/17 11:01:03 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int ft_open_map_file(char *path)
-{
-    int fd;
-
-    fd = open(path, O_RDONLY);
-    if (fd < 0)
-        return (ft_error_msg("Error", "Unable to open map file", path, FAIL));
-    return (fd);
-}
-
-static char **ft_add_line_to_array(char **current_map, char *new_line, int current_size)
+static char **ft_add_line_to_array(char **cur_map, char *new_line, int cur_size)
 {
     char **new_map;
     int j;
 
-    new_map = ft_calloc(current_size + 2, sizeof(char *));
+    new_map = ft_calloc(cur_size + 2, sizeof(char *));
     if (!new_map)
-    {
-        ft_safe_array((void ***)&current_map);
-        free(new_line);
-        return (NULL);
-    }
+        return (ft_safe_array((void ***)&cur_map), free(new_line), NULL);
     j = 0;
-    while (j < current_size)
+    while (j < cur_size)
     {
-        new_map[j] = current_map[j];
-        current_map[j] = NULL; // Transfer ownership, prevent double free
+        new_map[j] = cur_map[j];
+        cur_map[j] = NULL;
         j++;
     }
-    new_map[current_size] = ft_strdup(new_line);
+    new_map[cur_size] = ft_strdup(new_line);
     free(new_line);
-    if (!new_map[current_size])
+    if (!new_map[cur_size])
     {
         ft_safe_array((void ***)&new_map);
-        ft_safe_array((void ***)&current_map);
+        ft_safe_array((void ***)&cur_map);
         return (NULL);
     }
-    ft_safe_array((void ***)&current_map);
-    return (new_map);
+    return (ft_safe_array((void ***)&cur_map), new_map);
 }
 
 char **ft_read_lines_into_array(int fd)
@@ -86,9 +71,9 @@ char **ft_get_raw_map_data(char *path)
     int fd;
     char **raw_map;
 
-    fd = ft_open_map_file(path);
-    if (fd == FAIL)
-        return (NULL);
+    fd = open(path, O_RDONLY);
+    if (fd < 0)
+        return (ft_error_msg("Error", "Unable to open map file", path, FAIL), NULL);
     raw_map = ft_read_lines_into_array(fd);
     if (ft_check_for_empty_file(raw_map, path) == FAIL)
         return (NULL);

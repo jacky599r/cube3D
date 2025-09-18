@@ -6,13 +6,13 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:51:29 by jacky599r         #+#    #+#             */
-/*   Updated: 2025/09/16 15:14:46 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/17 21:50:26 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int ft_is_valid_param_identifier(char *line)
+int ft_is_valid_param(char *line)
 {
     if (ft_strncmp(line, "NO ", 3) == 0 || ft_strncmp(line, "SO ", 3) == 0 || ft_strncmp(line, "WE ", 3) == 0 || ft_strncmp(line, "EA ", 3) == 0 || ft_strncmp(line, "F ", 2) == 0 || ft_strncmp(line, "C ", 2) == 0)
         return (1);
@@ -79,7 +79,7 @@ int ft_parse_texture_path(t_data *data, char *line, char *type_id)
     char *path;
     int fd;
 
-    path = ft_strtrim(line + ft_strlen(type_id) + 1, " \t\n\r\v\f");
+    path = ft_whitetrim(line + ft_strlen(type_id) + 1);
     if (!path || *path == '\0')
         return (ft_error_msg("Error", "Missing texture path", type_id, FAIL));
     if (ft_check_duplicate_param(data, type_id) != PASS)
@@ -110,7 +110,7 @@ int ft_parse_color_values(t_data *data, char *line, char *type_id)
     unsigned long colour;
     char *rgb_string;
 
-    rgb_string = ft_strtrim(line + ft_strlen(type_id) + 1, " \n\t\r\v\f");
+    rgb_string = ft_whitetrim(line + ft_strlen(type_id) + 1);
     if (!rgb_string || *rgb_string == '\0')
         return (ft_error_msg("Error", "Missing colour values", type_id, FAIL));
     if (ft_check_duplicate_param(data, type_id) != PASS)

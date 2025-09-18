@@ -6,7 +6,7 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:00:28 by nico              #+#    #+#             */
-/*   Updated: 2025/09/16 14:59:07 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/17 21:45:32 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	ft_free_data(t_data *d)
 void	ft_freedom(t_data *d)
 {
 	if (!d)
-		exit(FAIL);
+		return;
 	
 	// Temporarily disabled MLX functionality for testing
 	printf("Cleaning up resources...\n");
@@ -94,6 +94,5 @@ void	ft_freedom(t_data *d)
 	*/
 	
 	ft_free_data(d);
-	ft_print_exit();
-	exit(FAIL);
+	// Don't call exit() here for testing - let the main program control exit
 }

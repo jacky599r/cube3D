@@ -17,13 +17,13 @@ globs: utils/*.c,main.c,*.h
 
 ### `utils/ft_param_parser.c` (5 functions max)  
 **Purpose**: Parse and validate texture/color parameters (NO, SO, WE, EA, F, C)
-- `ft_is_valid_param_identifier()` - Identifies parameter lines
+- `ft_is_valid_param()` - Identifies parameter lines
 - `ft_check_duplicate_param()` - Prevents duplicate parameters
 - `ft_parse_texture_path()` - Validates texture file paths
 - `ft_validate_rgb_and_convert()` - Validates RGB color format
 - `ft_parse_color_values()` - Processes color parameter lines
 
-### `utils/ft_map_validator.c` (5 functions max)
+### `utils/ft_map_validation.c` (5 functions max)
 **Purpose**: Structural validation of map content and layout
 - `ft_is_map_line()` - Identifies map content lines
 - `ft_validate_map_characters()` - Validates individual map characters
@@ -31,7 +31,7 @@ globs: utils/*.c,main.c,*.h
 - `ft_identify_map_properties()` - Determines map dimensions and player
 - `ft_check_map_config()` - Main orchestrator for map validation
 
-### `utils/ft_map_processor.c` (2 functions)
+### `utils/ft_map_prep.c` (2 functions)
 **Purpose**: Prepare map data for flood-fill algorithm
 - `ft_prepare_map_for_flood_fill()` - Creates flood-fill compatible map
 - `ft_set_initial_player_view()` - Sets player direction/camera vectors

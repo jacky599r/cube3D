@@ -6,7 +6,7 @@
 #    By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/26 13:28:54 by nico              #+#    #+#              #
-#    Updated: 2025/09/16 15:20:43 by jacky599r        ###   ########.fr        #
+#    Updated: 2025/09/17 23:11:58 by jacky599r        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,11 +26,15 @@ OBJ_DIR = obj
 
 # Source Files (include all utility files)
 SRCS = main.c \
+       utils/ft_args_validation.c \
        utils/ft_file_reader.c \
        utils/ft_param_parser.c \
-       utils/ft_map_validator.c \
-       utils/ft_map_processor.c \
+       utils/ft_map_validation.c \
+       utils/ft_map_parser.c \
+       utils/ft_map_prep.c \
+       utils/ft_prepare_to_fill.c \
        utils/ft_map_enclosure.c \
+       utils/ft_data_validation.c \
        utils/ft_utils.c \
        utils/ft_init.c \
        utils/ft_parse_elements.c \

@@ -6,37 +6,11 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 12:09:21 by nico              #+#    #+#             */
-/*   Updated: 2025/09/16 15:14:46 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/17 21:45:32 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
-void	ft_safe_ptr(void *str)
-{
-	if (str != NULL)
-	{
-		free(str);
-		str = NULL;
-	}
-}
-
-void ft_free_int_arr(int ***mat_ptr, int rows)
-{
-    int i;
-
-    i = 0;
-    if (!mat_ptr || !*mat_ptr)
-        return;
-    while (i < rows)
-    {
-        ft_safe_ptr((*mat_ptr)[i]);
-        (*mat_ptr)[i] = NULL;
-        i++;
-    }
-    ft_safe_ptr(*mat_ptr);
-    *mat_ptr = NULL;
-}
 
 void ft_free_text(t_text *t)
 {

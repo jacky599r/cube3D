@@ -6,7 +6,7 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:51:49 by jacky599r         #+#    #+#             */
-/*   Updated: 2025/09/16 15:20:43 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/17 21:45:32 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int ft_is_num(char *str)
     return (1);
 }
 
-// Placeholder for ft_is_empty_line (will be moved from ft_map_validation.c)
 int ft_is_empty_line(char *line)
 {
     int i;
@@ -37,11 +36,6 @@ int ft_is_empty_line(char *line)
         i++;
     return (line[i] == '\0');
 }
-
-// ft_error_msg implementation moved to exit_error/ft_messaging.c
-
-// ft_safe_array implementation moved to exit_error/ft_exit.c
-
 // Simple implementation of ft_img_init
 void ft_img_init(t_img *img)
 {
@@ -52,4 +46,38 @@ void ft_img_init(t_img *img)
     img->bpp = 0;
     img->line = 0;
     img->endian = 0;
+}
+
+// Helper function for common whitespace trimming
+char *ft_whitetrim(char *str)
+{
+    return (ft_strtrim(str, " \n\t\v\f\r"));
+}
+
+// Remove line endings (\n and \r) from end of string
+char *ft_strip_line_endings(char *str)
+{
+    int len;
+    
+    if (!str)
+        return (str);
+    len = ft_strlen(str);
+    while (len > 0 && (str[len - 1] == '\n' || str[len - 1] == '\r'))
+    {
+        str[len - 1] = '\0';
+        len--;
+    }
+    return (str);
+}
+
+// Check if character is valid for map content
+int ft_is_valid_map_char(char c)
+{
+    if (c == '0' || c == '1')
+        return (1);
+    if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
+        return (1);
+    if (c == ' ' || c == '\n' || c == '\t' || c == '\v' || c == '\f' || c == '\r')
+        return (1);
+    return (0);
 }

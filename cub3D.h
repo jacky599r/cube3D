@@ -6,7 +6,7 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:27:22 by nico              #+#    #+#             */
-/*   Updated: 2025/09/16 14:59:07 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/17 23:13:36 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,6 +229,10 @@ typedef struct s_data
 	t_track			track;
 	void			*wind;
 	void			*mlx;
+	// Parsing state for function constraint compliance
+	int				curr_line_index;
+	int				param_count;
+	int				map_start_index;
 }					t_data;
 
 typedef struct s_map_dims
@@ -273,29 +277,44 @@ void	ft_img_start(t_data *d, t_img *p, char *path, int size);
 void	ft_direction_text(t_data *d, int dir, int size);
 void	ft_game_start(t_data *d);
 
+// Data validation functions
+int ft_data_validation(t_data *data, int argc, char **argv);
+int ft_validate_arguments(int argc, char **argv);
+int ft_extension_check(char *file);
+int ft_load_and_validate_file(t_data *data, char *filepath);
+int ft_validate_map_structure(t_data *data);
+
 int ft_process_param_line(t_data *data, char *line);
 int ft_is_rgb_within_range(int r, int g, int b);
 unsigned long ft_convert_rgb_to_int(int r, int g, int b);
 
 // File reading and initial map storage (ft_file_reader.c)
-int ft_open_map_file(char *path);
 char **ft_read_lines_into_array(int fd);
 int ft_check_for_empty_file(char **map_array, char *path);
 char **ft_get_raw_map_data(char *path);
 
 // Parameter parsing and validation (ft_param_parser.c)
-int ft_is_valid_param_identifier(char *line);
+int ft_is_valid_param(char *line);
 int ft_check_duplicate_param(t_data *data, char *type_id);
 int ft_parse_texture_path(t_data *data, char *line, char *type_id);
 int ft_parse_color_values(t_data *data, char *line, char *type_id);
 
-// Map structure validation (ft_map_validator.c)
+// Map structure validation (ft_map_validation.c)
 int ft_check_map_config(t_data *data);
 int ft_identify_map_properties(t_data *data, int start_index);
+int ft_parse_file_structure(t_data *data, int *map_start_index);
 
-// Map processing for flood-fill (ft_map_processor.c)
+// Map content parsing (ft_map_parser.c)
+int ft_parse_map_content(t_data *data, int line_index, int start_index);
+int ft_process_file_line(t_data *data, char *trimmed_line);
+
+// Map processing for flood-fill (ft_map_prep.c)
 int ft_prepare_map_for_flood_fill(t_data *data);
 void ft_set_initial_player_view(t_data *data);
+
+// Map content validation (ft_prepare_to_fill.c)
+//int ft_find_map_dimensions(t_data *data);
+int convert_to_flood_map(t_data *data);
 
 // Map enclosure validation (ft_map_enclosure.c)
 int ft_validate_map_enclosure(t_data *data);
@@ -306,6 +325,9 @@ int ft_check_enclosed_borders(char **map, t_map_dims dims);
 // Utility functions (ft_utils.c)
 int ft_is_num(char *str);
 int ft_is_empty_line(char *line);
+char *ft_whitetrim(char *str);
+char *ft_strip_line_endings(char *str);
+int ft_is_valid_map_char(char c);
 int ft_error_msg(char *cmd, char *msg, char *dtl, int err_code);
 void ft_safe_array(void ***array);
 
@@ -374,7 +396,7 @@ void				ft_freedom(t_data *d);
 
 // Messaging and error handling functions
 char				*ft_dup_or_join(char *s1, char *s2);
-char				*ft_add_quotes(char *final, char *dtl);
+char				*ft_add_quotes(char *final, char *cmd, char *dtl);
 void				ft_correct_form(int err_code, char *dtl);
 
 /******************************************************************************/

@@ -6,7 +6,7 @@
 /*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 16:40:56 by nico              #+#    #+#             */
-/*   Updated: 2025/08/14 20:57:04 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/17 21:45:32 by jacky599r        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,11 @@ char	*ft_dup_or_join(char *s1, char *s2)
 		return (ft_strjoin(s1, s2));
 }
 
-char	*ft_add_quotes(char *final, char *dtl)
+char	*ft_add_quotes(char *final, char *cmd, char *dtl)
 {
 	char	*temp;
 
+	(void)cmd; // Suppress unused parameter warning
 	temp = ft_dup_or_join(final, "'");
 	ft_safe_ptr(final);
 	final = temp;
@@ -67,7 +68,7 @@ int	ft_error_msg(char *cmd, char *msg, char *dtl, int err_code)
 	if (msg)
 	{
 		final = ft_dup_or_join(cmd, ": ");
-		final = ft_add_quotes(final, msg);
+		final = ft_add_quotes(final, cmd, msg);
 	}
 	else
 		final = ft_strdup(cmd);
