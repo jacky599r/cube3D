@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_raycaster_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 19:45:10 by nico              #+#    #+#             */
-/*   Updated: 2025/09/17 16:19:15 by nico             ###   ########.fr       */
+/*   Updated: 2025/09/18 13:29:33 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,11 @@ void *ft_pxl_init(size_t count, size_t size)
 
     px = malloc(count * size);
     if (!px)
-        return NULL;
-
+        return (NULL);
     p = (unsigned char *)px;
     a = count * size;
     while (a--)
         *p++ = 0;
-
     return (px);
 }
 

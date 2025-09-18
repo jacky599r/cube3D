@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 12:09:21 by nico              #+#    #+#             */
-/*   Updated: 2025/09/16 15:14:46 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/18 14:29:16 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void ft_free_int_arr(int ***mat_ptr, int rows)
     *mat_ptr = NULL;
 }
 
+
 void ft_free_text(t_text *t)
 {
 	if (!t) 
@@ -54,11 +55,6 @@ void ft_free_text(t_text *t)
 	t->rgb_g = NULL;
 	ft_safe_ptr(t->rgb_c);
 	t->rgb_c = NULL;
-	// Image data cleanup
-	ft_safe_ptr(t->addr);
-	t->addr = NULL;
-	ft_safe_ptr(t->img);
-	t->img = NULL;
 }
 
 void ft_free_img(t_img *i)
