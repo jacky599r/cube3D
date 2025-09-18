@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_keyhook.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 14:39:52 by nico              #+#    #+#             */
-/*   Updated: 2025/09/17 17:50:04 by nico             ###   ########.fr       */
+/*   Updated: 2025/09/18 17:01:47 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@ int	ft_terminate_game(t_data *d)
 
 int	ft_key_press(int keycode, t_data *d)
 {
-	printf("Map coordinates:(%f - %f)\n", d->play.pos.x, d->play.pos.y);
-	printf("Player cell: (x = %d, y = %d)\n", (int)d->play.pos.x,
-		(int)d->play.pos.y);
 	if (keycode == ESC_KEY)
 		ft_terminate_game(d);
 	if (keycode == LEFT_KEY)

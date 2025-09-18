@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_movment.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 19:39:59 by nico              #+#    #+#             */
-/*   Updated: 2025/09/17 17:41:26 by nico             ###   ########.fr       */
+/*   Updated: 2025/09/18 17:07:41 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ int	ft_move_player(t_data *d, int key)
 	double	mve_x;
 	double	mve_y;
 
-	mve_x = d->play.pos.x;  // Initialize with current position
-	mve_y = d->play.pos.y;  // Initialize with current position
+	mve_x = d->play.pos.x;
+	mve_y = d->play.pos.y;
 	if (key == UP)
 	{
 		mve_x = d->play.pos.x + d->play.dir_x * MOVE_SPEED;
