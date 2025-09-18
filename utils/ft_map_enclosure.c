@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_map_enclosure.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:50:12 by jacky599r         #+#    #+#             */
 /*   Updated: 2025/09/17 21:57:45 by jacky599r        ###   ########.fr       */

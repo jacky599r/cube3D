@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:00:28 by nico              #+#    #+#             */
 /*   Updated: 2025/09/17 21:45:32 by jacky599r        ###   ########.fr       */
@@ -85,14 +85,14 @@ void	ft_freedom(t_data *d)
 	/*
 	if (d->wind && d->mlx)
 		mlx_destroy_window(d->mlx, d->wind);
+	printf("freedom 2\n");
 	if (d->mlx)
 	{
 		mlx_destroy_display(d->mlx);
 		mlx_loop_end(d->mlx);
 		free(d->mlx);
 	}
-	*/
-	
+	printf("freedom 3\n");
 	ft_free_data(d);
 	// Don't call exit() here for testing - let the main program control exit
 }
