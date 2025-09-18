@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: zyeong <zyeong@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:00:28 by nico              #+#    #+#             */
-/*   Updated: 2025/09/17 21:45:32 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/18 16:06:37 by zyeong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,5 @@ void	ft_freedom(t_data *d)
 	printf("freedom 3\n");
 	ft_free_data(d);
 	// Don't call exit() here for testing - let the main program control exit
+	*/
 }
