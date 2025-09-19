@@ -58,22 +58,20 @@ void ft_correct_form(int err_code, char *dtl)
     }
     return;
 }
- //explored idea to have a trim function that removes empty spaces, before, during and after useful info
- //eg: "     F                          1,7,9" -> "F 1,7,9"
-// int	ft_error_msg(char *cmd, char *msg, char *dtl, int err_code)
-// {
-// 	char	*final;
-// 	char	*temp;
-// 
-//     if (msg)
-//     {
-//         final = ft_dup_or_join(cmd, ": ");
-// 		final = ft_add_quotes(final, cmd, msg);
-//     }
-//     else
-//         final = ft_duplicate(cmd);
-// 	printf("Cub3D: %s\n", final);
-//     ft_safe_ptr(final);
-//     ft_correct_form(err_code, dtl);
-// 	return (err_code);
-// }
+
+int	ft_error_msg(char *cmd, char *msg, char *dtl, int err_code)
+{
+	char	*final;
+
+	if (msg)
+	{
+		final = ft_dup_or_join(cmd, ": ");
+		final = ft_add_quotes(final, cmd, msg);
+	}
+	else
+		final = ft_strdup(cmd);
+	printf("Cub3D: %s\n", final);
+	ft_safe_ptr(final);
+	ft_correct_form(err_code, dtl);
+	return (err_code);
+}

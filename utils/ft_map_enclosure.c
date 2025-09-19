@@ -56,13 +56,11 @@ int ft_check_enclosed_borders(char **map, t_map_dims dims)
 	y = 0;
 	while (y < dims.max_y)
 	{
-		// Check left and right borders
 		if (map[y][0] == 'V' || map[y][dims.max_x - 1] == 'V')
 			return (FAIL);
 		x = 0;
 		while (x < dims.max_x)
 		{
-			// Check top and bottom borders
 			if ((y == 0 || y == dims.max_y - 1) && map[y][x] == 'V')
 				return (FAIL);
 			x++;

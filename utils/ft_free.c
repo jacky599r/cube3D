@@ -28,7 +28,6 @@ void ft_free_text(t_text *t)
 	t->rgb_g = NULL;
 	ft_safe_ptr(t->rgb_c);
 	t->rgb_c = NULL;
-	// Image data cleanup
 	ft_safe_ptr(t->addr);
 	t->addr = NULL;
 	ft_safe_ptr(t->img);
@@ -82,5 +81,4 @@ void ft_free_all(t_data *data)
     ft_free_text(&data->text);
     ft_free_map(&data->map);
     ft_free_img(&data->mini);
-    // Map arrays are freed through ft_free_map()
 }

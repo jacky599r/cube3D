@@ -67,6 +67,16 @@ void	ft_mini_init(t_img *mini)
 	mini->endian = 0;
 }
 
+void	ft_key_init(t_keys *key)
+{
+	key->up = 0;
+	key->down = 0;
+	key->left = 0;
+	key->right = 0;
+	key->l_arw = 0;
+	key->r_arw = 0;
+}
+
 void	ft_track_init(t_track *track)
 {
 	if (!track)
@@ -96,7 +106,6 @@ void	ft_data_init(t_data *data)
 	data->mapy = WIN_HEIGHT;
 	data->pxl = NULL;
 	data->txt = NULL;
-	// Map arrays are initialized in ft_map_init()
 	data->wind = NULL;
 	data->mlx = NULL;
 	ft_play_init(&data->play);
@@ -104,4 +113,5 @@ void	ft_data_init(t_data *data)
 	ft_map_init(&data->map);
 	ft_mini_init(&data->mini);
 	ft_track_init(&data->track);
+	ft_key_init(&data->key);
 }

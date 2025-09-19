@@ -28,6 +28,8 @@ SRCS = main.c \
        utils/ft_file_reader.c \
 	   utils/ft_display.c \
        utils/ft_param_parser.c \
+       utils/ft_texture_utils.c \
+       utils/ft_rgb_utils.c \
        utils/ft_map_validation.c \
        utils/ft_map_parser.c \
        utils/ft_map_prep.c \
@@ -35,6 +37,8 @@ SRCS = main.c \
        utils/ft_map_enclosure.c \
        utils/ft_data_validation.c \
        utils/ft_utils.c \
+       utils/ft_string_utils.c \
+       utils/ft_validation_utils.c \
        utils/ft_init.c \
        utils/ft_parse_elements.c \
        gnl/ft_gnl.c \
@@ -101,6 +105,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER) | $(OBJ_DIR)
 
 clean:
 	@$(RM) -r $(OBJ_DIR)
+	@find . -name "*.o" -not -path "./$(LIBFT_DR)/*" -not -path "./$(MLX_DIR)/*" -not -path "./$(OBJ_DIR)/*" -delete
 	@make -C $(LIBFT_DR) clean
 	@make -C $(MLX_DIR) clean
 	@echo "Cleaned object files"

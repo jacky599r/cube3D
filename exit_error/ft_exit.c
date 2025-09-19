@@ -78,22 +78,16 @@ void	ft_freedom(t_data *d)
 	if (!d)
 		return;
 	
-	// Temporarily disabled MLX functionality for testing
 	printf("Cleaning up resources...\n");
-	
-	// Original MLX code commented out:
-	/*
 	if (d->wind && d->mlx)
 		mlx_destroy_window(d->mlx, d->wind);
-	printf("freedom 2\n");
 	if (d->mlx)
 	{
 		mlx_destroy_display(d->mlx);
 		mlx_loop_end(d->mlx);
 		free(d->mlx);
+		d->mlx = NULL;
 	}
-	printf("freedom 3\n");
 	ft_free_data(d);
-	// Don't call exit() here for testing - let the main program control exit
-	*/
+	free(d);
 }

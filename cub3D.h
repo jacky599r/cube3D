@@ -298,9 +298,16 @@ int ft_check_for_empty_file(char **map_array, char *path);
 char **ft_get_raw_map_data(char *path);
 
 // Parameter parsing and validation (ft_param_parser.c)
+int ft_process_param_line(t_data *data, char *line);
+
+// Texture utilities (ft_texture_utils.c)
 int ft_is_valid_param(char *line);
 int ft_check_duplicate_param(t_data *data, char *type_id);
 int ft_parse_texture_path(t_data *data, char *line, char *type_id);
+
+// RGB utilities (ft_rgb_utils.c)
+int ft_is_rgb_within_range(int r, int g, int b);
+unsigned long ft_convert_rgb_to_int(int r, int g, int b);
 int ft_parse_color_values(t_data *data, char *line, char *type_id);
 
 // Map structure validation (ft_map_validation.c)
@@ -326,11 +333,17 @@ char **ft_create_temp_flood_map(t_data *data);
 void ft_perform_flood_fill(char **map, int x, int y, t_map_dims dims);
 int ft_check_enclosed_borders(char **map, t_map_dims dims);
 
-// Utility functions (ft_utils.c)
-int ft_is_num(char *str);
-int ft_is_empty_line(char *line);
+// Image utilities (ft_utils.c)
+void ft_img_init(t_img *img);
+
+// String utilities (ft_string_utils.c)
 char *ft_whitetrim(char *str);
 char *ft_strip_line_endings(char *str);
+char *ft_strndup(const char *str, size_t n);
+int ft_is_num(char *str);
+
+// Validation utilities (ft_validation_utils.c)
+int ft_is_empty_line(char *line);
 int ft_is_valid_map_char(char c);
 int ft_error_msg(char *cmd, char *msg, char *dtl, int err_code);
 void ft_safe_array(void ***array);
