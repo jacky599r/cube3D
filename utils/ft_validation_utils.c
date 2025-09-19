@@ -26,7 +26,7 @@ int	ft_is_empty_line(char *line)
 
 int	ft_is_valid_map_char(char c)
 {
-	if (c == '0' || c == '1')
+	if (c == '0' || c == '1' || c == 'D')
 		return (1);
 	if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 		return (1);

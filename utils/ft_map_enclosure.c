@@ -39,7 +39,8 @@ void	ft_perform_flood_fill(char **map, int x, int y, t_map_dims dims)
 {
 	if (x < 0 || x >= dims.max_x || y < 0 || y >= dims.max_y)
 		return ;
-	if (map[y][x] == '1' || map[y][x] == 'X' || map[y][x] == 'V')
+	if (map[y][x] == '1' || map[y][x] == 'X' || map[y][x] == 'V'
+		|| map[y][x] == 'D')
 		return ;
 	map[y][x] = 'V';
 	ft_perform_flood_fill(map, x + 1, y, dims);

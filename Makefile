@@ -48,9 +48,11 @@ SRCS = main.c \
        exit_error/ft_messaging.c \
        player_action/ft_keyhook.c \
        player_action/ft_movment.c \
+       player_action/ft_door.c \
        raycast_engine/ft_raycaster_1.c \
        raycast_engine/ft_raycaster_2.c \
-       raycast_engine/ft_dda.c
+       raycast_engine/ft_dda.c \
+       utils/ft_minimap.c
 
 # Generate object files in OBJ_DIR
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))

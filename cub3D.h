@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:27:22 by nico              #+#    #+#             */
-/*   Updated: 2025/09/19 15:51:11 by nsamarin         ###   ########.fr       */
+/*   Updated: 2025/09/19 23:03:07 by nico             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,17 @@
 # define A_KEY 97
 # define S_KEY 115
 # define D_KEY 100
+# define E_KEY 101
 # define ESC_KEY 65307
 # define LEFT_KEY 65361
 # define RIGHT_KEY 65363
 
 # define MOVE_SPEED 0.015
 # define ROT_SPEED 0.02
+# define PLAYER_RADIUS 0.2
+# define DOOR_COLOR 0x8A5525
+# define DOOR_IDX 4
+# define MINIMAP_FOG_RADIUS 7.0
 
 # define PI 3.1415926535
 
@@ -88,7 +93,15 @@ typedef struct s_keys
 	int				right;
 	int				l_arw;
 	int				r_arw;
+	int				use;
 }					t_keys;
+
+typedef struct s_door
+{
+	int				x;
+	int				y;
+	int				is_open;
+}					t_door;
 
 typedef struct s_int
 {
@@ -117,6 +130,7 @@ typedef struct s_text
 	char			*txt_s;
 	char			*txt_w;
 	char			*txt_e;
+	char			*txt_d;
 	unsigned long	*rgb_g;
 	unsigned long	*rgb_c;
 	int				size;
@@ -141,6 +155,7 @@ typedef struct s_track
 	double			cam_x;
 	double			wall;
 	double			walx;
+	char			tile;
 	int				side;
 	int				high;
 	int				strt;
@@ -175,6 +190,15 @@ typedef struct s_data
 	t_text			text;
 	t_map			map;
 	t_img			mini;
+	t_door			*doors;
+	int				door_count;
+	int				door_cap;
+	double			**fog;
+	int				mini_tile;
+	int				mini_width;
+	int				mini_height;
+	int				mini_off_x;
+	int				mini_off_y;
 	t_keys			key;
 	t_play			play;
 	t_track			track;
@@ -213,7 +237,7 @@ void				ft_text_init(t_text *text);
 void				ft_map_init(t_map *map);
 
 void				ft_key_init(t_keys *key);
-void				ft_mini_init(t_img *mini);
+void				ft_mini_init(t_data *data);
 void				ft_track_init(t_track *track);
 void				ft_data_init(t_data *data);
 
@@ -227,6 +251,12 @@ int					*ft_fill_texture(t_data *d, t_img *pic, int size);
 void				ft_img_start(t_data *d, t_img *p, char *path, int size);
 void				ft_direction_text(t_data *d, int dir, int size);
 void				ft_game_start(t_data *d);
+void				ft_minimap_setup(t_data *data);
+void				ft_render_minimap(t_data *data);
+int					ft_alloc_fog_map(t_data *data);
+double				ft_tile_visibility(t_data *data, int map_x, int map_y,
+						int update_fog);
+int					ft_apply_visibility(int color, double visibility);
 
 // Data validation functions
 int					ft_data_validation(t_data *data, int argc, char **argv);
@@ -306,6 +336,8 @@ void				ft_free_text(t_text *t);
 void				ft_free_img(t_img *i);
 void				ft_free_map(t_map *m);
 void				ft_free_mini(t_mini *m);
+void				ft_free_doors(t_data *data);
+void				ft_free_fog(t_data *data);
 void				ft_free_all(t_data *data);
 
 // Additional initialization functions
@@ -326,6 +358,9 @@ int					ft_move_player(t_data *d, int key, double mve_x,
 int					ft_rotdir(int key);
 int					ft_rotate_player(t_data *d, int key);
 void				ft_player_action(t_data *d);
+int					ft_interact_door(t_data *data);
+int					ft_register_door(t_data *data, int x, int y);
+t_door				*ft_find_door(t_data *data, int x, int y);
 
 /******************************************************************************/
 /*                             RAYCAST_ENGINE                                 */

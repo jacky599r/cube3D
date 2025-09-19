@@ -16,6 +16,7 @@ int	ft_is_valid_param(char *line)
 {
 	if (ft_strncmp(line, "NO ", 3) == 0 || ft_strncmp(line, "SO ", 3) == 0
 		|| ft_strncmp(line, "WE ", 3) == 0 || ft_strncmp(line, "EA ", 3) == 0
+		|| ft_strncmp(line, "DD ", 3) == 0
 		|| ft_strncmp(line, "F ", 2) == 0 || ft_strncmp(line, "C ", 2) == 0)
 		return (1);
 	return (0);
@@ -31,6 +32,8 @@ int	ft_check_duplicate_param(t_data *data, char *type_id)
 		return (ft_error_msg("Error", "Duplicate texture 'WE'", 4));
 	if (ft_strncmp(type_id, "EA", 2) == 0 && data->text.txt_e)
 		return (ft_error_msg("Error", "Duplicate texture 'EA'", 4));
+	if (ft_strncmp(type_id, "DD", 2) == 0 && data->text.txt_d)
+		return (ft_error_msg("Error", "Duplicate texture 'DD'", 4));
 	if (ft_strncmp(type_id, "F", 1) == 0 && data->text.rgb_g)
 		return (ft_error_msg("Error", "Duplicate color 'F'", 4));
 	if (ft_strncmp(type_id, "C", 1) == 0 && data->text.rgb_c)
@@ -48,6 +51,8 @@ static int	ft_assign_texture_to_data(t_data *data, char *type_id, char *path)
 		data->text.txt_w = path;
 	else if (ft_strncmp(type_id, "EA", 2) == 0)
 		data->text.txt_e = path;
+	else if (ft_strncmp(type_id, "DD", 2) == 0)
+		data->text.txt_d = path;
 	return (PASS);
 }
 

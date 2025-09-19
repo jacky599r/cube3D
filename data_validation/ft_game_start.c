@@ -14,14 +14,16 @@
 
 char	*ft_direction_id(t_data *d, int dir)
 {
-	if (dir == 0)
+	if (dir == 0 && d->text.txt_n)
 		return (ft_strdup(d->text.txt_n));
-	else if (dir == 1)
+	else if (dir == 1 && d->text.txt_s)
 		return (ft_strdup(d->text.txt_s));
-	else if (dir == 2)
+	else if (dir == 2 && d->text.txt_e)
 		return (ft_strdup(d->text.txt_e));
-	else if (dir == 3)
+	else if (dir == 3 && d->text.txt_w)
 		return (ft_strdup(d->text.txt_w));
+	else if (dir == DOOR_IDX && d->text.txt_d)
+		return (ft_strdup(d->text.txt_d));
 	return (NULL);
 }
 
@@ -77,6 +79,12 @@ void	ft_direction_text(t_data *d, int dir, int size)
 	while (dir < 4)
 	{
 		path = ft_direction_id(d, dir);
+		if (!path)
+		{
+			ft_error_msg("Error", "Missing wall texture", FAIL);
+			ft_freedom(d);
+			exit(EXIT_FAILURE);
+		}
 		ft_img_start(d, &p, path, size);
 		d->txt[dir] = ft_fill_texture(d, &p, size);
 		if (!d->txt[dir])
@@ -90,6 +98,30 @@ void	ft_direction_text(t_data *d, int dir, int size)
 		free(path);
 		dir++;
 	}
+	if (!d->text.txt_d)
+	{
+		ft_error_msg("Error", "Missing door texture", FAIL);
+		ft_freedom(d);
+		exit(EXIT_FAILURE);
+	}
+	path = ft_direction_id(d, DOOR_IDX);
+	if (!path)
+	{
+		ft_error_msg("Error", "Missing door texture", FAIL);
+		ft_freedom(d);
+		exit(EXIT_FAILURE);
+	}
+	ft_img_start(d, &p, path, size);
+	d->txt[DOOR_IDX] = ft_fill_texture(d, &p, size);
+	if (!d->txt[DOOR_IDX])
+	{
+		mlx_destroy_image(d->mlx, p.img);
+		free(path);
+		ft_error_msg("Error", "Door texture allocation failed", FAIL);
+		ft_freedom(d);
+	}
+	mlx_destroy_image(d->mlx, p.img);
+	free(path);
 }
 
 void	ft_game_start(t_data *d)
@@ -113,5 +145,6 @@ void	ft_game_start(t_data *d)
 		ft_freedom(d);
 	}
 	ft_direction_text(d, 0, d->text.size);
+	ft_minimap_setup(d);
 	ft_print_welcome();
 }

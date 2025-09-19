@@ -44,6 +44,8 @@ int	ft_key_press(int keycode, t_data *d)
 		d->key.left = 1;
 	if (keycode == D_KEY)
 		d->key.right = 1;
+	if (keycode == E_KEY)
+		d->key.use = 1;
 	return (0);
 }
 
@@ -61,25 +63,32 @@ int	ft_key_release(int keycode, t_data *d)
 		d->key.left = 0;
 	if (keycode == D_KEY)
 		d->key.right = 0;
+	if (keycode == E_KEY)
+		d->key.use = 0;
 	return (0);
 }
 
 void	ft_player_action(t_data *d)
 {
-	int	a;
+	int	changed;
 
-	a = 0;
+	changed = 0;
 	if (d->key.up == 1)
-		a = ft_move_player(d, UP, 0.0, 0.0);
+		changed |= ft_move_player(d, UP, 0.0, 0.0);
 	if (d->key.down == 1)
-		a = ft_move_player(d, DOWN, 0.0, 0.0);
+		changed |= ft_move_player(d, DOWN, 0.0, 0.0);
 	if (d->key.left == 1)
-		a = ft_move_player(d, LEFT, 0.0, 0.0);
+		changed |= ft_move_player(d, LEFT, 0.0, 0.0);
 	if (d->key.right == 1)
-		a = ft_move_player(d, RIGHT, 0.0, 0.0);
+		changed |= ft_move_player(d, RIGHT, 0.0, 0.0);
 	if (d->key.l_arw == 1)
-		a = ft_rotate_player(d, ROT_L);
+		changed |= ft_rotate_player(d, ROT_L);
 	if (d->key.r_arw == 1)
-		a = ft_rotate_player(d, ROT_R);
-	d->play.check += a;
+		changed |= ft_rotate_player(d, ROT_R);
+	if (d->key.use == 1)
+	{
+		changed |= ft_interact_door(d);
+		d->key.use = 0;
+	}
+	d->play.check = changed;
 }

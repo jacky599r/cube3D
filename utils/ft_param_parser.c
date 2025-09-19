@@ -41,7 +41,8 @@ static int	ft_parse_color_line(t_data *data, char *line)
 static int	ft_handle_texture_param(t_data *data, char *line)
 {
 	if (ft_strncmp(line, "NO ", 3) == 0 || ft_strncmp(line, "SO ", 3) == 0
-		|| ft_strncmp(line, "WE ", 3) == 0 || ft_strncmp(line, "EA ", 3) == 0)
+		|| ft_strncmp(line, "WE ", 3) == 0 || ft_strncmp(line, "EA ", 3) == 0
+		|| ft_strncmp(line, "DD ", 3) == 0)
 		return (ft_parse_texture_line(data, line));
 	return (PASS);
 }

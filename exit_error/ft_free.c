@@ -24,6 +24,8 @@ void	ft_free_text(t_text *t)
 	t->txt_w = NULL;
 	ft_safe_ptr(t->txt_e);
 	t->txt_e = NULL;
+	ft_safe_ptr(t->txt_d);
+	t->txt_d = NULL;
 	ft_safe_ptr(t->rgb_g);
 	t->rgb_g = NULL;
 	ft_safe_ptr(t->rgb_c);
@@ -48,6 +50,14 @@ void	ft_free_map(t_map *m)
 	m->og_map = NULL;
 	ft_safe_array((void ***)&m->fl_map);
 	m->fl_map = NULL;
+}
+
+void	ft_free_fog(t_data *data)
+{
+	if (!data || !data->fog)
+		return ;
+	ft_safe_array((void ***)&data->fog);
+	data->fog = NULL;
 }
 
 // void	ft_free_mini(t_mini *m)

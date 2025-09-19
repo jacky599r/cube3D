@@ -71,6 +71,9 @@ void	ft_free_data(t_data *d)
 	}
 	ft_free_text(&d->text);
 	ft_free_map(&d->map);
+	ft_free_img(&d->mini);
+	ft_free_doors(d);
+	ft_free_fog(d);
 }
 
 void	ft_freedom(t_data *d)

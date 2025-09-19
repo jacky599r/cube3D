@@ -35,11 +35,38 @@ static int	ft_allocate_flood_map(t_data *data)
 	return (PASS);
 }
 
+int	ft_alloc_fog_map(t_data *data)
+{
+	int	y;
+
+	data->fog = (double **)ft_calloc(data->map.high + 1, sizeof(double *));
+	if (!data->fog)
+		return (ft_error_msg("Error", "Malloc Failure", FAIL));
+	y = 0;
+	while (y < data->map.high)
+	{
+		data->fog[y] = (double *)ft_calloc(data->map.wide + 1, sizeof(double));
+		if (!data->fog[y])
+		{
+			ft_safe_array((void ***)&data->fog);
+			return (ft_error_msg("Error", "Malloc Failure", FAIL));
+		}
+		y++;
+	}
+	data->fog[y] = NULL;
+	return (PASS);
+}
+
 int	ft_prepare_map_for_flood_fill(t_data *data)
 {
 	if (ft_allocate_flood_map(data) == FAIL)
 		return (FAIL);
 	if (convert_to_flood_map(data) == FAIL)
+	{
+		ft_safe_array((void ***)&data->map.fl_map);
+		return (FAIL);
+	}
+	if (ft_alloc_fog_map(data) == FAIL)
 	{
 		ft_safe_array((void ***)&data->map.fl_map);
 		return (FAIL);

@@ -24,6 +24,8 @@ void	ft_free_text(t_text *t)
 	t->txt_w = NULL;
 	ft_safe_ptr(t->txt_e);
 	t->txt_e = NULL;
+	ft_safe_ptr(t->txt_d);
+	t->txt_d = NULL;
 	ft_safe_ptr(t->rgb_g);
 	t->rgb_g = NULL;
 	ft_safe_ptr(t->rgb_c);
@@ -66,6 +68,14 @@ void	ft_free_mini(t_mini *m)
 	m->mini_m = NULL;
 }
 
+void	ft_free_fog(t_data *data)
+{
+	if (!data || !data->fog)
+		return ;
+	ft_safe_array((void ***)&data->fog);
+	data->fog = NULL;
+}
+
 void	ft_free_all(t_data *data)
 {
 	if (!data)
@@ -75,12 +85,14 @@ void	ft_free_all(t_data *data)
 		ft_free_int_arr(&data->pxl, data->map.high);
 		data->pxl = NULL;
 	}
-	if (data->txt && data->map.high > 0)
+	if (data->txt)
 	{
-		ft_free_int_arr(&data->txt, data->map.high);
+		ft_free_int_arr(&data->txt, 5);
 		data->txt = NULL;
 	}
 	ft_free_text(&data->text);
 	ft_free_map(&data->map);
 	ft_free_img(&data->mini);
+	ft_free_doors(data);
+	ft_free_fog(data);
 }

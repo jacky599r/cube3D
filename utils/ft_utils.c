@@ -31,4 +31,5 @@ void	ft_key_init(t_keys *key)
 	key->left = 0;
 	key->l_arw = 0;
 	key->r_arw = 0;
+	key->use = 0;
 }

@@ -18,9 +18,12 @@ void	ft_update_pxl(t_data *d, t_text *x, t_track *t, int a)
 	int	y_end;
 	int	color;
 	int	ty;
+	double	visibility;
 
 	y_end = t->end;
 	x->indx = ft_direction_check(t);
+	if (t->tile == 'D')
+		x->indx = DOOR_IDX;
 	ft_compute_refx(t, x);
 	ft_step_calculate(x, t, d);
 	y = t->strt;
@@ -28,14 +31,24 @@ void	ft_update_pxl(t_data *d, t_text *x, t_track *t, int a)
 		y = 0;
 	if (y_end >= d->mapy)
 		y_end = d->mapy - 1;
+	visibility = ft_tile_visibility(d, t->map.x, t->map.y, 1);
 	while (y <= y_end)
 	{
 		ty = (int)x->pos & (x->size - 1);
 		x->pos += x->step;
-		color = d->txt[x->indx][x->size * ty + x->ref.x];
-		if (x->indx == 0 || x->indx == 3 || x->indx == 2 || x->indx == 4)
-			color = (color >> 1) & 0x7F7F7F;
-		d->pxl[y][a] = color;
+		if (t->tile == 'D')
+		{
+			color = d->txt[DOOR_IDX][x->size * ty + x->ref.x];
+			if (t->side == 1)
+				color = (color >> 1) & 0x7F7F7F;
+		}
+		else
+		{
+			color = d->txt[x->indx][x->size * ty + x->ref.x];
+			if (x->indx == 0 || x->indx == 3 || x->indx == 2 || x->indx == 4)
+				color = (color >> 1) & 0x7F7F7F;
+		}
+		d->pxl[y][a] = ft_apply_visibility(color, visibility);
 		y++;
 	}
 }
@@ -132,4 +145,5 @@ void	ft_display(t_data *d)
 	}
 	mlx_put_image_to_window(d->mlx, d->wind, p.img, 0, 0);
 	mlx_destroy_image(d->mlx, p.img);
+	ft_render_minimap(d);
 }

@@ -18,6 +18,8 @@ static char	convert_map_char(char c)
 		return (c);
 	else if (c == ' ')
 		return ('0');
+	else if (c == 'D')
+		return ('D');
 	else
 		return ('X');
 }

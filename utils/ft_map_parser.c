@@ -20,7 +20,8 @@ static int	ft_is_map_line(char *line)
 	while (line[i])
 	{
 		if (line[i] != '0' && line[i] != '1' && line[i] != 'N' && line[i] != 'S'
-			&& line[i] != 'E' && line[i] != 'W' && line[i] != ' ')
+			&& line[i] != 'E' && line[i] != 'W' && line[i] != 'D'
+			&& line[i] != ' ')
 			return (0);
 		i++;
 	}
@@ -69,6 +70,11 @@ int	ft_parse_map_content(t_data *data, int line_index, int start_index)
 		{
 			if (ft_process_player_info(data, line[i], i, line_index
 					- start_index) != PASS)
+				return (FAIL);
+		}
+		if (line[i] == 'D')
+		{
+			if (ft_register_door(data, i, line_index - start_index) != PASS)
 				return (FAIL);
 		}
 		i++;

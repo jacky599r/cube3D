@@ -79,7 +79,7 @@ int	ft_parse_file_structure(t_data *data, int *map_start_index)
 		error_code = ft_process_single_line(data, i);
 		i++;
 	}
-	if (data->param_count != 6 && error_code == PASS)
+	if (data->param_count != 7 && error_code == PASS)
 		error_code = ft_error_msg("Error", "Incorrect texture/colours params",
 				4);
 	*map_start_index = data->map_start_index;

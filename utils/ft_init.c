@@ -33,6 +33,7 @@ void	ft_text_init(t_text *text)
 	text->txt_s = NULL;
 	text->txt_w = NULL;
 	text->txt_e = NULL;
+	text->txt_d = NULL;
 	text->rgb_g = NULL;
 	text->rgb_c = NULL;
 	text->size = 64;
@@ -60,6 +61,7 @@ void	ft_track_init(t_track *track)
 	track->cam_x = 0.0;
 	track->wall = 0.0;
 	track->walx = 0.0;
+	track->tile = '0';
 	track->side = 0;
 	track->high = 0;
 	track->strt = 0;
@@ -76,6 +78,16 @@ void	ft_track_init(t_track *track)
 	track->dlt.y = 0.0;
 }
 
+void	ft_mini_init(t_data *data)
+{
+	ft_img_init(&data->mini);
+	data->mini_tile = 0;
+	data->mini_width = 0;
+	data->mini_height = 0;
+	data->mini_off_x = 0;
+	data->mini_off_y = 0;
+}
+
 void	ft_data_init(t_data *data)
 {
 	data->mapx = WIN_WIDTH;
@@ -84,10 +96,15 @@ void	ft_data_init(t_data *data)
 	data->txt = NULL;
 	data->wind = NULL;
 	data->mlx = NULL;
+	data->doors = NULL;
+	data->door_count = 0;
+	data->door_cap = 0;
+	data->fog = NULL;
 	ft_play_init(&data->play);
 	ft_text_init(&data->text);
 	ft_map_init(&data->map);
 	ft_key_init(&data->key);
 	ft_track_init(&data->track);
+	ft_mini_init(data);
 	ft_key_init(&data->key);
 }
