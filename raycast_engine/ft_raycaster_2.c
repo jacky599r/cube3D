@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_raycaster_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 13:14:50 by nsamarin          #+#    #+#             */
-/*   Updated: 2025/09/19 16:10:19 by nsamarin         ###   ########.fr       */
+/*   Updated: 2025/09/19 21:10:36 by nico             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_update_pxl(t_data *d, t_text *x, t_track *t, int a)
 		ty = (int)x->pos & (x->size - 1);
 		x->pos += x->step;
 		color = d->txt[x->indx][x->size * ty + x->ref.x];
-		if (x->indx == 0 || x->indx == 3)
+		if (x->indx == 0 || x->indx == 3 || x->indx == 2 || x->indx == 4)
 			color = (color >> 1) & 0x7F7F7F;
 		d->pxl[y][a] = color;
 		y++;

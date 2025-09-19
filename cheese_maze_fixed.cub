@@ -1,12 +1,12 @@
-NO textures/simonkraft/wet_sponge.xpm
-SO textures/simonkraft/wet_sponge.xpm
-WE textures/simonkraft/wet_sponge.xpm
-EA textures/simonkraft/wet_sponge.xpm
+NO textures/Wall_wood.xpm
+SO textures/Wall_paper.xpm
+WE textures/Wall_stone.xpm
+EA textures/Wall_Castle.xpm
 
-F         255,255,255
+F         10,20,10
 
 
-       C 153,204,255
+       C 31,42,30
 
 111111111111111111111
 111111111111111111111
