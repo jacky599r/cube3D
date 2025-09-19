@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:27:22 by nico              #+#    #+#             */
-/*   Updated: 2025/09/17 23:13:36 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/19 13:38:49 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,11 +113,10 @@ typedef struct s_img
 
 typedef struct s_text
 {
-	// Texture file paths
-	char			*txt_n;  // North texture
-	char			*txt_s;  // South texture
-	char			*txt_w;  // West texture
-	char			*txt_e;  // East texture
+	char			*txt_n;
+	char			*txt_s;
+	char			*txt_w;
+	char			*txt_e;
 	unsigned long	*rgb_g;
 	unsigned long	*rgb_c;
 	int				size;
@@ -131,16 +130,10 @@ typedef struct s_map
 {
 	char			**og_map;
 	char			**fl_map;
-	//int				max_x;
-	//int				max_y;
-	//int				player_x;
-	//int				player_y;
-	//char			player_dir;
-	//int				line;
-	int				high;   // Map height
-	int				wide;   // Map width
-	int				eom;    // End of map flag
-	int				start_index;  // Index where map data begins (after parameters)
+	int				high;
+	int				wide;
+	int				eom;
+	int				start_index;
 }					t_map;
 
 typedef struct s_track
@@ -159,52 +152,6 @@ typedef struct s_track
 	t_dbl			dlt;
 }					t_track;
 
-// typedef struct s_track
-// {
-// 	double			pos_x;
-// 	double			pos_y;
-// 	double			dir_x;
-// 	double			dir_y;
-// 	double			plane_x;
-// 	double			plane_y;
-// 	double			ray_dir_x;
-// 	double			ray_dir_y;
-// 	double			side_dist_x;
-// 	double			side_dist_y;
-// 	double			delta_dist_x;
-// 	double			delta_dist_y;
-// 	double			perp_wall_dist;
-// 	int				map_x;
-// 	int				map_y;
-// 	int				step_x;
-// 	int				step_y;
-// 	int				hit;
-// 	int				side;
-// 	int				line_height;
-// 	int				draw_start;
-// 	int				draw_end;
-// 	int				tex_x;
-// 	int				tex_y;
-// 	double			wall_x;
-// 	double			step;
-// 	double			tex_pos;
-	
-// 	// Nested structures used by raycast engine
-// 	t_dbl			dir;		// For t.dir.x, t.dir.y access
-// 	t_int			map;		// For t.map.x, t.map.y access  
-// 	t_dbl			dlt;		// For t.dlt.x, t.dlt.y access (delta distances)
-// 	t_dbl			sid;		// For t.sid.x, t.sid.y access (side distances)
-// 	t_int			stp;		// For t.stp.x, t.stp.y access (step directions)
-// 	t_dbl			pln;		// For t.pln.x, t.pln.y access (plane vectors)
-	
-// 	// Additional members used by raycast engine
-// 	double			cam_x;		// Camera X position
-// 	int				high;		// Line height
-// 	int				strt;		// Start position
-// 	int				end;		// End position
-// 	double			walx;		// Wall X coordinate
-// }					t_track;
-
 typedef struct s_play
 {
 	double			dir_x;
@@ -213,8 +160,8 @@ typedef struct s_play
 	double			plane_y;
 	double			move_speed;
 	double			rot_speed;
-	char			s_dir;  // Player direction character
-	t_dbl			pos;    // Player position (use .pos.x, .pos.y)
+	char			s_dir;
+	t_dbl			pos;
 	int				check;
 	int				rot;
 }					t_play;
@@ -233,7 +180,6 @@ typedef struct s_data
 	t_track			track;
 	void			*wind;
 	void			*mlx;
-	// Parsing state for function constraint compliance
 	int				curr_line_index;
 	int				param_count;
 	int				map_start_index;
@@ -357,7 +303,7 @@ int					ft_key_release(int keycode, t_data *d);
 
 int					ft_position_check(t_data *d, double mve_x, double mve_y);
 int					ft_move_check(t_data *d, double mve_x, double mve_y);
-int					ft_move_player(t_data *d, int key);
+int					ft_move_player(t_data *d, int key, double mve_x, double mve_y);
 int					ft_rotdir(int key);
 int					ft_rotate_player(t_data *d, int key);
 void				ft_player_action(t_data *d);
@@ -397,10 +343,8 @@ void				ft_safe_array(void ***array);
 void				ft_free_int_arr(int ***mat_ptr, int rows);
 void				ft_free_data(t_data *d);
 void				ft_freedom(t_data *d);
-
-// Messaging and error handling functions
 char				*ft_dup_or_join(char *s1, char *s2);
-char				*ft_add_quotes(char *final, char *cmd, char *dtl);
+char				*ft_add_quotes(char *final, char *dtl);
 void				ft_correct_form(int err_code, char *dtl);
 
 /******************************************************************************/

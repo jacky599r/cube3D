@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/23 12:09:21 by nico              #+#    #+#             */
-/*   Updated: 2025/09/17 21:45:32 by jacky599r        ###   ########.fr       */
+/*   Created: 2025/09/19 13:15:39 by nsamarin          #+#    #+#             */
+/*   Updated: 2025/09/19 13:15:46 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,22 @@ void ft_free_text(t_text *t)
 	t->rgb_g = NULL;
 	ft_safe_ptr(t->rgb_c);
 	t->rgb_c = NULL;
-	// Image data cleanup
-	ft_safe_ptr(t->addr);
-	t->addr = NULL;
-	ft_safe_ptr(t->img);
-	t->img = NULL;
 }
 
 void ft_free_img(t_img *i)
 {
     if (!i)
         return;
-    ft_safe_ptr(i->addr);
-    i->addr = NULL;
-    ft_safe_ptr(i->img);
-    i->img = NULL;
+    if (i->addr)
+    {
+        ft_safe_ptr(i->addr);
+        i->addr = NULL;
+    }
+    if (i->img)
+    {
+        ft_safe_ptr(i->img);
+        i->img = NULL;
+    }
 }
 
 void ft_free_map(t_map *m)
@@ -82,5 +83,4 @@ void ft_free_all(t_data *data)
     ft_free_text(&data->text);
     ft_free_map(&data->map);
     ft_free_img(&data->mini);
-    // Map arrays are freed through ft_free_map()
 }

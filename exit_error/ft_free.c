@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/23 12:09:21 by nico              #+#    #+#             */
-/*   Updated: 2025/09/17 17:56:25 by nico             ###   ########.fr       */
+/*   Created: 2025/09/19 13:06:56 by nsamarin          #+#    #+#             */
+/*   Updated: 2025/09/19 13:06:59 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ void	ft_free_map(t_map *m)
 	m->fl_map = NULL;
 }
 
-void	ft_free_mini(t_mini *m)
-{
-	if (!m)
-		return ;
-	ft_safe_array((void ***)&m->og_mini);
-	m->og_mini = NULL;
-	ft_free_img(m->mini_m);
-	m->mini_m = NULL;
-}
+// void	ft_free_mini(t_mini *m)
+// {
+// 	if (!m)
+// 		return ;
+// 	ft_safe_array((void ***)&m->og_mini);
+// 	m->og_mini = NULL;
+// 	ft_free_img(m->mini_m);
+// 	m->mini_m = NULL;
+// }

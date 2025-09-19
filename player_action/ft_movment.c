@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/14 19:39:59 by nico              #+#    #+#             */
-/*   Updated: 2025/09/18 17:07:41 by nsamarin         ###   ########.fr       */
+/*   Created: 2025/09/19 13:11:50 by nsamarin          #+#    #+#             */
+/*   Updated: 2025/09/19 13:19:17 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,13 @@
 
 int	ft_position_check(t_data *d, double mve_x, double mve_y)
 {
-	int	cx;
-	int	cy;
+	double	margin;
 
-	cx = (int)mve_x;
-	cy = (int)mve_y;
-	if (cx < 0 || cy < 0)
+	margin = 0.025;
+	if (mve_x < margin || mve_y < margin)
 		return (FAIL);
-	if (cy >= d->map.high || cx >= d->map.wide)
+	if (mve_x > (double)d->map.wide - margin
+		|| mve_y > (double)d->map.high - margin)
 		return (FAIL);
 	return (PASS);
 }
@@ -54,11 +53,8 @@ int	ft_move_check(t_data *d, double mve_x, double mve_y)
 	return (0);
 }
 
-int	ft_move_player(t_data *d, int key)
+int ft_move_player(t_data *d, int key, double mve_x, double mve_y)
 {
-	double	mve_x;
-	double	mve_y;
-
 	mve_x = d->play.pos.x;
 	mve_y = d->play.pos.y;
 	if (key == UP)
@@ -84,19 +80,19 @@ int	ft_move_player(t_data *d, int key)
 	return (ft_move_check(d, mve_x, mve_y));
 }
 
-int	ft_rotdir(int key)
+int ft_rotdir(int key)
 {
 	if (key == ROT_L)
 		return (-1);
 	return (1);
 }
 
-int	ft_rotate_player(t_data *d, int key)
+int ft_rotate_player(t_data *d, int key)
 {
-	double	ang;
-	double	c;
-	double	s;
-	double	tmp;
+	double ang;
+	double c;
+	double s;
+	double tmp;
 
 	ang = ROT_SPEED * ft_rotdir(key);
 	c = cos(ang);
@@ -112,19 +108,19 @@ int	ft_rotate_player(t_data *d, int key)
 	return (1);
 }
 
-void	ft_player_action(t_data *d)
+void ft_player_action(t_data *d)
 {
 	int a;
 
 	a = 0;
 	if (d->key.up == 1)
-		a = ft_move_player(d, UP);
+		a = ft_move_player(d, UP, 0.0, 0.0);
 	if (d->key.down == 1)
-		a = ft_move_player(d, DOWN);
+		a = ft_move_player(d, DOWN, 0.0, 0.0);
 	if (d->key.left == 1)
-		a = ft_move_player(d, LEFT);
+		a = ft_move_player(d, LEFT, 0.0, 0.0);
 	if (d->key.right == 1)
-		a = ft_move_player(d, RIGHT);
+		a = ft_move_player(d, RIGHT, 0.0, 0.0);
 	if (d->key.l_arw == 1)
 		a = ft_rotate_player(d, ROT_L);
 	if (d->key.r_arw == 1)

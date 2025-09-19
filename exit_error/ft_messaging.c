@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_messaging.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jacky599r <jacky599r@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/22 16:40:56 by nico              #+#    #+#             */
-/*   Updated: 2025/09/17 21:45:32 by jacky599r        ###   ########.fr       */
+/*   Created: 2025/09/19 13:09:19 by nsamarin          #+#    #+#             */
+/*   Updated: 2025/09/19 13:38:02 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,10 @@ char	*ft_dup_or_join(char *s1, char *s2)
 		return (ft_strjoin(s1, s2));
 }
 
-char	*ft_add_quotes(char *final, char *cmd, char *dtl)
+char	*ft_add_quotes(char *final, char *dtl)
 {
 	char	*temp;
 
-	(void)cmd; // Suppress unused parameter warning
 	temp = ft_dup_or_join(final, "'");
 	ft_safe_ptr(final);
 	final = temp;
@@ -58,9 +57,7 @@ void	ft_correct_form(int err_code, char *dtl)
 	}
 	return ;
 }
-// explored idea to have a trim function that removes empty spaces, before,
-//	during and after useful info
-// eg: "     F                          1,7,9" -> "F 1,7,9"
+
 int	ft_error_msg(char *cmd, char *msg, char *dtl, int err_code)
 {
 	char	*final;
@@ -68,7 +65,7 @@ int	ft_error_msg(char *cmd, char *msg, char *dtl, int err_code)
 	if (msg)
 	{
 		final = ft_dup_or_join(cmd, ": ");
-		final = ft_add_quotes(final, cmd, msg);
+		final = ft_add_quotes(final, msg);
 	}
 	else
 		final = ft_strdup(cmd);

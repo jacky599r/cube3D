@@ -6,7 +6,7 @@
 /*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 19:23:59 by nico              #+#    #+#             */
-/*   Updated: 2025/09/18 17:35:55 by nsamarin         ###   ########.fr       */
+/*   Updated: 2025/09/19 13:42:36 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	*ft_fill_texture(t_data *d, t_img *pic, int size)
 
 void	ft_img_start(t_data *d, t_img *p, char *path, int size)
 {
-	// Original MLX code commented out:
 	int	width;
 	int	height;
 
