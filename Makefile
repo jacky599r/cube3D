@@ -40,7 +40,6 @@ SRCS = main.c \
        utils/ft_string_utils.c \
        utils/ft_validation_utils.c \
        utils/ft_init.c \
-       utils/ft_parse_elements.c \
        gnl/ft_gnl.c \
        gnl/ft_gnl_utils.c \
        data_validation/ft_game_start.c \
