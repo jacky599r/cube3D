@@ -3,16 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   ft_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/23 12:47:21 by nico              #+#    #+#             */
-/*   Updated: 2025/09/17 14:30:06 by nico             ###   ########.fr       */
+/*   Created: 2025/09/19 13:16:11 by nsamarin          #+#    #+#             */
+/*   Updated: 2025/09/19 13:16:15 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	ft_play_init(t_play *play)
+void ft_key_init(t_keys *key)
+{
+	key->down = 0;
+	key->up = 0;
+	key->right = 0;
+	key->left = 0;
+	key->l_arw = 0;
+	key->r_arw = 0;
+}
+
+void ft_play_init(t_play *play)
 {
 	play->s_dir = '\0';
 	play->check = 0;
@@ -27,7 +37,7 @@ void	ft_play_init(t_play *play)
 	play->rot_speed = ROT_SPEED;
 }
 
-void	ft_text_init(t_text *text)
+void ft_text_init(t_text *text)
 {
 	text->txt_n = NULL;
 	text->txt_s = NULL;
@@ -43,41 +53,26 @@ void	ft_text_init(t_text *text)
 	text->ref.y = 0;
 }
 
-void	ft_map_init(t_map *map)
+void ft_map_init(t_map *map)
 {
 	map->high = 0;
 	map->wide = 0;
 	map->eom = 0;
 	map->og_map = NULL;
 	map->fl_map = NULL;
-	// map->max_x = 0;
-	// map->max_y = 0;
-	// map->player_x = 0;
-	// map->player_y = 0;
-	// map->player_dir = '\0';
-	map->start_index = -1;  // Initialize to -1 (not set)
+	map->start_index = -1;
 }
 
-void	ft_mini_init(t_img *mini)
-{
-	mini->img = NULL;
-	mini->addr = NULL;
-	mini->line = 0;
-	mini->bpp = 0;
-	mini->endian = 0;
-}
+// void	ft_mini_init(t_img *mini)
+// {
+// 	mini->img = NULL;
+// 	mini->addr = NULL;
+// 	mini->line = 0;
+// 	mini->bpp = 0;
+// 	mini->endian = 0;
+// }
 
-void	ft_key_init(t_keys *key)
-{
-	key->up = 0;
-	key->down = 0;
-	key->left = 0;
-	key->right = 0;
-	key->l_arw = 0;
-	key->r_arw = 0;
-}
-
-void	ft_track_init(t_track *track)
+void ft_track_init(t_track *track)
 {
 	if (!track)
 		return;
@@ -100,7 +95,7 @@ void	ft_track_init(t_track *track)
 	track->dlt.y = 0.0;
 }
 
-void	ft_data_init(t_data *data)
+void ft_data_init(t_data *data)
 {
 	data->mapx = WIN_WIDTH;
 	data->mapy = WIN_HEIGHT;
@@ -111,7 +106,8 @@ void	ft_data_init(t_data *data)
 	ft_play_init(&data->play);
 	ft_text_init(&data->text);
 	ft_map_init(&data->map);
-	ft_mini_init(&data->mini);
+	ft_key_init(&data->key);
+	// ft_mini_init(&data->mini);
 	ft_track_init(&data->track);
 	ft_key_init(&data->key);
 }

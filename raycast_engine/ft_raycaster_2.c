@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_raycaster_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/14 19:45:10 by nico              #+#    #+#             */
-/*   Updated: 2025/09/17 16:19:15 by nico             ###   ########.fr       */
+/*   Created: 2025/09/19 13:14:50 by nsamarin          #+#    #+#             */
+/*   Updated: 2025/09/19 13:15:03 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void *ft_pxl_init(size_t count, size_t size)
     a = count * size;
     while (a--)
         *p++ = 0;
-
     return (px);
 }
 
@@ -64,7 +63,11 @@ void	ft_pxl_fill(t_data *d)
 
 	a = 0;
 	if (d->pxl)
+	{
 		ft_safe_array((void ***)&d->pxl);
+		printf("pxl delete\n");
+		d->pxl = NULL;
+	}
 	d->pxl = ft_pxl_init(d->mapy + 1, sizeof *d->pxl);
 	if (!d->pxl)
 	{
