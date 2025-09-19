@@ -6,7 +6,7 @@
 /*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:27:22 by nico              #+#    #+#             */
-/*   Updated: 2025/09/19 13:38:49 by nsamarin         ###   ########.fr       */
+/*   Updated: 2025/09/19 15:51:11 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,9 +187,9 @@ typedef struct s_data
 
 typedef struct s_map_dims
 {
-    int max_x;
-    int max_y;
-}               t_map_dims;
+	int				max_x;
+	int				max_y;
+}					t_map_dims;
 
 typedef struct s_mini
 {
@@ -212,6 +212,7 @@ void				ft_play_init(t_play *play);
 void				ft_text_init(t_text *text);
 void				ft_map_init(t_map *map);
 
+void				ft_key_init(t_keys *key);
 void				ft_mini_init(t_img *mini);
 void				ft_track_init(t_track *track);
 void				ft_data_init(t_data *data);
@@ -221,102 +222,107 @@ void				ft_data_init(t_data *data);
 /******************************************************************************/
 
 // Game initialization and texture loading functions
-char	*ft_direction_id(t_data *d, int dir);
-int		*ft_fill_texture(t_data *d, t_img *pic, int size);
-void	ft_img_start(t_data *d, t_img *p, char *path, int size);
-void	ft_direction_text(t_data *d, int dir, int size);
-void	ft_game_start(t_data *d);
+char				*ft_direction_id(t_data *d, int dir);
+int					*ft_fill_texture(t_data *d, t_img *pic, int size);
+void				ft_img_start(t_data *d, t_img *p, char *path, int size);
+void				ft_direction_text(t_data *d, int dir, int size);
+void				ft_game_start(t_data *d);
 
 // Data validation functions
-int ft_data_validation(t_data *data, int argc, char **argv);
-int ft_validate_arguments(int argc, char **argv);
-int ft_extension_check(char *file);
-int ft_load_and_validate_file(t_data *data, char *filepath);
-int ft_validate_map_structure(t_data *data);
+int					ft_data_validation(t_data *data, int argc, char **argv);
+int					ft_validate_arguments(int argc, char **argv);
+int					ft_extension_check(char *file);
+int					ft_load_and_validate_file(t_data *data, char *filepath);
+int					ft_validate_map_structure(t_data *data);
 
-int ft_process_param_line(t_data *data, char *line);
-int ft_is_rgb_within_range(int r, int g, int b);
-unsigned long ft_convert_rgb_to_int(int r, int g, int b);
+int					ft_process_param_line(t_data *data, char *line);
+int					ft_is_rgb_within_range(int r, int g, int b);
+unsigned long		ft_convert_rgb_to_int(int r, int g, int b);
 
 // File reading and initial map storage (ft_file_reader.c)
-char **ft_read_lines_into_array(int fd);
-int ft_check_for_empty_file(char **map_array, char *path);
-char **ft_get_raw_map_data(char *path);
+char				**ft_read_lines_into_array(int fd);
+int					ft_check_for_empty_file(char **map_array, char *path);
+char				**ft_get_raw_map_data(char *path);
 
 // Parameter parsing and validation (ft_param_parser.c)
-int ft_process_param_line(t_data *data, char *line);
+int					ft_process_param_line(t_data *data, char *line);
 
 // Texture utilities (ft_texture_utils.c)
-int ft_is_valid_param(char *line);
-int ft_check_duplicate_param(t_data *data, char *type_id);
-int ft_parse_texture_path(t_data *data, char *line, char *type_id);
+int					ft_is_valid_param(char *line);
+int					ft_check_duplicate_param(t_data *data, char *type_id);
+int					ft_parse_texture_path(t_data *data, char *line,
+						char *type_id);
 
 // RGB utilities (ft_rgb_utils.c)
-int ft_is_rgb_within_range(int r, int g, int b);
-unsigned long ft_convert_rgb_to_int(int r, int g, int b);
-int ft_parse_color_values(t_data *data, char *line, char *type_id);
+int					ft_is_rgb_within_range(int r, int g, int b);
+unsigned long		ft_convert_rgb_to_int(int r, int g, int b);
+int					ft_parse_color_values(t_data *data, char *line,
+						char *type_id, unsigned long colour);
 
 // Map structure validation (ft_map_validation.c)
-int ft_check_map_config(t_data *data);
-int ft_identify_map_properties(t_data *data, int start_index);
-int ft_parse_file_structure(t_data *data, int *map_start_index);
+int					ft_check_map_config(t_data *data);
+int					ft_identify_map_properties(t_data *data, int start_index);
+int					ft_parse_file_structure(t_data *data, int *map_start_index);
 
 // Map content parsing (ft_map_parser.c)
-int ft_parse_map_content(t_data *data, int line_index, int start_index);
-int ft_process_file_line(t_data *data, char *trimmed_line);
+int					ft_parse_map_content(t_data *data, int line_index,
+						int start_index);
+int					ft_process_file_line(t_data *data, char *trimmed_line);
 
 // Map processing for flood-fill (ft_map_prep.c)
-int ft_prepare_map_for_flood_fill(t_data *data);
-void ft_set_initial_player_view(t_data *data);
+int					ft_prepare_map_for_flood_fill(t_data *data);
+void				ft_set_initial_player_view(t_data *data);
 
 // Map content validation (ft_prepare_to_fill.c)
-//int ft_find_map_dimensions(t_data *data);
-int convert_to_flood_map(t_data *data);
+// int ft_find_map_dimensions(t_data *data);
+int					convert_to_flood_map(t_data *data);
 
 // Map enclosure validation (ft_map_enclosure.c)
-int ft_validate_map_enclosure(t_data *data);
-char **ft_create_temp_flood_map(t_data *data);
-void ft_perform_flood_fill(char **map, int x, int y, t_map_dims dims);
-int ft_check_enclosed_borders(char **map, t_map_dims dims);
+int					ft_validate_map_enclosure(t_data *data);
+char				**ft_create_temp_flood_map(t_data *data);
+void				ft_perform_flood_fill(char **map, int x, int y,
+						t_map_dims dims);
+int					ft_check_enclosed_borders(char **map, t_map_dims dims);
 
 // Image utilities (ft_utils.c)
-void ft_img_init(t_img *img);
+void				ft_img_init(t_img *img);
 
 // String utilities (ft_string_utils.c)
-char *ft_whitetrim(char *str);
-char *ft_strip_line_endings(char *str);
-char *ft_strndup(const char *str, size_t n);
-int ft_is_num(char *str);
+char				*ft_whitetrim(char *str);
+char				*ft_strip_line_endings(char *str);
+char				*ft_strndup(const char *str, size_t n);
+int					ft_is_num(char *str);
 
 // Validation utilities (ft_validation_utils.c)
-int ft_is_empty_line(char *line);
-int ft_is_valid_map_char(char c);
-int ft_error_msg(char *cmd, char *msg, char *dtl, int err_code);
-void ft_safe_array(void ***array);
+int					ft_is_empty_line(char *line);
+int					ft_is_valid_map_char(char c);
+int					ft_error_msg(char *cmd, char *msg, int err_code);
+void				ft_safe_array(void ***array);
 
 // Memory cleanup functions
-void ft_safe_ptr(void *str);
-void ft_free_int_arr(int ***mat_ptr, int rows);
-void ft_free_text(t_text *t);
-void ft_free_img(t_img *i);
-void ft_free_map(t_map *m);
-void ft_free_mini(t_mini *m);
-void ft_free_all(t_data *data);
+void				ft_safe_ptr(void *str);
+void				ft_free_int_arr(int ***mat_ptr, int rows);
+void				ft_free_text(t_text *t);
+void				ft_free_img(t_img *i);
+void				ft_free_map(t_map *m);
+void				ft_free_mini(t_mini *m);
+void				ft_free_all(t_data *data);
 
 // Additional initialization functions
-void ft_data_init(t_data *data);
+void				ft_data_init(t_data *data);
 
 /******************************************************************************/
 /*                              PLAYER_ACTION                                 */
 /******************************************************************************/
-
+int					ft_raycast_check(t_data *d);
 int					ft_terminate_game(t_data *d);
 int					ft_key_press(int keycode, t_data *d);
 int					ft_key_release(int keycode, t_data *d);
 
 int					ft_position_check(t_data *d, double mve_x, double mve_y);
 int					ft_move_check(t_data *d, double mve_x, double mve_y);
-int					ft_move_player(t_data *d, int key, double mve_x, double mve_y);
+int					ft_move_player(t_data *d, int key, double mve_x,
+						double mve_y);
 int					ft_rotdir(int key);
 int					ft_rotate_player(t_data *d, int key);
 void				ft_player_action(t_data *d);
@@ -329,6 +335,7 @@ int					ft_dda_prep(t_track *t, t_play *p);
 int					ft_ray_check(t_data *d, t_track *t);
 void				ft_line_len(t_data *d, t_track *t, t_play *p);
 void				ft_dda_algo(t_data *d, t_track *t, t_play *p);
+double				ft_delta_dist(double dir);
 
 void				ft_update_pxl(t_data *d, t_text *x, t_track *t, int a);
 void				*ft_pxl_init(size_t count, size_t size);
@@ -358,7 +365,7 @@ void				ft_free_data(t_data *d);
 void				ft_freedom(t_data *d);
 char				*ft_dup_or_join(char *s1, char *s2);
 char				*ft_add_quotes(char *final, char *dtl);
-void				ft_correct_form(int err_code, char *dtl);
+void				ft_correct_form(int err_code);
 
 /******************************************************************************/
 /*                                  GNL                                       */

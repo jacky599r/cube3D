@@ -12,21 +12,22 @@
 
 #include "cub3D.h"
 
-static int ft_allocate_flood_map(t_data *data)
+static int	ft_allocate_flood_map(t_data *data)
 {
-	int y;
+	int	y;
 
 	data->map.fl_map = (char **)ft_calloc(data->map.high + 1, sizeof(char *));
 	if (!data->map.fl_map)
-		return (ft_error_msg("Error", "Memory allocation failed", NULL, FAIL));
+		return (ft_error_msg("Error", "Malloc Failure", FAIL));
 	y = 0;
 	while (y < data->map.high)
 	{
-		data->map.fl_map[y] = (char *)ft_calloc(data->map.wide + 1, sizeof(char));
+		data->map.fl_map[y] = (char *)ft_calloc(data->map.wide + 1,
+				sizeof(char));
 		if (!data->map.fl_map[y])
 		{
 			ft_safe_array((void ***)&data->map.fl_map);
-			return (ft_error_msg("Error", "Memory allocation failed", NULL, FAIL));
+			return (ft_error_msg("Error", "Malloc Failure", FAIL));
 		}
 		y++;
 	}
@@ -34,7 +35,7 @@ static int ft_allocate_flood_map(t_data *data)
 	return (PASS);
 }
 
-int ft_prepare_map_for_flood_fill(t_data *data)
+int	ft_prepare_map_for_flood_fill(t_data *data)
 {
 	if (ft_allocate_flood_map(data) == FAIL)
 		return (FAIL);
@@ -46,7 +47,7 @@ int ft_prepare_map_for_flood_fill(t_data *data)
 	return (PASS);
 }
 
-void ft_set_initial_player_view(t_data *data)
+void	ft_set_initial_player_view(t_data *data)
 {
 	data->play.dir_x = 0;
 	data->play.dir_y = 0;

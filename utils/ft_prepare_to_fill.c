@@ -12,7 +12,7 @@
 
 #include "cub3D.h"
 
-static char convert_map_char(char c)
+static char	convert_map_char(char c)
 {
 	if (c == '0' || c == '1' || ft_strchr("NSEW", c))
 		return (c);
@@ -22,10 +22,10 @@ static char convert_map_char(char c)
 		return ('X');
 }
 
-static void fill_map_row(char *fl_row, char *temp_line, int width)
+static void	fill_map_row(char *fl_row, char *temp_line, int width)
 {
-	int x;
-	int line_len;
+	int	x;
+	int	line_len;
 
 	line_len = ft_strlen(temp_line);
 	x = 0;
@@ -40,9 +40,9 @@ static void fill_map_row(char *fl_row, char *temp_line, int width)
 	fl_row[x] = '\0';
 }
 
-static int process_map_line(t_data *data, int y)
+static int	process_map_line(t_data *data, int y)
 {
-	char *temp_line;
+	char	*temp_line;
 
 	temp_line = ft_strdup(data->map.og_map[y + data->map.start_index]);
 	if (!temp_line)
@@ -53,9 +53,9 @@ static int process_map_line(t_data *data, int y)
 	return (PASS);
 }
 
-int convert_to_flood_map(t_data *data)
+int	convert_to_flood_map(t_data *data)
 {
-	int y;
+	int	y;
 
 	y = 0;
 	while (y < data->map.high)

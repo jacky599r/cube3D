@@ -6,7 +6,7 @@
 /*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 13:06:34 by nsamarin          #+#    #+#             */
-/*   Updated: 2025/09/19 13:06:36 by nsamarin         ###   ########.fr       */
+/*   Updated: 2025/09/19 15:09:54 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,27 +58,25 @@ void	ft_free_int_arr(int ***mat_ptr, int rows)
 void	ft_free_data(t_data *d)
 {
 	if (!d)
-		return;
-    if (d->pxl && d->map.high > 0)
-    {
-        ft_free_int_arr(&d->pxl, d->mapy);
-        d->pxl = NULL;
-    }
-    if (d->txt)
-    {
-        ft_free_int_arr(&d->txt, 5);
-        d->txt = NULL;
-    }
-    ft_free_text(&d->text);
-    ft_free_map(&d->map);
+		return ;
+	if (d->pxl && d->map.high > 0)
+	{
+		ft_free_int_arr(&d->pxl, d->mapy);
+		d->pxl = NULL;
+	}
+	if (d->txt)
+	{
+		ft_free_int_arr(&d->txt, 5);
+		d->txt = NULL;
+	}
+	ft_free_text(&d->text);
+	ft_free_map(&d->map);
 }
 
 void	ft_freedom(t_data *d)
 {
 	if (!d)
-		return;
-	
-	printf("Cleaning up resources...\n");
+		return ;
 	if (d->wind && d->mlx)
 		mlx_destroy_window(d->mlx, d->wind);
 	if (d->mlx)

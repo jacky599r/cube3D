@@ -6,7 +6,7 @@
 /*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 13:14:27 by nsamarin          #+#    #+#             */
-/*   Updated: 2025/09/19 13:14:31 by nsamarin         ###   ########.fr       */
+/*   Updated: 2025/09/19 14:30:02 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,6 @@ void	ft_step_calculate(t_text *x, t_track *t, t_data *d)
 {
 	x->step = (double)x->size / (double)t->high;
 	x->pos = (t->strt - d->mapy / 2.0 + t->high / 2.0) * x->step;
-}
-
-double	ft_delta_dist(double dir)
-{
-	double result;
-
-	if (dir == 0.0)
-		result = 1e30;
-	else
-		result = fabs(1.0 / dir);
-	return (result);
 }
 
 void	ft_ray_cast(t_play *p, t_data *d)

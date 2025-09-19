@@ -6,7 +6,7 @@
 /*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 13:14:50 by nsamarin          #+#    #+#             */
-/*   Updated: 2025/09/19 13:15:03 by nsamarin         ###   ########.fr       */
+/*   Updated: 2025/09/19 16:10:19 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,20 @@ void	ft_update_pxl(t_data *d, t_text *x, t_track *t, int a)
 	}
 }
 
-void *ft_pxl_init(size_t count, size_t size)
+void	*ft_pxl_init(size_t count, size_t size)
 {
-    void			*px;
-    unsigned char	*p;
-    size_t 			a;
+	void			*px;
+	unsigned char	*p;
+	size_t			a;
 
-    px = malloc(count * size);
-    if (!px)
-        return NULL;
-
-    p = (unsigned char *)px;
-    a = count * size;
-    while (a--)
-        *p++ = 0;
-    return (px);
+	px = malloc(count * size);
+	if (!px)
+		return (NULL);
+	p = (unsigned char *)px;
+	a = count * size;
+	while (a--)
+		*p++ = 0;
+	return (px);
 }
 
 void	ft_pxl_fill(t_data *d)
@@ -65,21 +64,20 @@ void	ft_pxl_fill(t_data *d)
 	if (d->pxl)
 	{
 		ft_safe_array((void ***)&d->pxl);
-		printf("pxl delete\n");
 		d->pxl = NULL;
 	}
-	d->pxl = ft_pxl_init(d->mapy + 1, sizeof *d->pxl);
+	d->pxl = ft_pxl_init(d->mapy + 1, sizeof (*d->pxl));
 	if (!d->pxl)
 	{
-		ft_error_msg("Malloc error", NULL, NULL, FAIL);
+		ft_error_msg("Error", "Malloc Failure", FAIL);
 		ft_freedom(d);
 	}
 	while (a < d->mapy)
 	{
-		d->pxl[a] = ft_pxl_init(d->mapx + 1, sizeof **d->pxl);
+		d->pxl[a] = ft_pxl_init(d->mapx + 1, sizeof (**d->pxl));
 		if (!d->pxl[a])
 		{
-			ft_error_msg("Malloc error", NULL, NULL, FAIL);
+			ft_error_msg("Error", "Malloc Failure", FAIL);
 			ft_freedom(d);
 		}
 		a++;
@@ -109,16 +107,16 @@ void	ft_display_wind(t_data *d, t_img *p, int x, int y)
 
 void	ft_display(t_data *d)
 {
-	t_img p;
-	int x;
-	int y;
+	t_img	p;
+	int		x;
+	int		y;
 
 	y = 0;
 	ft_img_init(&p);
 	p.img = mlx_new_image(d->mlx, d->mapx, d->mapy);
 	if (p.img == NULL)
 	{
-		ft_error_msg("Mlx error", NULL, NULL, 0);
+		ft_error_msg("Error", "MLX Image Failure", 0);
 		ft_freedom(d);
 	}
 	p.addr = (int *)mlx_get_data_addr(p.img, &p.bpp, &p.line, &p.endian);

@@ -6,7 +6,7 @@
 /*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 13:11:50 by nsamarin          #+#    #+#             */
-/*   Updated: 2025/09/19 13:19:17 by nsamarin         ###   ########.fr       */
+/*   Updated: 2025/09/19 14:22:53 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	ft_move_check(t_data *d, double mve_x, double mve_y)
 	return (0);
 }
 
-int ft_move_player(t_data *d, int key, double mve_x, double mve_y)
+int	ft_move_player(t_data *d, int key, double mve_x, double mve_y)
 {
 	mve_x = d->play.pos.x;
 	mve_y = d->play.pos.y;
@@ -80,19 +80,19 @@ int ft_move_player(t_data *d, int key, double mve_x, double mve_y)
 	return (ft_move_check(d, mve_x, mve_y));
 }
 
-int ft_rotdir(int key)
+int	ft_rotdir(int key)
 {
 	if (key == ROT_L)
 		return (-1);
 	return (1);
 }
 
-int ft_rotate_player(t_data *d, int key)
+int	ft_rotate_player(t_data *d, int key)
 {
-	double ang;
-	double c;
-	double s;
-	double tmp;
+	double	ang;
+	double	c;
+	double	s;
+	double	tmp;
 
 	ang = ROT_SPEED * ft_rotdir(key);
 	c = cos(ang);
@@ -106,24 +106,4 @@ int ft_rotate_player(t_data *d, int key)
 	d->play.plane_x = d->play.plane_x * c - d->play.plane_y * s;
 	d->play.plane_y = tmp * s + d->play.plane_y * c;
 	return (1);
-}
-
-void ft_player_action(t_data *d)
-{
-	int a;
-
-	a = 0;
-	if (d->key.up == 1)
-		a = ft_move_player(d, UP, 0.0, 0.0);
-	if (d->key.down == 1)
-		a = ft_move_player(d, DOWN, 0.0, 0.0);
-	if (d->key.left == 1)
-		a = ft_move_player(d, LEFT, 0.0, 0.0);
-	if (d->key.right == 1)
-		a = ft_move_player(d, RIGHT, 0.0, 0.0);
-	if (d->key.l_arw == 1)
-		a = ft_rotate_player(d, ROT_L);
-	if (d->key.r_arw == 1)
-		a = ft_rotate_player(d, ROT_R);
-	d->play.check += a;
 }

@@ -6,7 +6,7 @@
 /*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 19:23:59 by nico              #+#    #+#             */
-/*   Updated: 2025/09/19 13:42:36 by nsamarin         ###   ########.fr       */
+/*   Updated: 2025/09/19 16:08:58 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	*ft_fill_texture(t_data *d, t_img *pic, int size)
 	buf = ft_calloc(1, sizeof(int) * size * size);
 	if (!buf)
 	{
-		ft_error_msg("Malloc Error", NULL, NULL, FAIL);
+		ft_error_msg("Malloc Error", NULL, FAIL);
 		ft_freedom(d);
 		return (NULL);
 	}
@@ -63,7 +63,7 @@ void	ft_img_start(t_data *d, t_img *p, char *path, int size)
 	p->img = mlx_xpm_file_to_image(d->mlx, path, &width, &height);
 	if (p->img == NULL)
 	{
-		ft_error_msg("MLX Image Error", NULL, NULL, FAIL);
+		ft_error_msg("MLX Image Error", NULL, FAIL);
 		ft_freedom(d);
 	}
 	p->addr = (int *)mlx_get_data_addr(p->img, &p->bpp, &p->line, &p->endian);
@@ -83,7 +83,7 @@ void	ft_direction_text(t_data *d, int dir, int size)
 		{
 			mlx_destroy_image(d->mlx, p.img);
 			free(path);
-			ft_error_msg("Malloc Error", NULL, NULL, FAIL);
+			ft_error_msg("Error", "Malloc Failure", FAIL);
 			ft_freedom(d);
 		}
 		mlx_destroy_image(d->mlx, p.img);
@@ -97,19 +97,19 @@ void	ft_game_start(t_data *d)
 	d->mlx = mlx_init();
 	if (!d->mlx)
 	{
-		ft_error_msg("MLX Start Error", NULL, NULL, FAIL);
+		ft_error_msg("Error", "MLX Start Failure", FAIL);
 		ft_freedom(d);
 	}
 	d->wind = mlx_new_window(d->mlx, d->mapx, d->mapy, "Cub3D");
 	if (!d->wind)
 	{
-		ft_error_msg("MLX Window Error", NULL, NULL, FAIL);
+		ft_error_msg("Error", "MLX Window Failure", FAIL);
 		ft_freedom(d);
 	}
-	d->txt = ft_calloc(5, sizeof *d->txt);
+	d->txt = ft_calloc(5, sizeof (*d->txt));
 	if (!d->txt)
 	{
-		ft_error_msg("Malloc Error", NULL, NULL, FAIL);
+		ft_error_msg("Error", "Malloc Failure", FAIL);
 		ft_freedom(d);
 	}
 	ft_direction_text(d, 0, d->text.size);

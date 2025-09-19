@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_map_enclosure.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:50:12 by jacky599r         #+#    #+#             */
-/*   Updated: 2025/09/17 21:57:45 by jacky599r        ###   ########.fr       */
+/*   Updated: 2025/09/19 16:15:32 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-char **ft_create_temp_flood_map(t_data *data)
+char	**ft_create_temp_flood_map(t_data *data)
 {
-	char **temp_map;
-	int y;
+	char	**temp_map;
+	int		y;
 
 	temp_map = (char **)ft_calloc(data->map.high + 1, sizeof(char *));
 	if (!temp_map)
@@ -35,12 +35,12 @@ char **ft_create_temp_flood_map(t_data *data)
 	return (temp_map);
 }
 
-void ft_perform_flood_fill(char **map, int x, int y, t_map_dims dims)
+void	ft_perform_flood_fill(char **map, int x, int y, t_map_dims dims)
 {
 	if (x < 0 || x >= dims.max_x || y < 0 || y >= dims.max_y)
-		return;
+		return ;
 	if (map[y][x] == '1' || map[y][x] == 'X' || map[y][x] == 'V')
-		return;
+		return ;
 	map[y][x] = 'V';
 	ft_perform_flood_fill(map, x + 1, y, dims);
 	ft_perform_flood_fill(map, x - 1, y, dims);
@@ -48,10 +48,10 @@ void ft_perform_flood_fill(char **map, int x, int y, t_map_dims dims)
 	ft_perform_flood_fill(map, x, y - 1, dims);
 }
 
-int ft_check_enclosed_borders(char **map, t_map_dims dims)
+int	ft_check_enclosed_borders(char **map, t_map_dims dims)
 {
-	int y;
-	int x;
+	int	y;
+	int	x;
 
 	y = 0;
 	while (y < dims.max_y)
@@ -70,22 +70,23 @@ int ft_check_enclosed_borders(char **map, t_map_dims dims)
 	return (PASS);
 }
 
-static int ft_validate_single_map(t_data *data, char **flood_map)
+static int	ft_validate_single_map(t_data *data, char **flood_map)
 {
-	t_map_dims dims;
-	int result;
+	t_map_dims	dims;
+	int			result;
 
 	dims.max_x = data->map.wide;
 	dims.max_y = data->map.high;
-	ft_perform_flood_fill(flood_map, (int)data->play.pos.x, (int)data->play.pos.y, dims);
+	ft_perform_flood_fill(flood_map, (int)data->play.pos.x,
+		(int)data->play.pos.y, dims);
 	result = ft_check_enclosed_borders(flood_map, dims);
 	return (result);
 }
 
-int ft_validate_map_enclosure(t_data *data)
+int	ft_validate_map_enclosure(t_data *data)
 {
-	char **temp_map;
-	int result;
+	char	**temp_map;
+	int		result;
 
 	temp_map = ft_create_temp_flood_map(data);
 	if (!temp_map)
@@ -93,6 +94,6 @@ int ft_validate_map_enclosure(t_data *data)
 	result = ft_validate_single_map(data, temp_map);
 	ft_safe_array((void ***)&temp_map);
 	if (result == FAIL)
-		return (ft_error_msg("Error", "Map is not surrounded by walls", NULL, FAIL));
+		return (ft_error_msg("Error", "Map is not surrounded by walls", 5));
 	return (PASS);
 }

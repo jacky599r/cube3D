@@ -6,7 +6,7 @@
 /*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 13:09:19 by nsamarin          #+#    #+#             */
-/*   Updated: 2025/09/19 13:38:02 by nsamarin         ###   ########.fr       */
+/*   Updated: 2025/09/19 15:52:14 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,20 @@ char	*ft_add_quotes(char *final, char *dtl)
 	return (final);
 }
 
-void	ft_correct_form(int err_code, char *dtl)
+void	ft_correct_form(int err_code)
 {
 	if (err_code == 2)
-		printf("Correct Usage: \"./cub3D maps.cub\"\n");
+		printf("Correct Usage: \'./cub3D maps.cub\'\n");
 	if (err_code == 3)
-		printf("Correct Usage: \"%s ./path_to_texture.xpm\"\n", dtl);
+		printf("Correct Usage: \'[NO,SO,WE,EA] ./path_to_texture.xpm\'\n");
 	if (err_code == 4)
-		printf("Correct Usage: \"%s R,G,B\" colors in range [0-255]\n", dtl);
+	{
+		printf("Textures & Colour Correct Usage\n");
+		printf("4 unique directional textures & 2 RGB colours\n");
+		printf("Each element must begin with its type identifier\n");
+		printf("Colour format:  \'[C,F] R,G,B\' colors in range [0-255]\n");
+		printf("Texture format: \'[NO,SO,WE,EA] ./path_to_texture.xpm\'\n");
+	}
 	if (err_code == 5)
 	{
 		printf("Map Correct Usage\n");
@@ -58,10 +64,11 @@ void	ft_correct_form(int err_code, char *dtl)
 	return ;
 }
 
-int	ft_error_msg(char *cmd, char *msg, char *dtl, int err_code)
+int	ft_error_msg(char *cmd, char *msg, int err_code)
 {
 	char	*final;
 
+	printf("Error\n");
 	if (msg)
 	{
 		final = ft_dup_or_join(cmd, ": ");
@@ -71,6 +78,6 @@ int	ft_error_msg(char *cmd, char *msg, char *dtl, int err_code)
 		final = ft_strdup(cmd);
 	printf("Cub3D: %s\n", final);
 	ft_safe_ptr(final);
-	ft_correct_form(err_code, dtl);
+	ft_correct_form(err_code);
 	return (err_code);
 }
