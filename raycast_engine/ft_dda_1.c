@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_dda.c                                           :+:      :+:    :+:   */
+/*   ft_dda_1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 13:13:59 by nsamarin          #+#    #+#             */
-/*   Updated: 2025/09/19 14:29:41 by nsamarin         ###   ########.fr       */
+/*   Updated: 2025/09/22 04:24:37 by nico             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,40 +70,20 @@ void	ft_line_len(t_data *d, t_track *t, t_play *p)
 	t->walx -= floor(t->walx);
 }
 
-void	ft_dda_algo(t_data *d, t_track *t, t_play *p)
+void	ft_dda_step(t_track *t)
 {
-	int	cross;
-	int	check;
-
-	cross = ft_dda_prep(t, p);
-	t->tile = '0';
-	while (cross == 0)
+	if (t->sid.x < t->sid.y)
 	{
-		if (t->sid.x < t->sid.y)
-		{
-			t->sid.x += t->dlt.x;
-			t->map.x += t->stp.x;
-			t->side = 0;
-		}
-		else
-		{
-			t->sid.y += t->dlt.y;
-			t->map.y += t->stp.y;
-			t->side = 1;
-		}
-		check = ft_ray_check(d, t);
-		if (check == 1)
-		{
-			t->tile = '1';
-			break ;
-		}
-		else if (check == 2)
-		{
-			t->tile = d->map.fl_map[t->map.y][t->map.x];
-			cross = 1;
-		}
+		t->sid.x += t->dlt.x;
+		t->map.x += t->stp.x;
+		t->side = 0;
 	}
-	ft_line_len(d, t, p);
+	else
+	{
+		t->sid.y += t->dlt.y;
+		t->map.y += t->stp.y;
+		t->side = 1;
+	}
 }
 
 double	ft_delta_dist(double dir)

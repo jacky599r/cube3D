@@ -6,50 +6,11 @@
 /*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 13:14:50 by nsamarin          #+#    #+#             */
-/*   Updated: 2025/09/19 21:10:36 by nico             ###   ########.fr       */
+/*   Updated: 2025/09/22 04:39:56 by nico             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
-void	ft_update_pxl(t_data *d, t_text *x, t_track *t, int a)
-{
-	int	y;
-	int	y_end;
-	int	color;
-	int	ty;
-
-	y_end = t->end;
-	x->indx = ft_direction_check(t);
-	if (t->tile == 'D')
-		x->indx = DOOR_IDX;
-	ft_compute_refx(t, x);
-	ft_step_calculate(x, t, d);
-	y = t->strt;
-	if (t->strt < 0)
-		y = 0;
-	if (y_end >= d->mapy)
-		y_end = d->mapy - 1;
-	while (y <= y_end)
-	{
-		ty = (int)x->pos & (x->size - 1);
-		x->pos += x->step;
-		if (t->tile == 'D')
-		{
-			color = d->txt[DOOR_IDX][x->size * ty + x->ref.x];
-			if (t->side == 1)
-				color = (color >> 1) & 0x7F7F7F;
-		}
-		else
-		{
-			color = d->txt[x->indx][x->size * ty + x->ref.x];
-			if (x->indx == 0 || x->indx == 3 || x->indx == 2 || x->indx == 4)
-				color = (color >> 1) & 0x7F7F7F;
-		}
-		d->pxl[y][a] = color;
-		y++;
-	}
-}
 
 void	*ft_pxl_init(size_t count, size_t size)
 {
@@ -69,41 +30,9 @@ void	*ft_pxl_init(size_t count, size_t size)
 
 void	ft_pxl_fill(t_data *d)
 {
-	int	a;
-
-	a = 0;
-	if (d->pxl)
-	{
-		ft_safe_array((void ***)&d->pxl);
-		d->pxl = NULL;
-	}
-	if (d->zbuffer)
-	{
-		free(d->zbuffer);
-		d->zbuffer = NULL;
-	}
-	d->pxl = ft_pxl_init(d->mapy + 1, sizeof (*d->pxl));
-	if (!d->pxl)
-	{
-		ft_error_msg("Error", "Malloc Failure", FAIL);
-		ft_freedom(d);
-	}
-	while (a < d->mapy)
-	{
-		d->pxl[a] = ft_pxl_init(d->mapx + 1, sizeof (**d->pxl));
-		if (!d->pxl[a])
-		{
-			ft_error_msg("Error", "Malloc Failure", FAIL);
-			ft_freedom(d);
-		}
-		a++;
-	}
-	d->zbuffer = ft_pxl_init(d->mapx, sizeof(double));
-	if (!d->zbuffer)
-	{
-		ft_error_msg("Error", "Malloc Failure", FAIL);
-		ft_freedom(d);
-	}
+	ft_free_framebuffers(d);
+	ft_alloc_pxl_rows(d);
+	ft_alloc_zbuffer(d);
 }
 
 void	ft_display_wind(t_data *d, t_img *p, int x, int y)
@@ -137,10 +66,7 @@ void	ft_display(t_data *d)
 	ft_img_init(&p);
 	p.img = mlx_new_image(d->mlx, d->mapx, d->mapy);
 	if (p.img == NULL)
-	{
-		ft_error_msg("Error", "MLX Image Failure", 0);
-		ft_freedom(d);
-	}
+		ft_die_alloc(d, "MLX Image Failure");
 	p.addr = (int *)mlx_get_data_addr(p.img, &p.bpp, &p.line, &p.endian);
 	while (y < d->mapy)
 	{

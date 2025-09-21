@@ -74,3 +74,12 @@ void	ft_set_initial_player_view(t_data *data)
 		data->play.plane_y = -0.66;
 	}
 }
+
+int	ft_pick_color(char tile)
+{
+	if (tile == 'D')
+		return (DOOR_COLOR);
+	if (tile > '0')
+		return (0x888888);
+	return (0x303030);
+}

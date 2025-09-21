@@ -4,7 +4,7 @@ WE textures/Wall_Castle.xpm
 EA textures/Wall_Castle.xpm
 DD textures/Door.xpm
 
-F         50,50,50
+F 50,50,50
 C 150,150,255
 
 111111111111111111111

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_map_parser.c                                    :+:      :+:    :+:   */
+/*   ft_map_parser_1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 10:30:00 by jacky599r         #+#    #+#             */
-/*   Updated: 2025/09/19 16:14:40 by nsamarin         ###   ########.fr       */
+/*   Updated: 2025/09/22 06:19:51 by nico             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static int	ft_is_map_line(char *line)
+int	ft_is_map_line(char *line)
 {
 	int	i;
 
@@ -28,7 +28,7 @@ static int	ft_is_map_line(char *line)
 	return (1);
 }
 
-static int	ft_validate_map_characters(char *line)
+int	ft_validate_map_characters(char *line)
 {
 	int	i;
 
@@ -43,7 +43,7 @@ static int	ft_validate_map_characters(char *line)
 	return (PASS);
 }
 
-static int	ft_process_player_info(t_data *data, char player_char, int x_pos,
+int	ft_process_player_info(t_data *data, char player_char, int x_pos,
 		int y_idx)
 {
 	if (data->play.s_dir != '\0')
@@ -57,33 +57,13 @@ static int	ft_process_player_info(t_data *data, char player_char, int x_pos,
 int	ft_parse_map_content(t_data *data, int line_index, int start_index)
 {
 	char	*line;
-	int		i;
-	int		current_width;
 
 	line = data->map.og_map[line_index];
 	if (ft_validate_map_characters(line) != PASS)
 		return (FAIL);
-	i = 0;
-	while (line[i])
-	{
-		if (ft_strchr("NSEW", line[i]))
-		{
-			if (ft_process_player_info(data, line[i], i, line_index
-					- start_index) != PASS)
-				return (FAIL);
-		}
-		if (line[i] == 'D')
-		{
-			if (ft_register_door(data, i, line_index - start_index) != PASS)
-				return (FAIL);
-		}
-		i++;
-	}
-	ft_strip_line_endings(line);
-	current_width = ft_strlen(line);
-	if (current_width > data->map.wide)
-		data->map.wide = current_width;
-	data->map.high++;
+	if (ft_scan_map_line(data, line, line_index - start_index) != PASS)
+		return (FAIL);
+	ft_update_map_dims(data, line);
 	return (PASS);
 }
 

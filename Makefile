@@ -6,7 +6,7 @@
 #    By: nico <nico@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/26 13:28:54 by nico              #+#    #+#              #
-#    Updated: 2025/09/22 04:16:13 by nico             ###   ########.fr        #
+#    Updated: 2025/09/22 06:22:28 by nico             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,8 @@ SRCS = main.c \
        utils/ft_texture_utils.c \
        utils/ft_rgb_utils.c \
        utils/ft_map_validation.c \
-       utils/ft_map_parser.c \
+       utils/ft_map_parser_1.c \
+	   utils/ft_map_parser_2.c \
        utils/ft_map_prep.c \
        utils/ft_prepare_to_fill.c \
        utils/ft_map_enclosure.c \
@@ -39,7 +40,8 @@ SRCS = main.c \
        utils/ft_utils.c \
        utils/ft_string_utils.c \
        utils/ft_validation_utils.c \
-       utils/ft_init.c \
+       utils/ft_init_1.c \
+	   utils/ft_init_2.c \
        gnl/ft_gnl.c \
        gnl/ft_gnl_utils.c \
        data_validation/ft_game_start.c \
@@ -50,12 +52,21 @@ SRCS = main.c \
        player_action/ft_keyhook.c \
        player_action/ft_mouse.c \
        player_action/ft_movment.c \
-       player_action/ft_door.c \
+       player_action/ft_door_1.c \
+	   player_action/ft_door_2.c \
        raycast_engine/ft_raycaster_1.c \
        raycast_engine/ft_raycaster_2.c \
-       raycast_engine/ft_dda.c \
-       raycast_engine/ft_coin_render.c \
-       utils/ft_minimap.c \
+	   raycast_engine/ft_raycaster_3.c \
+	   raycast_engine/ft_raycaster_4.c \
+       raycast_engine/ft_dda_1.c \
+	   raycast_engine/ft_dda_2.c \
+       raycast_engine/ft_coin_render_1.c \
+	   raycast_engine/ft_coin_render_2.c \
+	   raycast_engine/ft_coin_render_3.c \
+       utils/ft_minimap_1.c \
+	   utils/ft_minimap_2.c \
+	   utils/ft_minimap_3.c \
+	   utils/ft_minimap_4.c \
        utils/ft_coins.c
 
 # Generate object files in OBJ_DIR
