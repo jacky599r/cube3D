@@ -52,14 +52,6 @@ void	ft_free_map(t_map *m)
 	m->fl_map = NULL;
 }
 
-void	ft_free_fog(t_data *data)
-{
-	if (!data || !data->fog)
-		return ;
-	ft_safe_array((void ***)&data->fog);
-	data->fog = NULL;
-}
-
 // void	ft_free_mini(t_mini *m)
 // {
 // 	if (!m)

@@ -19,93 +19,79 @@ static int	ft_minimap_stride(t_img *img)
 	return (img->line / 4);
 }
 
-int	ft_apply_visibility(int color, double visibility)
-{
-	double	factor;
-	int		r;
-	int		g;
-	int		b;
-
-	if (visibility < 0.0)
-		visibility = 0.0;
-	if (visibility > 1.0)
-		visibility = 1.0;
-	factor = 0.05 + (1.0 - 0.05) * visibility;
-	r = (int)(((color >> 16) & 0xFF) * factor);
-	g = (int)(((color >> 8) & 0xFF) * factor);
-	b = (int)((color & 0xFF) * factor);
-	if (r > 255)
-		r = 255;
-	if (g > 255)
-		g = 255;
-	if (b > 255)
-		b = 255;
-	return ((r << 16) | (g << 8) | b);
-}
-
-double	ft_tile_visibility(t_data *data, int map_x, int map_y, int update_fog)
-{
-	double	tile_cx;
-	double	tile_cy;
-	double	dist;
-	double	temp_vis;
-	double	stored;
-	double	final;
-
-	if (!data || map_x < 0 || map_y < 0
-		|| map_y >= data->map.high || map_x >= data->map.wide)
-		return (0.0);
-	tile_cx = (double)map_x + 0.5;
-	tile_cy = (double)map_y + 0.5;
-	dist = hypot(tile_cx - data->play.pos.x, tile_cy - data->play.pos.y);
-	temp_vis = 1.0 - (dist / MINIMAP_FOG_RADIUS);
-	if (temp_vis < 0.0)
-		temp_vis = 0.0;
-	if (temp_vis > 1.0)
-		temp_vis = 1.0;
-	stored = 0.0;
-	if (data->fog)
-	{
-		if (update_fog && temp_vis > data->fog[map_y][map_x])
-			data->fog[map_y][map_x] = temp_vis;
-		stored = data->fog[map_y][map_x];
-		if (!update_fog && temp_vis > stored)
-			stored = temp_vis;
-	}
-	else
-		stored = temp_vis;
-	final = temp_vis + stored * 0.25;
-	if (final > 1.0)
-		final = 1.0;
-	if (final < 0.0)
-		final = 0.0;
-	return (final);
-}
-
 static void	ft_draw_tile(t_data *data, int map_x, int map_y,
-		int color, double visibility)
+		int color)
 {
 	int	px;
 	int	py;
 	int	stride;
 	int	base_x;
 	int	base_y;
-	int	shade;
 
 	stride = ft_minimap_stride(&data->mini);
 	base_x = map_x * data->mini_tile;
 	base_y = map_y * data->mini_tile;
-	shade = ft_apply_visibility(color, visibility);
 	py = 0;
 	while (py < data->mini_tile && base_y + py < data->mini_height)
 	{
 		px = 0;
 		while (px < data->mini_tile && base_x + px < data->mini_width)
 		{
-			data->mini.addr[(base_y + py) * stride + (base_x + px)] = shade;
+			data->mini.addr[(base_y + py) * stride + (base_x + px)] = color;
 			px++;
 		}
 		py++;
+	}
+}
+
+static void	ft_draw_coin_marker(t_data *data, t_coin *coin)
+{
+	int	stride;
+	int	center_x;
+	int	center_y;
+	int	spread;
+	int	x;
+	int	y;
+
+	if (!coin || !coin->alive)
+		return ;
+	stride = ft_minimap_stride(&data->mini);
+	center_x = (int)(coin->grid_x * data->mini_tile + data->mini_tile / 2);
+	center_y = (int)(coin->grid_y * data->mini_tile + data->mini_tile / 2);
+	spread = data->mini_tile / 10;
+	if (spread < 1)
+		spread = 1;
+	y = -spread;
+	while (y <= spread)
+	{
+		x = -spread;
+		while (x <= spread)
+		{
+			int draw_x;
+			int draw_y;
+
+			draw_x = center_x + x;
+			draw_y = center_y + y;
+			if (draw_x >= 0 && draw_x < data->mini_width
+				&& draw_y >= 0 && draw_y < data->mini_height)
+				data->mini.addr[draw_y * stride + draw_x] = 0xFFD700;
+			x++;
+		}
+		y++;
+	}
+}
+
+static void	ft_draw_coin_markers(t_data *data)
+{
+	int	idx;
+
+	if (!data->coins || data->coin_alive == 0)
+		return ;
+	idx = 0;
+	while (idx < data->coin_count)
+	{
+		ft_draw_coin_marker(data, &data->coins[idx]);
+		idx++;
 	}
 }
 
@@ -234,7 +220,6 @@ void	ft_render_minimap(t_data *data)
 {
 	int		x;
 	int		y;
-	double	vis;
 
 	if (!data->mini.img || !data->mini.addr || data->mini_tile <= 0)
 		return ;
@@ -245,13 +230,13 @@ void	ft_render_minimap(t_data *data)
 		x = 0;
 		while (x < data->map.wide)
 		{
-			vis = ft_tile_visibility(data, x, y, 1);
 			ft_draw_tile(data, x, y,
-				ft_pick_color(data->map.fl_map[y][x]), vis);
+				ft_pick_color(data->map.fl_map[y][x]));
 			x++;
 		}
 		y++;
 	}
+	ft_draw_coin_markers(data);
 	ft_draw_player(data);
 	mlx_put_image_to_window(data->mlx, data->wind,
 		data->mini.img, data->mini_off_x, data->mini_off_y);

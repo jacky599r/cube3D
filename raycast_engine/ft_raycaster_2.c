@@ -18,7 +18,6 @@ void	ft_update_pxl(t_data *d, t_text *x, t_track *t, int a)
 	int	y_end;
 	int	color;
 	int	ty;
-	double	visibility;
 
 	y_end = t->end;
 	x->indx = ft_direction_check(t);
@@ -31,7 +30,6 @@ void	ft_update_pxl(t_data *d, t_text *x, t_track *t, int a)
 		y = 0;
 	if (y_end >= d->mapy)
 		y_end = d->mapy - 1;
-	visibility = ft_tile_visibility(d, t->map.x, t->map.y, 1);
 	while (y <= y_end)
 	{
 		ty = (int)x->pos & (x->size - 1);
@@ -48,7 +46,7 @@ void	ft_update_pxl(t_data *d, t_text *x, t_track *t, int a)
 			if (x->indx == 0 || x->indx == 3 || x->indx == 2 || x->indx == 4)
 				color = (color >> 1) & 0x7F7F7F;
 		}
-		d->pxl[y][a] = ft_apply_visibility(color, visibility);
+		d->pxl[y][a] = color;
 		y++;
 	}
 }
@@ -79,6 +77,11 @@ void	ft_pxl_fill(t_data *d)
 		ft_safe_array((void ***)&d->pxl);
 		d->pxl = NULL;
 	}
+	if (d->zbuffer)
+	{
+		free(d->zbuffer);
+		d->zbuffer = NULL;
+	}
 	d->pxl = ft_pxl_init(d->mapy + 1, sizeof (*d->pxl));
 	if (!d->pxl)
 	{
@@ -94,6 +97,12 @@ void	ft_pxl_fill(t_data *d)
 			ft_freedom(d);
 		}
 		a++;
+	}
+	d->zbuffer = ft_pxl_init(d->mapx, sizeof(double));
+	if (!d->zbuffer)
+	{
+		ft_error_msg("Error", "Malloc Failure", FAIL);
+		ft_freedom(d);
 	}
 }
 
@@ -143,6 +152,7 @@ void	ft_display(t_data *d)
 		}
 		y++;
 	}
+	ft_render_coins(d, &p);
 	mlx_put_image_to_window(d->mlx, d->wind, p.img, 0, 0);
 	mlx_destroy_image(d->mlx, p.img);
 	ft_render_minimap(d);

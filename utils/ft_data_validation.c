@@ -18,10 +18,10 @@ static void	ft_cleanup_validation_error(t_data *data)
 		ft_safe_array((void ***)&data->map.og_map);
 	if (data->map.fl_map)
 		ft_safe_array((void ***)&data->map.fl_map);
-	if (data->fog)
-		ft_free_fog(data);
 	if (data->doors)
 		ft_free_doors(data);
+	if (data->coins)
+		ft_free_coins(data);
 }
 
 int	ft_load_and_validate_file(t_data *data, char *filepath)
@@ -45,6 +45,8 @@ int	ft_validate_map_structure(t_data *data)
 		return (FAIL);
 	}
 	ft_set_initial_player_view(data);
+	if (ft_spawn_coins(data) == FAIL)
+		return (FAIL);
 	if (ft_validate_map_enclosure(data) == FAIL)
 	{
 		ft_cleanup_validation_error(data);

@@ -68,14 +68,6 @@ void	ft_free_mini(t_mini *m)
 	m->mini_m = NULL;
 }
 
-void	ft_free_fog(t_data *data)
-{
-	if (!data || !data->fog)
-		return ;
-	ft_safe_array((void ***)&data->fog);
-	data->fog = NULL;
-}
-
 void	ft_free_all(t_data *data)
 {
 	if (!data)
@@ -90,9 +82,14 @@ void	ft_free_all(t_data *data)
 		ft_free_int_arr(&data->txt, 5);
 		data->txt = NULL;
 	}
+	if (data->zbuffer)
+	{
+		free(data->zbuffer);
+		data->zbuffer = NULL;
+	}
 	ft_free_text(&data->text);
 	ft_free_map(&data->map);
 	ft_free_img(&data->mini);
 	ft_free_doors(data);
-	ft_free_fog(data);
+	ft_free_coins(data);
 }

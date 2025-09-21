@@ -6,7 +6,7 @@
 /*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:27:22 by nico              #+#    #+#             */
-/*   Updated: 2025/09/19 23:03:07 by nico             ###   ########.fr       */
+/*   Updated: 2025/09/22 03:38:27 by nico             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <time.h>
+# include <sys/time.h>
 # include <unistd.h>
 
 # define RESET "\033[0m"
@@ -58,7 +60,11 @@
 # define PLAYER_RADIUS 0.2
 # define DOOR_COLOR 0x8A5525
 # define DOOR_IDX 4
-# define MINIMAP_FOG_RADIUS 7.0
+# define COIN_FRAME_COUNT 8
+# define MOUSE_DEAD_ZONE_WIDTH 100
+# define COIN_SPRITE_SCALE 0.45
+# define COIN_ANIM_SPEED 3.0
+# define COIN_TEXTURE_SIZE 0
 
 # define PI 3.1415926535
 
@@ -123,6 +129,38 @@ typedef struct s_img
 	int				line;
 	int				endian;
 }					t_img;
+
+typedef struct s_coin_frame
+{
+	int				width;
+	int				height;
+	int				*pixels;
+}					t_coin_frame;
+
+typedef struct s_coin
+{
+	double			world_x;
+	double			world_y;
+	int				grid_x;
+	int				grid_y;
+	bool			alive;
+}					t_coin;
+
+typedef struct s_coin_anim
+{
+	int				frame_a;
+	int				frame_b;
+	double			alpha;
+}					t_coin_anim;
+
+typedef struct s_mouse
+{
+	int				x;
+	int				y;
+	int				dir;
+	double			scale;
+	bool			inside;
+}					t_mouse;
 
 typedef struct s_text
 {
@@ -193,7 +231,13 @@ typedef struct s_data
 	t_door			*doors;
 	int				door_count;
 	int				door_cap;
-	double			**fog;
+	t_coin			*coins;
+	int				coin_count;
+	int				coin_capacity;
+	int				coin_alive;
+	t_coin_frame	coin_frames[COIN_FRAME_COUNT];
+	t_coin_anim	coin_anim;
+	double			*zbuffer;
 	int				mini_tile;
 	int				mini_width;
 	int				mini_height;
@@ -201,6 +245,7 @@ typedef struct s_data
 	int				mini_off_y;
 	t_keys			key;
 	t_play			play;
+	t_mouse		mouse;
 	t_track			track;
 	void			*wind;
 	void			*mlx;
@@ -253,10 +298,6 @@ void				ft_direction_text(t_data *d, int dir, int size);
 void				ft_game_start(t_data *d);
 void				ft_minimap_setup(t_data *data);
 void				ft_render_minimap(t_data *data);
-int					ft_alloc_fog_map(t_data *data);
-double				ft_tile_visibility(t_data *data, int map_x, int map_y,
-						int update_fog);
-int					ft_apply_visibility(int color, double visibility);
 
 // Data validation functions
 int					ft_data_validation(t_data *data, int argc, char **argv);
@@ -337,7 +378,6 @@ void				ft_free_img(t_img *i);
 void				ft_free_map(t_map *m);
 void				ft_free_mini(t_mini *m);
 void				ft_free_doors(t_data *data);
-void				ft_free_fog(t_data *data);
 void				ft_free_all(t_data *data);
 
 // Additional initialization functions
@@ -356,11 +396,15 @@ int					ft_move_check(t_data *d, double mve_x, double mve_y);
 int					ft_move_player(t_data *d, int key, double mve_x,
 						double mve_y);
 int					ft_rotdir(int key);
+int					ft_rotate_player_angle(t_data *d, double angle);
 int					ft_rotate_player(t_data *d, int key);
 void				ft_player_action(t_data *d);
 int					ft_interact_door(t_data *data);
 int					ft_register_door(t_data *data, int x, int y);
 t_door				*ft_find_door(t_data *data, int x, int y);
+int					ft_mouse_move(int x, int y, t_data *data);
+int					ft_mouse_leave(t_data *data);
+int					ft_rotate_player_mouse(t_data *data);
 
 /******************************************************************************/
 /*                             RAYCAST_ENGINE                                 */
@@ -422,5 +466,17 @@ char				*ft_clear_for_next(char *temporary);
 int					ft_raycast_check(t_data *d);
 void				ft_print_welcome(void);
 void				ft_print_exit(void);
+
+/******************************************************************************/
+/*                                 COINS                                      */
+/******************************************************************************/
+
+int					ft_spawn_coins(t_data *data);
+int					ft_collect_coin(t_data *data);
+void				ft_load_coin_textures(t_data *data);
+void				ft_free_coins(t_data *data);
+void				ft_render_coins(t_data *data, t_img *img);
+t_coin_anim		ft_coin_anim_state(void);
+int					ft_coin_update_anim(t_data *data, t_coin_anim next);
 
 #endif

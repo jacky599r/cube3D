@@ -71,6 +71,7 @@ int	ft_key_release(int keycode, t_data *d)
 void	ft_player_action(t_data *d)
 {
 	int	changed;
+	t_coin_anim	next_anim;
 
 	changed = 0;
 	if (d->key.up == 1)
@@ -90,5 +91,11 @@ void	ft_player_action(t_data *d)
 		changed |= ft_interact_door(d);
 		d->key.use = 0;
 	}
+	changed |= ft_rotate_player_mouse(d);
+	next_anim = ft_coin_anim_state();
+	if (ft_coin_update_anim(d, next_anim))
+		changed = 1;
+	if (changed != 0)
+		changed |= ft_collect_coin(d);
 	d->play.check = changed;
 }

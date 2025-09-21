@@ -90,6 +90,8 @@ void	ft_mini_init(t_data *data)
 
 void	ft_data_init(t_data *data)
 {
+	int				i;
+
 	data->mapx = WIN_WIDTH;
 	data->mapy = WIN_HEIGHT;
 	data->pxl = NULL;
@@ -99,7 +101,27 @@ void	ft_data_init(t_data *data)
 	data->doors = NULL;
 	data->door_count = 0;
 	data->door_cap = 0;
-	data->fog = NULL;
+	data->coins = NULL;
+	data->coin_count = 0;
+	data->coin_capacity = 0;
+	data->coin_alive = 0;
+	data->zbuffer = NULL;
+	i = 0;
+	while (i < COIN_FRAME_COUNT)
+	{
+		data->coin_frames[i].pixels = NULL;
+		data->coin_frames[i].width = 0;
+		data->coin_frames[i].height = 0;
+		i++;
+	}
+	data->coin_anim.frame_a = -1;
+	data->coin_anim.frame_b = -1;
+	data->coin_anim.alpha = 0.0;
+	data->mouse.x = WIN_WIDTH / 2;
+	data->mouse.y = WIN_HEIGHT / 2;
+	data->mouse.dir = 0;
+	data->mouse.scale = 0.0;
+	data->mouse.inside = false;
 	ft_play_init(&data->play);
 	ft_text_init(&data->text);
 	ft_map_init(&data->map);

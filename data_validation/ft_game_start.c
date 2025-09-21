@@ -145,6 +145,7 @@ void	ft_game_start(t_data *d)
 		ft_freedom(d);
 	}
 	ft_direction_text(d, 0, d->text.size);
+	ft_load_coin_textures(d);
 	ft_minimap_setup(d);
 	ft_print_welcome();
 }

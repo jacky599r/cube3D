@@ -72,6 +72,8 @@ void	ft_ray_cast(t_play *p, t_data *d)
 		t.dlt.y = ft_delta_dist(t.dir.y);
 		ft_dda_algo(d, &t, p);
 		ft_update_pxl(d, &d->text, &t, a);
+		if (d->zbuffer && a < d->mapx)
+			d->zbuffer[a] = t.wall;
 		a++;
 	}
 }
