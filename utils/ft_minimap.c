@@ -19,6 +19,16 @@ static int	ft_minimap_stride(t_img *img)
 	return (img->line / 4);
 }
 
+static void	ft_draw_text(t_data *data, int x, int y, int color, char *msg)
+{
+	if (!data || !data->mlx || !data->wind || !msg)
+		return ;
+	mlx_string_put(data->mlx, data->wind, x, y, color, msg);
+	mlx_string_put(data->mlx, data->wind, x + 1, y, color, msg);
+	mlx_string_put(data->mlx, data->wind, x, y + 1, color, msg);
+	mlx_string_put(data->mlx, data->wind, x + 1, y + 1, color, msg);
+}
+
 static void	ft_draw_tile(t_data *data, int map_x, int map_y,
 		int color)
 {
@@ -157,16 +167,28 @@ static void	ft_draw_player(t_data *data)
 static void	ft_legend(t_data *data)
 {
 	int	text_y;
+	char	*remaining;
+	char	*label;
 
 	text_y = data->mini_off_y + data->mini_height + 18;
-	mlx_string_put(data->mlx, data->wind, data->mini_off_x,
-		text_y, 0xFFFFFF, "WASD: move");
-	mlx_string_put(data->mlx, data->wind, data->mini_off_x,
-		text_y + 16, 0xFFFFFF, "Arrow keys: rotate");
-	mlx_string_put(data->mlx, data->wind, data->mini_off_x,
-		text_y + 32, 0xFFFFFF, "E: toggle door");
-	mlx_string_put(data->mlx, data->wind, data->mini_off_x,
-		text_y + 48, 0xFFFFFF, "Esc: exit");
+	ft_draw_text(data, data->mini_off_x, text_y, 0xFFFFFF, "WASD: move");
+	ft_draw_text(data, data->mini_off_x, text_y + 22, 0xFFFFFF,
+		"Arrow keys: rotate");
+	ft_draw_text(data, data->mini_off_x, text_y + 44, 0xFFFFFF,
+		"E: toggle door");
+	ft_draw_text(data, data->mini_off_x, text_y + 66, 0xFFFFFF,
+		"Esc: exit");
+	remaining = ft_itoa(data->coin_alive);
+	if (remaining)
+	{
+		label = ft_strjoin("Coins left: ", remaining);
+		if (label)
+		{
+			ft_draw_text(data, data->mini_off_x, text_y + 92, 0xFFD700, label);
+			free(label);
+		}
+		free(remaining);
+	}
 }
 
 static int	ft_pick_color(char tile)
