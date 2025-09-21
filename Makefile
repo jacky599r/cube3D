@@ -6,7 +6,7 @@
 #    By: nico <nico@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/26 13:28:54 by nico              #+#    #+#              #
-#    Updated: 2025/09/22 07:10:01 by nico             ###   ########.fr        #
+#    Updated: 2025/09/22 07:39:35 by nico             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ SRCS = main.c \
        gnl/ft_gnl_utils.c \
        data_validation/ft_game_start_1.c \
 	   data_validation/ft_game_start_2.c \
-       items/ft_coin_textures.c \
+       items/ft_coin_textures_1.c \
        exit_error/ft_exit.c \
        exit_error/ft_free.c \
        exit_error/ft_messaging.c \

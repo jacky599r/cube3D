@@ -6,7 +6,7 @@
 /*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:27:22 by nico              #+#    #+#             */
-/*   Updated: 2025/09/22 07:20:52 by nico             ###   ########.fr       */
+/*   Updated: 2025/09/22 07:43:22 by nico             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,22 @@ typedef struct s_keys
 	int					r_arw;
 	int					use;
 }						t_keys;
+
+typedef struct s_coin_copy_ctx
+{
+	t_img_view		src;
+	t_coin_frame	*dst;
+}					t_coin_copy_ctx;
+
+typedef struct s_coin_load_ctx
+{
+	t_img			img;
+	t_img_view		src;
+	t_coin_frame	*dst;
+	int				dst_w;
+	int				dst_h;
+	char			path[128];
+}					t_coin_load_ctx;
 
 typedef struct s_door
 {
