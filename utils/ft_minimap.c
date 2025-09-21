@@ -6,7 +6,7 @@
 /*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 10:12:03 by nsamarin          #+#    #+#             */
-/*   Updated: 2025/09/19 22:58:18 by nico             ###   ########.fr       */
+/*   Updated: 2025/09/22 04:11:25 by nico             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,31 @@ static int	ft_minimap_stride(t_img *img)
 	return (img->line / 4);
 }
 
-static void	ft_draw_text(t_data *data, int x, int y, int color, char *msg)
+static void	ft_draw_label(t_data *data, int x, int y, int fg, int bg, char *msg)
 {
+	int	width;
+	int	height;
+	int	dx;
+	int	dy;
+
 	if (!data || !data->mlx || !data->wind || !msg)
 		return ;
-	mlx_string_put(data->mlx, data->wind, x, y, color, msg);
-	mlx_string_put(data->mlx, data->wind, x + 1, y, color, msg);
-	mlx_string_put(data->mlx, data->wind, x, y + 1, color, msg);
-	mlx_string_put(data->mlx, data->wind, x + 1, y + 1, color, msg);
+	width = (int)(ft_strlen(msg) * 7);
+	if (width < 1)
+		width = 1;
+	height = 10;
+	dy = -15;
+	while (dy < height)
+	{
+		dx = -4;
+		while (dx < width + 4)
+		{
+			mlx_pixel_put(data->mlx, data->wind, x + dx, y + dy, bg);
+			dx++;
+		}
+		dy++;
+	}
+	mlx_string_put(data->mlx, data->wind, x, y, fg, msg);
 }
 
 static void	ft_draw_tile(t_data *data, int map_x, int map_y,
@@ -171,12 +188,12 @@ static void	ft_legend(t_data *data)
 	char	*label;
 
 	text_y = data->mini_off_y + data->mini_height + 18;
-	ft_draw_text(data, data->mini_off_x, text_y, 0xFFFFFF, "WASD: move");
-	ft_draw_text(data, data->mini_off_x, text_y + 22, 0xFFFFFF,
+	ft_draw_label(data, data->mini_off_x + 2, text_y, 0xFFFFFF, 0x000000, "WASD: move");
+	ft_draw_label(data, data->mini_off_x + 2, text_y + 18, 0xFFFFFF, 0x000000,
 		"Arrow keys: rotate");
-	ft_draw_text(data, data->mini_off_x, text_y + 44, 0xFFFFFF,
+	ft_draw_label(data, data->mini_off_x + 2, text_y + 36, 0xFFFFFF, 0x000000,
 		"E: toggle door");
-	ft_draw_text(data, data->mini_off_x, text_y + 66, 0xFFFFFF,
+	ft_draw_label(data, data->mini_off_x + 2, text_y + 54, 0xFFFFFF, 0x000000,
 		"Esc: exit");
 	remaining = ft_itoa(data->coin_alive);
 	if (remaining)
@@ -184,7 +201,7 @@ static void	ft_legend(t_data *data)
 		label = ft_strjoin("Coins left: ", remaining);
 		if (label)
 		{
-			ft_draw_text(data, data->mini_off_x, text_y + 92, 0xFFD700, label);
+			ft_draw_label(data, data->mini_off_x + 2, text_y - 240, 0xFFD700, 0x000000, label);
 			free(label);
 		}
 		free(remaining);
