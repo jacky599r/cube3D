@@ -1,13 +1,14 @@
 NO textures/simonkraft/north.xpm
-SO textures/simonkraft/south.
+SO textures/simonkraft/south.xpm
 WE textures/simonkraft/west.xpm
 EA textures/simonkraft/wet_sponge.xpm
+DD textures/simonkraft/wet_sponge.xpm
 F 164,169,20
 C 153,204,255
 
 
-1 1111
-11111
+111111
+111111
 1N0001
 100001
 111111

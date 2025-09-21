@@ -6,7 +6,7 @@
 /*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:27:22 by nico              #+#    #+#             */
-/*   Updated: 2025/09/22 06:17:19 by nico             ###   ########.fr       */
+/*   Updated: 2025/09/22 07:20:52 by nico             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,28 @@ typedef struct s_img
 	int					line;
 	int					endian;
 }						t_img;
+
+typedef struct s_img_view
+{
+	int					*pixels;
+	int					stride;
+	int					w;
+	int					h;
+}						t_img_view;
+
+typedef struct s_bilin
+{
+	int					x0;
+	int					y0;
+	int					x1;
+	int					y1;
+	double				dx;
+	double				dy;
+	int					c00;
+	int					c10;
+	int					c01;
+	int					c11;
+}						t_bilin;
 
 typedef struct s_coin_frame
 {
@@ -313,6 +335,13 @@ typedef struct s_mini
 	int					tile;
 }						t_mini;
 
+typedef struct s_deadzone
+{
+	int					center;
+	int					left;
+	int					right;
+}						t_deadzone;
+
 /******************************************************************************/
 /*                              INITIATE_DATA                                 */
 /******************************************************************************/
@@ -465,7 +494,6 @@ int						ft_spawn_coins(t_data *data);
 void					ft_load_coin_textures(t_data *data);
 t_coin_anim				ft_coin_anim_state(void);
 int						ft_coin_update_anim(t_data *data, t_coin_anim next);
-int						ft_collect_coin(t_data *data);
 
 /******************************************************************************/
 /*                              PLAYER_ACTION                                 */
@@ -477,16 +505,15 @@ int						ft_key_release(int keycode, t_data *d);
 
 int						ft_position_check(t_data *d, double mve_x,
 							double mve_y);
-int						ft_move_check(t_data *d, double mve_x, double mve_y);
+int						ft_move_check(t_data *d, double mve_x, double mve_y,
+							int check);
 int						ft_move_player(t_data *d, int key, double mve_x,
 							double mve_y);
 int						ft_rotdir(int key);
 int						ft_rotate_player_angle(t_data *d, double angle);
 int						ft_rotate_player(t_data *d, int key);
 void					ft_player_action(t_data *d);
-int						ft_interact_door(t_data *data);
-int						ft_register_door(t_data *data, int x, int y);
-t_door					*ft_find_door(t_data *data, int x, int y);
+
 int						ft_mouse_move(int x, int y, t_data *data);
 int						ft_mouse_leave(t_data *data);
 int						ft_rotate_player_mouse(t_data *data);
@@ -556,6 +583,36 @@ void					ft_coin_render(t_data *d, t_img *img,
 							const t_coin_spr *s, const t_coin_tex *t);
 void					ft_draw_coin(t_data *d, t_img *img, t_coin *coin,
 							t_coin_anim anim);
+
+/******************************************************************************/
+/*                                  ITEMS                                     */
+/******************************************************************************/
+
+/*Coins*/
+
+int						ft_coin_update_anim(t_data *data, t_coin_anim next);
+void					ft_free_coins(t_data *data);
+int						ft_collect_coin(t_data *data, int i);
+void					ft_reset_coin_list(t_data *data);
+int						ft_is_coin_candidate(char tile);
+
+t_coin_anim				ft_coin_anim_state(void);
+
+int						ft_spawn_coins(t_data *d);
+
+/*Doors*/
+
+int						ft_player_on_tile(t_data *data, t_door *door);
+t_door					*ft_find_door(t_data *data, int x, int y);
+int						ft_register_door(t_data *data, int x, int y);
+int						ft_grow_doors(t_data *data);
+int						ft_interact_door(t_data *data);
+void					ft_free_doors(t_data *data);
+
+int						ft_toggle_door_state(t_data *data, t_door *door);
+int						ft_interact_door(t_data *data);
+int						ft_register_door(t_data *data, int x, int y);
+t_door					*ft_find_door(t_data *data, int x, int y);
 
 /******************************************************************************/
 /*                              EXIT_&_ERROR                                  */

@@ -6,7 +6,7 @@
 #    By: nico <nico@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/26 13:28:54 by nico              #+#    #+#              #
-#    Updated: 2025/09/22 06:22:28 by nico             ###   ########.fr        #
+#    Updated: 2025/09/22 07:10:01 by nico             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,16 +44,23 @@ SRCS = main.c \
 	   utils/ft_init_2.c \
        gnl/ft_gnl.c \
        gnl/ft_gnl_utils.c \
-       data_validation/ft_game_start.c \
-       data_validation/ft_coin_textures.c \
+       data_validation/ft_game_start_1.c \
+	   data_validation/ft_game_start_2.c \
+       items/ft_coin_textures.c \
        exit_error/ft_exit.c \
        exit_error/ft_free.c \
        exit_error/ft_messaging.c \
-       player_action/ft_keyhook.c \
-       player_action/ft_mouse.c \
-       player_action/ft_movment.c \
-       player_action/ft_door_1.c \
-	   player_action/ft_door_2.c \
+       player_action/ft_keyhook_1.c \
+       player_action/ft_keyhook_2.c \
+	   player_action/ft_mouse_1.c \
+	   player_action/ft_mouse_2.c \
+       player_action/ft_movment_1.c \
+	   player_action/ft_movment_2.c \
+       items/ft_door_1.c \
+	   items/ft_door_2.c \
+	   items/ft_coins_1.c \
+	   items/ft_coins_2.c \
+	   items/ft_coins_3.c \
        raycast_engine/ft_raycaster_1.c \
        raycast_engine/ft_raycaster_2.c \
 	   raycast_engine/ft_raycaster_3.c \
@@ -63,11 +70,11 @@ SRCS = main.c \
        raycast_engine/ft_coin_render_1.c \
 	   raycast_engine/ft_coin_render_2.c \
 	   raycast_engine/ft_coin_render_3.c \
-       utils/ft_minimap_1.c \
-	   utils/ft_minimap_2.c \
-	   utils/ft_minimap_3.c \
-	   utils/ft_minimap_4.c \
-       utils/ft_coins.c
+       minimap/ft_minimap_1.c \
+	   minimap/ft_minimap_2.c \
+	   minimap/ft_minimap_3.c \
+	   minimap/ft_minimap_4.c
+
 
 # Generate object files in OBJ_DIR
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
@@ -92,6 +99,8 @@ $(OBJ_DIR):
 			gnl \
 			utils \
 			data_validation \
+			items \
+			minimap \
 			exit_error \
 			data_initiation \
 		)
