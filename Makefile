@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nico <nico@student.42.fr>                  +#+  +:+       +#+         #
+#    By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/26 13:28:54 by nico              #+#    #+#              #
-#    Updated: 2025/09/22 07:39:35 by nico             ###   ########.fr        #
+#    Updated: 2025/09/23 13:54:39 by nsamarin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,10 @@ SRCS = main.c \
        data_validation/ft_game_start_1.c \
 	   data_validation/ft_game_start_2.c \
        items/ft_coin_textures_1.c \
-       exit_error/ft_exit.c \
+       items/ft_coin_textures_2.c \
+	   items/ft_coin_textures_3.c \
+	   items/ft_coin_textures_4.c \
+	   exit_error/ft_exit.c \
        exit_error/ft_free.c \
        exit_error/ft_messaging.c \
        player_action/ft_keyhook_1.c \

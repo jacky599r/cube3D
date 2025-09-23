@@ -6,7 +6,7 @@
 /*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 13:06:34 by nsamarin          #+#    #+#             */
-/*   Updated: 2025/09/19 15:09:54 by nsamarin         ###   ########.fr       */
+/*   Updated: 2025/09/23 13:13:27 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	ft_free_data(t_data *d)
 {
 	if (!d)
 		return ;
+	ft_free_img(d->mlx, &d->mini);
 	if (d->pxl && d->map.high > 0)
 	{
 		ft_free_int_arr(&d->pxl, d->mapy);
@@ -76,7 +77,6 @@ void	ft_free_data(t_data *d)
 	}
 	ft_free_text(&d->text);
 	ft_free_map(&d->map);
-	ft_free_img(&d->mini);
 	ft_free_doors(d);
 	ft_free_coins(d);
 }
@@ -85,15 +85,16 @@ void	ft_freedom(t_data *d)
 {
 	if (!d)
 		return ;
+	if (d->mlx)
+		mlx_loop_end(d->mlx);
+	ft_free_data(d);
 	if (d->wind && d->mlx)
 		mlx_destroy_window(d->mlx, d->wind);
 	if (d->mlx)
 	{
 		mlx_destroy_display(d->mlx);
-		mlx_loop_end(d->mlx);
 		free(d->mlx);
 		d->mlx = NULL;
 	}
-	ft_free_data(d);
 	free(d);
 }

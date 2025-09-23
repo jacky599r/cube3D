@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:27:22 by nico              #+#    #+#             */
-/*   Updated: 2025/09/22 07:43:22 by nico             ###   ########.fr       */
+/*   Updated: 2025/09/23 13:55:54 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,19 @@
 # define MOVE_SPEED 0.015
 # define ROT_SPEED 0.02
 # define PLAYER_RADIUS 0.2
+
 # define DOOR_COLOR 0x8A5525
 # define DOOR_IDX 4
-# define COIN_FRAME_COUNT 8
+
 # define MOUSE_DEAD_ZONE_WIDTH 100
+
+# define COIN_FRAME_COUNT 8
+# define COIN_PATH_PREFIX "textures/coins/Coin_"
+# define COIN_PATH_SUFFIX ".xpm"
 # define COIN_SPRITE_SCALE 0.45
 # define COIN_ANIM_SPEED 3.0
 # define COIN_TEXTURE_SIZE 0
+
 # define MM_PLAYER_COLOR 0xFF4444
 # define MM_VIEW_COLOR 0xFFAA33
 # define MM_BASE_TILE 12
@@ -100,6 +106,23 @@ typedef struct s_fill
 	int					y;
 }						t_fill;
 
+typedef struct s_img
+{
+	void				*img;
+	int					*addr;
+	int					bpp;
+	int					line;
+	int					endian;
+}						t_img;
+
+typedef struct s_img_view
+{
+	int					*pixels;
+	int					stride;
+	int					w;
+	int					h;
+}						t_img_view;
+
 typedef struct s_keys
 {
 	int					up;
@@ -111,21 +134,28 @@ typedef struct s_keys
 	int					use;
 }						t_keys;
 
+typedef struct s_coin_frame
+{
+	int					width;
+	int					height;
+	int					*pixels;
+}						t_coin_frame;
+
 typedef struct s_coin_copy_ctx
 {
-	t_img_view		src;
-	t_coin_frame	*dst;
-}					t_coin_copy_ctx;
+	t_img_view			src;
+	t_coin_frame		*dst;
+}						t_coin_copy_ctx;
 
 typedef struct s_coin_load_ctx
 {
-	t_img			img;
-	t_img_view		src;
-	t_coin_frame	*dst;
-	int				dst_w;
-	int				dst_h;
-	char			path[128];
-}					t_coin_load_ctx;
+	t_img				img;
+	t_img_view			src;
+	t_coin_frame		*dst;
+	int					dst_w;
+	int					dst_h;
+	char				path[128];
+}						t_coin_load_ctx;
 
 typedef struct s_door
 {
@@ -146,23 +176,6 @@ typedef struct s_dbl
 	double				y;
 }						t_dbl;
 
-typedef struct s_img
-{
-	void				*img;
-	int					*addr;
-	int					bpp;
-	int					line;
-	int					endian;
-}						t_img;
-
-typedef struct s_img_view
-{
-	int					*pixels;
-	int					stride;
-	int					w;
-	int					h;
-}						t_img_view;
-
 typedef struct s_bilin
 {
 	int					x0;
@@ -176,13 +189,6 @@ typedef struct s_bilin
 	int					c01;
 	int					c11;
 }						t_bilin;
-
-typedef struct s_coin_frame
-{
-	int					width;
-	int					height;
-	int					*pixels;
-}						t_coin_frame;
 
 typedef struct s_coin
 {
@@ -340,16 +346,16 @@ typedef struct s_map_dims
 	int					max_y;
 }						t_map_dims;
 
-typedef struct s_mini
-{
-	char				**og_mini;
-	t_img				*mini_m;
-	int					size;
-	int					off_x;
-	int					off_y;
-	int					dist;
-	int					tile;
-}						t_mini;
+// typedef struct s_mini
+// {
+// 	char				**og_mini;
+// 	t_img				*mini_m;
+// 	int					size;
+// 	int					off_x;
+// 	int					off_y;
+// 	int					dist;
+// 	int					tile;
+// }						t_mini;
 
 typedef struct s_deadzone
 {
@@ -497,9 +503,8 @@ void					ft_safe_array(void ***array);
 void					ft_safe_ptr(void *str);
 void					ft_free_int_arr(int ***mat_ptr, int rows);
 void					ft_free_text(t_text *t);
-void					ft_free_img(t_img *i);
 void					ft_free_map(t_map *m);
-void					ft_free_mini(t_mini *m);
+// void					ft_free_mini(t_mini *m);
 void					ft_free_doors(t_data *data);
 void					ft_free_all(t_data *data);
 
@@ -606,6 +611,28 @@ void					ft_draw_coin(t_data *d, t_img *img, t_coin *coin,
 
 /*Coins*/
 
+int						ft_clamp(int value, int min, int max);
+int						ft_lerp_channel(int a, int b, double t);
+
+void					ft_bilin_prepare(const t_img_view *src, t_bilin *b,
+							double u, double v);
+int						ft_bilinear_colour(const t_bilin *b, int shift);
+int						ft_sample_colour(const t_img_view *src, double u,
+							double v);
+
+void					ft_copy_exact(const t_coin_copy_ctx *ctx);
+void					ft_copy_scaled(const t_coin_copy_ctx *ctx);
+void					ft_copy_coin_pixels(const t_coin_copy_ctx *ctx);
+
+int						ft_alloc_coin_frame(t_data *data, int index, int width,
+							int height);
+
+int						ft_uint_to_str(unsigned int n, char *dst, size_t cap);
+void					ft_coin_texture_path(int idx, char *buffer,
+							size_t size);
+
+int						ft_coin_img_error(t_data *data, char *path, t_img *img);
+
 int						ft_coin_update_anim(t_data *data, t_coin_anim next);
 void					ft_free_coins(t_data *data);
 int						ft_collect_coin(t_data *data, int i);
@@ -635,9 +662,9 @@ t_door					*ft_find_door(t_data *data, int x, int y);
 /******************************************************************************/
 
 void					ft_free_text(t_text *t);
-void					ft_free_img(t_img *i);
+void					ft_free_img(void *mlx, t_img *i);
 void					ft_free_map(t_map *m);
-void					ft_free_mini(t_mini *m);
+// void					ft_free_mini(t_mini *m);
 
 void					ft_safe_ptr(void *str);
 void					ft_safe_array(void ***array);

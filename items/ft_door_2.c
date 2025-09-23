@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_door_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 06:21:48 by nico              #+#    #+#             */
-/*   Updated: 2025/09/22 06:29:40 by nico             ###   ########.fr       */
+/*   Updated: 2025/09/23 13:19:21 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	ft_free_doors(t_data *data)
 {
 	if (!data)
 		return ;
-	free(data->doors);
 	data->doors = NULL;
 	data->door_cap = 0;
 	data->door_count = 0;
+	free(data->doors);
 }

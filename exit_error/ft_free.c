@@ -6,7 +6,7 @@
 /*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 13:06:56 by nsamarin          #+#    #+#             */
-/*   Updated: 2025/09/19 13:06:59 by nsamarin         ###   ########.fr       */
+/*   Updated: 2025/09/23 13:20:53 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,6 @@ void	ft_free_text(t_text *t)
 	t->rgb_c = NULL;
 }
 
-void	ft_free_img(t_img *i)
-{
-	if (!i)
-		return ;
-	ft_safe_ptr(i->addr);
-	i->addr = NULL;
-	ft_safe_ptr(i->img);
-	i->img = NULL;
-}
-
 void	ft_free_map(t_map *m)
 {
 	if (!m)
@@ -52,12 +42,14 @@ void	ft_free_map(t_map *m)
 	m->fl_map = NULL;
 }
 
-// void	ft_free_mini(t_mini *m)
-// {
-// 	if (!m)
-// 		return ;
-// 	ft_safe_array((void ***)&m->og_mini);
-// 	m->og_mini = NULL;
-// 	ft_free_img(m->mini_m);
-// 	m->mini_m = NULL;
-// }
+void	ft_free_img(void *mlx, t_img *i)
+{
+	if (!i)
+		return ;
+	if (i->img)
+	{
+		mlx_destroy_image(mlx, i->img);
+		i->img = NULL;
+	}
+	i->addr = NULL;
+}

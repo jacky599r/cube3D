@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_coins_2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nico <nico@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nsamarin <nsamarin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 06:30:23 by nico              #+#    #+#             */
-/*   Updated: 2025/09/22 06:43:40 by nico             ###   ########.fr       */
+/*   Updated: 2025/09/23 13:52:26 by nsamarin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,13 @@ int	ft_spawn_coins(t_data *d)
 	ft_scan_map_spawn(d, &p);
 	d->coin_alive = d->coin_count;
 	return (PASS);
+}
+
+int	ft_clamp(int value, int min, int max)
+{
+	if (value < min)
+		return (min);
+	if (value > max)
+		return (max);
+	return (value);
 }
