@@ -111,6 +111,30 @@ typedef struct s_keys
 	int					use;
 }						t_keys;
 
+typedef struct s_img
+{
+	void				*img;
+	int					*addr;
+	int					bpp;
+	int					line;
+	int					endian;
+}						t_img;
+
+typedef struct s_img_view
+{
+	int					*pixels;
+	int					stride;
+	int					w;
+	int					h;
+}						t_img_view;
+
+typedef struct s_coin_frame
+{
+	int					width;
+	int					height;
+	int					*pixels;
+}						t_coin_frame;
+
 typedef struct s_coin_copy_ctx
 {
 	t_img_view		src;
@@ -146,23 +170,6 @@ typedef struct s_dbl
 	double				y;
 }						t_dbl;
 
-typedef struct s_img
-{
-	void				*img;
-	int					*addr;
-	int					bpp;
-	int					line;
-	int					endian;
-}						t_img;
-
-typedef struct s_img_view
-{
-	int					*pixels;
-	int					stride;
-	int					w;
-	int					h;
-}						t_img_view;
-
 typedef struct s_bilin
 {
 	int					x0;
@@ -176,13 +183,6 @@ typedef struct s_bilin
 	int					c01;
 	int					c11;
 }						t_bilin;
-
-typedef struct s_coin_frame
-{
-	int					width;
-	int					height;
-	int					*pixels;
-}						t_coin_frame;
 
 typedef struct s_coin
 {
